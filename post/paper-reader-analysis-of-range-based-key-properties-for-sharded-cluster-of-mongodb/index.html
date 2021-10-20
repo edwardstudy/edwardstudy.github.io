@@ -1,0 +1,220 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>Paper Reader:Analysis of range-based key properties for sharded cluster of MongoDB | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="前述很多mongoDB集群的使用和性能优化，发现一些还有可以优化因子值得好好研究。本文首先补充一直没有提到但已经使用了好久的分片集群的知识，然后再贴上">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/post/"},{"@type":"ListItem","position":2,"name":"Paper Reader:Analysis of range-based key properties for sharded cluster of MongoDB","item":"/post/paper-reader-analysis-of-range-based-key-properties-for-sharded-cluster-of-mongodb/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/post/paper-reader-analysis-of-range-based-key-properties-for-sharded-cluster-of-mongodb/"},"headline":"Paper Reader:Analysis of range-based key properties for sharded cluster of MongoDB | Edwardesire","datePublished":"2016-04-09T08:55:19+00:00","dateModified":"2016-04-09T08:55:19+00:00","wordCount":6181,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"前述很多mongoDB集群的使用和性能优化，发现一些还有可以优化因子值得好好研究。本文首先补充一直没有提到但已经使用了好久的分片集群的知识，然后再贴上"}</script><meta property="og:title" content="Paper Reader:Analysis of range-based key properties for sharded cluster of MongoDB | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/post/paper-reader-analysis-of-range-based-key-properties-for-sharded-cluster-of-mongodb/">
+<meta property="og:description" content="前述很多mongoDB集群的使用和性能优化，发现一些还有可以优化因子值得好好研究。本文首先补充一直没有提到但已经使用了好久的分片集群的知识，然后再贴上">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2016-04-09T08:55:19+00:00">
+<meta property="article:modified_time" content="2016-04-09T08:55:19+00:00">
+<meta property="article:section" content="post">
+<meta property="article:tag" content="MongoDB">
+<meta property="article:tag" content="Paper">
+<meta property="og:see_also" content="/post/a-mountain-to-climb-mongodb-index-query/">
+<meta property="og:see_also" content="/post/mongodb-mapreduce-example/">
+<meta property="og:see_also" content="/post/mongdb-aggregation-example/">
+<meta property="og:see_also" content="/post/usage-of-basic-authentication-and-authorization-of-mongodb/">
+<meta property="og:see_also" content="/post/code-to-meanjs/">
+<meta property="og:see_also" content="/post/reading-paper-visual-abstraction-and-exploration-of-multi-class-scatterplots/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/post/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">Paper Reader:Analysis of range-based key properties for sharded cluster of MongoDB</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-04-09</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>13 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/mongodb/ class=hover:text-eureka>MongoDB</a>
+<span>, </span>
+<a href=/categories/paper/ class=hover:text-eureka>Paper</a>
+</div>
+</div>
+<div class=content>
+<p>前述很多mongoDB集群的使用和性能优化，发现一些还有可以优化因子值得好好研究。本文首先补充一直没有提到但已经使用了好久的分片集群的知识，然后再贴上标题论文的翻译以引出分片集群优化的引子。</p>
+<hr>
+<p>#1. 分片集群</p>
+<p>在<a href=/code-to-meanjs/>《从MongoDB入门到编写数据库相关API》</a>一文中提及了mongoDB的自动分片功能。分片就是将数据拆分，将其分散存放在不同的节点上的过程。这是数据库水平扩展（Horizontally Scalable）的实现。几乎所有的数据库都支持手动分片，虽然这种方法可以很好地工作，但那时非常难以维护。mongoDB支持的自动分片可以使数据库架构对应用程序不可见，也可以简化系统管理。 mongodb关于分片的操作命令可以查看<a href=https://docs.mongodb.org/manual/administration/sharded-cluster-deployment/>官方文档</a>(不是今天重点)。基本步骤就先对数据库开启分片，然后对片键创建索引，最后再依据片键分片。</p>
+<p>关于论文描述的片键选择，在《mongoDB权威指南（第2版中）》有所说明。拆分数据的方式有3中：<strong>升序片键</strong>（Ascending Shard Keys）、<strong>随机分发的片键</strong>（Randomly Distributed Shard Keys
+）和<strong>基于位置的片键</strong>（Ascending Shard Keys）。</p>
+<p>升序字段有点类似于date或者ObjectId类型的字段，其键值会随着数据量的增加而平稳的增加。在这种模式下，创建一个新的文档会位于[someValue, $maxKey)块上，这个块叫做最大块。最终导致MongoDB的数据均衡处理更为困难，因为所有的新块都是从最大块里分割出来，这些新数据块都位于同一分片上。MongoDB必须不断将数据库移至其他分片，就像下图这样。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/0/ef/9fa322393b9aa892ca1027afe1b67.jpg alt=新数据块在单个分片上堆积></p>
+<p>随机分发的片键可以是用户名、邮箱、UID的字段。数据的随机性意味着，随着更多的数据插入，新插入的数据会比较均匀地分发在不同的块中。这个模式的弊端在于，随机访问的数据量超过RAM大小时，访问性能就会下降。</p>
+<p>而基于位置的片键可以是用户的ip、经纬度、或者是地址。这样，‘位置’相近的文档就会被保存在一个范围内。</p>
+<p>上述拆分数据的方法都是在连续范围内的数据，如果追求数据加载数据的机智，那么<strong>散列片键</strong>（Hashed Shard Keys）是最佳的选择。散列片键可使其他任何键随机分发，使得写入数据性能提升；在单值查询中也可以使用升序键来提高大量查询的响应时间。但那时在范围查询时，散列片键会向几乎全体分片发出数据请求（这是因为）。</p>
+<p>#2. 论文翻译</p>
+<p>##摘要</p>
+<p>mongoDB是近期最流行的NoSQL数据库之一。它是一个开源的、模式灵活的文档型数据库。为了提升性能，它可以简单地进行水平扩展和垂直扩展。对于水平扩展，mongoDB使用自动分片功能来切分数据并将数据分布在多个机器上。不过，在使用这个功能时，DBA（数据库管理员）需要选择一个分键来让mongoDB分割集合。选择一个合适的片键能过提高数据库的表现和性能。相反的一个错误的键也会导致表现不佳，甚至在一些严重情况下会导致系统宕机。因此选择一个合适的键是非常重要的。mongodb对于理想片键的特性有着基本的建议。例如，一个合适的键应该在随机写能力和范围查询定位能力上有着优异性能。为了理解这些特性的影响，这篇文章分析并评估所建议的特性。我们讨论了多种片键的选择对于数据库性能的影响，并给DBA提供一个基本的帮助，来理解和选择合适系统的片键。</p>
+<p>##I. 引言</p>
+<p>NoSQL被视为该数据库系统提供可扩展性和高性能的新鲜血液。mongoDB是如今最广泛使用和讨论的NoSQL数据库之一。为了支持伴随高吞吐量操作的大量数据存储，
+mongoDB使用分片功能，该功能是一种水平扩展的实现。为了对一个集合进行分片，DBA需要选择一个合适的片键，一个能够均分分段数据的文档字段。选择一个片键是影响数据库性能的至关重要的因素。一个良好的片键应该能够提高性能，而一个不好的片键则会导致像FourSquare一样的宕机事件(一个超过负荷的分片导致整个服务11个小时的无法使用)。因为片键是用来划分数据的，如果数据在片键上有相近的值（不难理解，这部分数据的分片出现了不均衡的热点），mongoDB将无法分割数据。数据插入会在某台或者小部分机器上完成。这些机器会负担整个系统的负载，直至不再工作。</p>
+<p>MongoDB有两种类型的片键：基于连续范围值、基于离散哈希值。连续范围的片键依据键值区间来划分数据。如果能够只有小部分分片来响应读取数据操作请求，选择范围片键可以获得良好的读取性能表现。相反，如果查询从许多分片读取，那么最终结果还需合并，这样性能就会下降。而基于哈希片键依据所选字段的哈希值来作为键值。如果它能保证写查询能够均等的分布在许多机器上，哈希片键就能过获得良好的写入性能表现。选择哪种片键主要取决于应用场景。然而，一个哈希片键只能支持单独字段并且可能只对某些集合合适。例如，在选择一个升序（或降序）字段作为片键，哈希类型或许能够减轻数据插入压力（减轻热点的压力）。因为范围片键更适用于多种应用系统，在这篇文章中，其主要关注范围片键。</p>
+<p>在mongoDB文档中，有着对片键选择的一般性建议：一个合适的片键应该有3个特征：均匀化、随机化、本地化。首先，片键的均匀化使得数据在系统中均匀地分布在多个服务器（分片）上，使得分片分割数据能够容易。其次，键值的随机化能够让写入操作更容易将数据扩散到多个机器上。最后，一个良好的片键的本一个能够为读查询提供本地化（缩小至少数分片机器）来避免在多个机器上进行读取操作。（一般来说，很难同时满足数据的高度分散[随机化]和精确定位目标数据到少数分片[本地化]，这需要根据应用需求来权衡）</p>
+<p>为了理解这三个片键特性对于性能的影响，我们设计了一个实验来理解分片的性能影响，并且分析和评估实验结果。我们的工作主要给mongoDB管理员提供基本和实际的指导来理解并且能够选择合适应用系统的片键。</p>
+<p>接下来的文章是这样组成的。第二部分为背景资料和相关研究阐述。第三部分为试验设计以及怎么搭建实验环境。第四部分为分析实验结构。第五部分为总结。</p>
+<p>##II. 背景和相关研究</p>
+<p>mongoDB是文档型NoSQL数据库。它使用灵活的模型提供动态模式。数据以BSON格式存储，BSON是一种二进制编码序列化的JSON数据文件。mongoDB的结构与传统的关系型数据库不同，因为它的主要结构是以文档为基础。在mongoDB中，集合等同于表的概念，一个文档等同于关系型数据库中的一条记录。</p>
+<p>mongoDB没有列的概念，文档等同于关系型数据库中的记录概念。文档以键值对（字段，值）组成。字段为字符串，值可以是数字、字符串、数字或者对象。
+一个对象同时又是一个(字段，值)对，因此，mongoDB的结构允许无限制的内嵌。一个查询可以通过发送类json格式的数据，来与系统中的集合进行匹配。mongoDB提供shell和多种语言开发环境的驱动。</p>
+<p>mongoDB使用分片来提供水平扩展的能力。为了开启分片功能，我们需要告知mongoDB哪些集合数据需要分片以及集合中的哪个字段来作为片键。一个片键必须在所有文档中存在并且提前创建为索引。下面描述分片集合中的3个部分：分片（shard）、配置（config）和路由（route）。</p>
+<ul>
+<li>分片：分片为存储分割数据文件的部分。一般来说，分片由组成mongoDB数据库，并且可以通过副本来提高可用性。通常，要给客户端可以通过路由向分片发出读/写请求。然而，客户端也可以直接向分片发出请求，这样客户端只会收到该分片中的数据。</li>
+<li>配置：配置作为存储分片配置信息的部分。它由mongodb组成。配置会收到从路由而来的读写配置数据的请求。</li>
+<li>路由：路由为分片集群的连接点（入口）。一个路由由名为MongoS的程序组成。一个客户端会通过路由管理和请求分片集群数据。当路由收到请求，它会去读分片的配置，该配置信息保存着分片存放目标数据的节点位置。路由会向目标数据发出请求。当获得各个分片的数据后，路由会合并数据并发送给客户端。</li>
+</ul>
+<p>已经有许多对于提高分片性能的前期研究，这包括修改内部均衡器的研究。他们之中有使用算法来均衡高增、读、改压力的分片，将其数据块迁移到负载低的分片上。另一类研究尝试通过如下操作提高分片性能。首先，将副本集的主从节点进行互换。然后，添加更多的节点来减轻工作压力。最后，修改均衡器来均衡集群中的数据块，使得所有节点充分利用资源，而不是只均衡一部分数据块（热点区域）。</p>
+<p>所有的这些相关工作试图从分配节点的工作来提高分片的能力。然而，在我们（作者，下不在表）的研究中，尝试通过探索问题的缘由，即DBA不得不在分片开始工作前选择要给字段作为片键。当然前人的研究成果依然可以帮助我们来监控分片问题，以至于问题更早的解决。</p>
+<p>##III. 实验设计</p>
+<p>实验目的是为了不同的片键选择对于分片读写操作性能的影响。如前文所言，这里主要有3个推荐的片键特性：均匀化、随机化、本地化，可以影响分片集群的读写操作。在这一节，我们将说明我们怎样生成实验数据以评估这些特性，以及用来评估对读写性能的影响的数据读写查询操作。相关系统配置和额外的工具说明将在本部分结尾处给出。</p>
+<p>###A. 测试数据和查询语句的准备</p>
+<p>####A.1 写入性能的实验</p>
+<p>写入性能主要受均匀化和随机化这两个分片特性影响。因为水平扩展取决于怎样均匀地分布在分片节点上。均匀化提供了均匀的存储，而随机化能临时性地将操作分发给多个分片上。因此，测试片键被分成3类：随机的、有序的、结合的。</p>
+<p>一个随机片键是为了进行对均匀化的测试。这一类的片键被分割成4个范围：1 至 1 000 000、1 至 666 666、 1 至 333 333、 1 至 3。前三个范围用来测试范围边界值对写如操作的影响。最后一组被有来大数据块对性能的影响和观察分片资源耗尽后的行为。（片键值得范围越大，最后被分隔开的数据块数量就越大。前三个范围除了测试随机写入的性能外还能测试分片边界值对划分数据块的影响，而最后一个测试能够将数据最多分为3块数据块）</p>
+<p>一个有序的片键被用来测试当插入数据有序（比如，升序插入数据）进入数据库时分片的写入性能。因为在大数据库被分割之前，有序的片键会一直在单独的分片上以累加的方式提升。这样可能会持续只对一个节点进行操作。</p>
+<p>一个结合片键由上述随机和有序字段组合而成。我们选择这种片键类型，是因为这种类型使得管理员能够很容易获得分片的均匀化和随机化特性。这种片键会与前述两组比较性能。</p>
+<p>####A.2 读取性能的实验</p>
+<p>当只需在少部分分片上获得查询数据时，mongoDB能够获得较好的读性能。一般来说，读取操作包括对于分布在不同服务器集合的子查询和等待多个结果的合并。因此，我们可以预估：越多的机器涉及其中查询请求，mongoDB就会表现越差的读取性能。为了测试出上一小节建立的数据库分片读取操作的性能，我们设置了如下读操作的场景：单片键目标，范围片键目标和索引目标。</p>
+<p>一个单片键目标查询是一个获取片键的单值查询。因此，它的查询过程被被预估为只向一个分片发送。</p>
+<p>一个范围片键查询包含一定范围内的文档，我们将查询划分为两个子查询：一个小查询和一个大查询。在小范围查询中，它只涉及数据块中1%的数据。因此这很可能只需要请求一小部分的分片。一个大范围的查询包含3个数据库的数据量，这可能会向2-3个分片发出查询请求。</p>
+<p>最后，要给索引查询为匹配索引过的数据，而不是片键值。这可能会向所有分片发出请求。</p>
+<p>###B. 测试数据集合</p>
+<p>为了完成一致的测试，我们生成了复合III.A.1节描述的数据，这个数据的模式在如下表。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/2/ca/0ef582ababeb48f909527187b7db3.jpg alt=schema></p>
+<p>###C. 系统配置</p>
+<p>我们在一个模拟环境上进行实验。这个环境分布在6台虚拟机上，主机配置为i7处理器、16g内存，225g ssd。这个实验的成员包含3个分片节点、1个配置节点和1个路由节点。</p>
+<p>我们设置分别持有30%、40%、60%资源的三级资源分配，这是为了观察到分片对于资源压力的影响。</p>
+<p>我们通过脚本来启动和连接各个数据库成员节点，这使得创建新的分片环境更加容易。</p>
+<p>###D. Docker监控工具</p>
+<p>为了监控docker实例的资源使用量，我们使用Docker-status监控软件。然而，这个工具只支持命令行监控。为了收集测试结果，我们写了个程序来每秒读取docker资源。这个插件由golang编写。结果传递给R语言来进一步评估。结果和评估信息在第IV部分说明。</p>
+<p>###E. 测试过程</p>
+<p>在设计和整理必要的测试工具后，这一节用来说明测试过程。按照如下流程进行。</p>
+<ol>
+<li>首先为分片集群安装片键。</li>
+<li>对于每个实验。a)使用脚本插入数据 b)收集运行时间和资源使用量 c)使用脚本完成预定查询计划 d)收集运行时间和资源使用量。</li>
+</ol>
+<p>##IV. 实验结果</p>
+<p>我们完成第三节所描述所有实验并获得如下结果。</p>
+<p>###A. 写入性能结果</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/5/6d/320c52657811e7ceeb863e27f3401.jpg alt="write performance"></p>
+<p>从图二（上图），我们可以简单看出一个随机片键提供了最好的写入操作，甚至在分片集群中有数据量巨大的数据块大的情况下也是如此。范围边界值并没有对写操作产生太大的影响。就像图3（下图）所示，所有的随机片键都对T检验没有太大影响。对与有序片键，写入操作的性能可能会由于写入的数据都分布在一个分片的范围内导致性能下降，因为数据只被发送到一个分片，并没有使用多个的分片来完成并行处理插入。组合片键也和随机片键（其包含与组合片键中）相似的结果。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/e/c5/89174cbf808ccf966dea16cac639e.jpg alt="T test write performance"></p>
+<p>###B. 读取性能结果</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/1/af/ffcbd7e17787effbb7164dfe53e9a.jpg alt="read performance"></p>
+<p>从图4（上图）中我们可以得出，查询范围越大会导致越差的查询性能（相比更小的范围）。然而，以索引键值查询在所有查询中表现最差，因为索引查询需要使用如图6（下图的下图）中所有的分片来处理结果。这个下降的性能相比图5（下图）t检测中的其他测试有着非常大的差异。（只能达到其他测试性能的一半）</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/c/d2/8b4c12c542c932246fb94a37507c1.jpg alt="t-test read performance"></p>
+<p>在大范围查询上，有序片键确实比随机片键做得更好，因为它只是用图6中的小部分分片。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/9/44/3632849699558e87610997793fc2e.jpg alt="resource usages"></p>
+<p>综上所述，对于索引或者大范围数据查询会由于涉及大量分布机器来交付结果，查询的性能会非常差。当然，精确的匹配或者小范围查询还是比上述查询效率更加。收到查询请求的分片数量对读取操作有着非常大的影响。更多的分片牵涉到查询操作中，查询性能就会更差。因此可以得出，本地化会对读取性能有着影响。</p>
+<p>##V. 总结</p>
+<p>mongoDB成为当下最流行的NoQL数据库，是因为开源，并且没有传统关系型数据库的严格模式限制以支持大数据存储。然而，为了获得mongoDB水平扩展的功能，选择一个合适的片键不是一个轻松的任务，特别是对没有足够DBA技能的小公司。为了理解mongoDB中片键对扩展性能的影响，这篇论文评估了选择范围片键的影响。我们模拟了一个分片环境，并且衡量了多种片键的读写性能。我们发现拥有随机性和好的本地化片键可以提供一个优异的读写性能。片键的范围操作可能会导致某些分片中出现操作热区。然而，如果键值范围足够宽到迫使拆分分片集群的内容，那其并不会性能有多大影响。另外，如果一个预期的片键能够趋于有序数据，并结合一小部分范围的随机性，这可以同时给给读写提供可以接受的性能。</p>
+<p>从这次研究可以提供未来工作的方向，来提供一个基于系统使用历史选择合适片键的半自动方法。另一个方向为探索出一个帮助DBA的监控工具，在需要分片或者改变分片（不太迟）帮助DBA选择。有需要数据需要监控，比如队列长度、缓冲时间、锁百分比、错误和历史使用记录，这都会帮助其工具的产生。</p>
+<hr>
+<p>这篇文章对于我们（真实的我）的实验有着很重要的启发，可以按照同样的实验方式来衡量片键对于mongoDB自带的分析计算工具：聚合框架或者map/reduce的性能影响，以证明或者驳斥我们的想法可行性。</p>
+</div>
+<div class=my-4>
+<a href=/tags/mongodb/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#MongoDB</a>
+<a href=/tags/paper/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Paper</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/post/paper-reader-analysis-farm-a-cloud-based-scalable-aggregation-and-query-platform-for-network-log-analysis/ class=block>Paper Reader:Analysis Farm: A Cloud-based Scalable Aggregation and Query Platform for Network Log Analysis</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/post/beijing-nodeparty/ class=block>北京3月26日NodeParty分享会总结（Node.js全栈、探针监控、Docker node）</a>
+</div>
+</div>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/post/a-mountain-to-climb-mongodb-index-query/>越过大山和mongoDB查询操作的坑</a>
+<br>
+<a href=/post/mongodb-mapreduce-example/>MongoDB MapReduce实践</a>
+<br>
+<a href=/post/mongdb-aggregation-example/>MongoDB Aggregation实践</a>
+<br>
+<a href=/post/usage-of-basic-authentication-and-authorization-of-mongodb/>部署有身份验证的mongoDB</a>
+<br>
+<a href=/post/code-to-meanjs/>从MongoDB入门到编写数据库相关API</a>
+<br>
+<a href=/post/reading-paper-visual-abstraction-and-exploration-of-multi-class-scatterplots/>Paper Reader:Visual Abstraction and Exploration of Multi-class Scatterplots</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardstudy.com/>Edward Study</a> and <a href=https://www.ruiqima.com/>R. Ma</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

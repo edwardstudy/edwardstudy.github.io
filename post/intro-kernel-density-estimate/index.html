@@ -1,0 +1,208 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>核密度估计(KDE) 相关知识 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="这周忙着写论文，技术实践这边就怠慢了，都是些修修补补的工作。比较有意思的就是接触到数据分析中的核密度估计方法。现将相关知识总结如下。(12/23添加密">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/post/"},{"@type":"ListItem","position":2,"name":"核密度估计(KDE) 相关知识","item":"/post/intro-kernel-density-estimate/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/post/intro-kernel-density-estimate/"},"headline":"核密度估计(KDE) 相关知识 | Edwardesire","datePublished":"2015-11-29T01:54:16+00:00","dateModified":"2015-11-29T01:54:16+00:00","wordCount":1703,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"这周忙着写论文，技术实践这边就怠慢了，都是些修修补补的工作。比较有意思的就是接触到数据分析中的核密度估计方法。现将相关知识总结如下。(12\/23添加密"}</script><meta property="og:title" content="核密度估计(KDE) 相关知识 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/post/intro-kernel-density-estimate/">
+<meta property="og:description" content="这周忙着写论文，技术实践这边就怠慢了，都是些修修补补的工作。比较有意思的就是接触到数据分析中的核密度估计方法。现将相关知识总结如下。(12/23添加密">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2015-11-29T01:54:16+00:00">
+<meta property="article:modified_time" content="2015-11-29T01:54:16+00:00">
+<meta property="article:section" content="post">
+<meta property="article:tag" content="Visual">
+<meta property="article:tag" content="Stat">
+<meta property="og:see_also" content="/post/reading-paper-visual-abstraction-and-exploration-of-multi-class-scatterplots/">
+<meta property="og:see_also" content="/post/search-and-explore-dot-map/">
+<meta property="og:see_also" content="/post/reading-paper-knowledge-generation-model-for-visual-analytics/">
+<meta property="og:see_also" content="/post/coursera-classgetting-your-research-project-started/">
+<meta property="og:see_also" content="/post/visual-101/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/post/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">核密度估计(KDE) 相关知识</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2015-11-29</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>4 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/visual/ class=hover:text-eureka>Visual</a>
+<span>, </span>
+<a href=/categories/stat/ class=hover:text-eureka>Stat</a>
+</div>
+</div>
+<div class=content>
+<p>这周忙着写论文，技术实践这边就怠慢了，都是些修修补补的工作。比较有意思的就是接触到数据分析中的核密度估计方法。现将相关知识总结如下。(12/23添加密度估计相关知识)</p>
+<hr>
+<p>####预备：密度估计相关知识</p>
+<p>密度估计经常在统计学中作为一种基于有限的样本来估计其概率密度函数的方法。</p>
+<blockquote>
+<p>在研究随机变量的过程中，随机变量的概率密度函数的作用是描述随机变量的特性。但是在实际应用中，总体概率密度函数通常是未知的，那么如何来估计总体概率密度呢？一般，我们通过抽样或者采集一定的样本，可以根据统计学知识从样本集合中推断总体概率密度。这种方法统称为概率密度估计，即根据训练样本来确定随机变量的概率分布。一般概率密度估计方法方法大致分为两类：参数估计和非参数估计。</p>
+</blockquote>
+<blockquote>
+<p>参数估计(Parametric Estimation)是根据对问题的经验知识，<strong>假设问题具有某种数学模型</strong>，随机变量服从某种分布，即假定概率密度函数的形式，然后通过训练数据估计出分布函数的参数。常见的参数估计方法有最大似然方法和贝叶斯方法。对于参数估计，根据样本中是否已知样本所述类别将参数估计又划分为监督参数估计和非监督参数估计。监督参数估计是由<strong>已知类别的样本集对总体分布的某些参数进行统计推断</strong>。而无监督参数<strong>估计已知总体概率密度函数形式但未知样本所属的类别</strong>，要求推断出概率密度函数的某些参数，这种推断方法称之为非监督情况下的参数估计。</p>
+</blockquote>
+<blockquote>
+<p>非参数估计(Nonparametric Estimation)则是在<strong>已知样本所属的类别不假定总体分布形式下</strong>， 基于大样本的性质，直接利用样本估计出整个函数。在很多情况下，我们对样本的分布并没有充分的了解，无法事先给出密度函数的形式，而且有些样本分布的情况也很难用简单的函数来描述。在这种情况下，就需要用到非参数估计。但是，并不是非参数估计一定优于参数估计，因为非参数估计受训练样本影响，其完备性或者说是泛化能力不会很好；且这种估计只能用数值方法取得，无法得到完美的封闭函数图形。常用的非参数估计方法有直方图法，核概率密度估计等。</p>
+</blockquote>
+<p>下图是《数据之魅》中的一维数据的直方图和核密度估计的对比图，虚线框为直方图，两个实曲线描述的就是通过KDE估计的结果。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/a/42/ec31ec6c14cd28bd3dd171b474feb.png alt></p>
+<blockquote>
+<p>直方图不能很优雅地处理一些异常点。某个远离大部分点的异常点会造成图形中间的空白，或者迫使我们使用对大多数点来说过宽的矩形组。这些异常点可能会使我们很难依赖自动方式来确定一个合适的矩形宽度。幸运的是，还有另一种经典的直方图可供选择，它不存在上述的各种问题。它就是核密度估计(Kernel Density Estimate，KDE)。</p>
+</blockquote>
+<p>核密度的方法就是借助一个移动的单元格（核函数）放在每一个数据点的位置上。然后将核函数的作用效果叠加起来，获得一条光滑的曲线。而核函数的选择条件为单个峰值下的函数面积为1</p>
+<blockquote>
+<p>数据的标准化（normalization）是将数据按比例缩放，使之落入一个小的特定区间。</p>
+</blockquote>
+<blockquote>
+<p>数据的归一化处理，即将数据统一映射到[0,1]区间上。</p>
+</blockquote>
+<p>常用的核函数有：</p>
+<ul>
+<li>Box核函数：
+\(
+K(x) =
+\begin{aligned}
+\begin{cases}
+\frac{1}{2} & if |x| \leq 1 \\<br>
+0 & other
+\end{cases}
+\end{aligned}
+\)</li>
+<li>Epanechnikov核函数：
+\(
+K(x) =
+\begin{aligned}
+\begin{cases}
+\frac{3}{4}(1-x^2) & if |x| \leq 1 \\<br>
+0 & other
+\end{cases}
+\end{aligned}
+\)</li>
+<li>Gaussian核函数：
+\( K(x) = \frac{1}{\sqrt{2\pi}}\exp( -\frac{1}{2}x^2 ) \)</li>
+</ul>
+<p>在单一维度x上的KDE公式为： \( D_h(x, x_i) = \sum\limits_{i=1}^{n} \frac{1}{h}K(\frac{x-x_i}{h}) \)。
+h为带宽，控制函数的蔓延</p>
+<blockquote>
+<p>如果你正使用KDE 来生成图以使点分布直观可视，最好手动尝试并肉眼观察误差。最后，值得一提的是，并没有所谓的"正确"答案，只有最适合某个目的的答案。为了获得直观的理解，最佳方案也许并不是最小化一个特定的数学方面的量。</p>
+</blockquote>
+<p>####多元核密度估计
+核密度估计方法在二十世纪的五六十年代第一次应用于单变量时被学界所知，针对多元数据的估计在90年代后才成熟。下图就是一个简单的应用核密度估计的过程。在左图，通过公式计算以每个点为中心的核，这些核的求和结果展示为右图的密度估计结果。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/d/f9/68f63c491c9c926e59eacf17b0bfb.png alt></p>
+<p>这样将Dx 扩展到多元变量上为多变量的公式为 ( \hat{f}<em>{i}(x) = \sum\limits</em>{i=1}^{m} K_{h}(x-x_{i}^{j}) )中的( x_{i}^{j} )。这在论文报告中提及过。</p>
+<p>验证密度估计的结果的方法主要有两种：the plug-in method and the method of cross-validation。这里不做涉及。</p>
+<p>将其应用到地理上是下个星期的工作。</p>
+<hr>
+<ol>
+<li>
+<p><a href=https://www.wikiwand.com/en/Multivariate_kernel_density_estimation>KDE@wiki</a></p>
+</li>
+<li>
+<p><a href=http://book.51cto.com/art/201212/370857.htm>核密度估计@51cto</a></p>
+</li>
+</ol>
+</div>
+<div class=my-4>
+<a href=/tags/visual/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Visual</a>
+<a href=/tags/stat/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Stat</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/post/intro-blue-noise-sampling/ class=block>蓝噪声取样(Blue noise sampling) 相关知识</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/post/reading-paper-visual-abstraction-and-exploration-of-multi-class-scatterplots/ class=block>Paper Reader:Visual Abstraction and Exploration of Multi-class Scatterplots</a>
+</div>
+</div>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/post/reading-paper-visual-abstraction-and-exploration-of-multi-class-scatterplots/>Paper Reader:Visual Abstraction and Exploration of Multi-class Scatterplots</a>
+<br>
+<a href=/post/search-and-explore-dot-map/>密集型地理数据可视化方案探索</a>
+<br>
+<a href=/post/reading-paper-knowledge-generation-model-for-visual-analytics/>Paper Reader:Knowledge Generation Model for Visual Analytics</a>
+<br>
+<a href=/post/coursera-classgetting-your-research-project-started/>Coursera Data-analysis001:Getting Your Research Project Started</a>
+<br>
+<a href=/post/visual-101/>可视化之旅</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardstudy.com/>Edward Study</a> and <a href=https://www.ruiqima.com/>R. Ma</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>cf-operator的介绍 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="cf-operator马上就要在近期宣布beta release。beta版会实现在Kuberntes上部署Cloud Foundry或者BOSH rele">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/post/"},{"@type":"ListItem","position":2,"name":"cf-operator的介绍","item":"/post/intro-of-cf-operator/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/post/intro-of-cf-operator/"},"headline":"cf-operator的介绍 | Edwardesire","datePublished":"2019-09-06T15:21:18+00:00","dateModified":"2019-09-06T15:21:18+00:00","wordCount":6041,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"cf-operator马上就要在近期宣布beta release。beta版会实现在Kuberntes上部署Cloud Foundry或者BOSH rele"}</script><meta property="og:title" content="cf-operator的介绍 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/post/intro-of-cf-operator/">
+<meta property="og:description" content="cf-operator马上就要在近期宣布beta release。beta版会实现在Kuberntes上部署Cloud Foundry或者BOSH rele">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2019-09-06T15:21:18+00:00">
+<meta property="article:modified_time" content="2019-09-06T15:21:18+00:00">
+<meta property="article:section" content="post">
+<meta property="article:tag" content="cf-operator">
+<meta property="article:tag" content="Kubernetes">
+<meta property="og:see_also" content="/post/kubernetesbian-controller-pattern/">
+<meta property="og:see_also" content="/post/intro-operator/">
+<meta property="og:see_also" content="/post/deploy-kubernetes-by-kubeadm/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/post/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">cf-operator的介绍</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2019-09-06</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>13 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/cf-operator/ class=hover:text-eureka>cf-operator</a>
+<span>, </span>
+<a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
+</div>
+</div>
+<div class=content>
+<p>cf-operator马上就要在近期宣布beta release。beta版会实现在Kuberntes上部署Cloud Foundry或者BOSH release应用的功能。作为主要开发者之一，想在beta之前写几篇文章介绍<a href=https://github.com/cloudfoundry-incubator/cf-operator>cf-operator</a>。第一篇文章将主要介绍cf-operator的由来和主要功能。</p>
+<h2 id=什么是cf-operator>什么是cf-operator</h2>
+<p>想要说清楚cf-operator的功能和实现，就需要先说说近几年Cloud Foundry社区（以下简称CFF）对于Kubernetes的探索和将CF和Kube结合的尝试。了解其中的目标和不足。这些尝试包括如下三类：</p>
+<ul>
+<li>将CF已有功能扩展到Kubernetes：有使用CF BOSH在IaaS上部署和管理Kubernetes集群的kubo项目。在这种方法中，Kubernetes负责调度应用容器，BOSH负责创建虚拟机并调度虚拟机上的任务。这些任务通过执行kubeadm/kubelet来实现集群Nodes的功能。也有将部分功能组件提取并贡献到CNCF的项目，比如nats和buildpack。buildpack是CF用来构建应用镜像的工具。这一功能被应用到来knative中，在build阶段构建应用image。</li>
+<li>CF Containerization：从BOSH release出发，将CF的组件转化成Docker images和Helm charts，然后通过两者将CF部署到Kubernetes上。这个转化过程用到来fissile工具，将BOSH在虚机上启动BOSH Job的逻辑（组织软件包、应用模板和启动应用进程）提取出来。用户应用默认还是跑在CF的Diego runtime中。</li>
+<li>容器调度功能的插件化：在CF内部，Diego负责调度应用容器；而Kubernetes有自己的调度器。CF孵化出Eirini来控制和管理容器后端。目前Eirini仅仅支持Kubernetes。</li>
+</ul>
+<h3 id=cloud-foundry-containerization>Cloud Foundry Containerization</h3>
+<p>cf-operator就是替换CF Containerization中部署的一环。我们先看看现有的部署方式有什么不足。通过<a href=https://github.com/SUSE/scf>scf</a>的源码可以看出，现有的cf on kube是通过make target完成不同的任务：</p>
+<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/FmP9NVXEj16_QBlR56_h85PCswqo.png alt="scf statu quo"></p>
+<ol>
+<li><code>make bosh-images uaa-images</code>：构建CF组件的Docker images，构建过程中需要指定stemcell、release和fissile定义的release manifest来配置的image参数</li>
+<li><code>make helm</code>：当有个应用所需的image之后就可以生成Helm Charts</li>
+<li><code>make run</code>：通过Helm部署CF</li>
+</ol>
+<p>前段时间SUSE和IBM一直围绕这个流程做自动化构建、部署和企业级扩展并推出了相应的产品。在这个过程中，我们尝试解决很多问题并且发现如下不足：</p>
+<ol>
+<li>fissile带来了新的概念（role manifest，opinions）和"outside-BOSH"的功能给开发人员带来了认知负担和技术债务。</li>
+<li>fissile的配置文件和BOSH release提供的配置项（properties）没有达到一一对应，并且在部署时，还有一层Helm values的映射关系。给功能调试和扩展带来了不小的困难。</li>
+<li>Helm只是个包管理工具，部署和升级应用都是指令式的。部署时容易出现随机错误，部署失败很难依靠Helm本身来排查错误难排查。并且，Helm缺少更高级和处理复杂应用的功能。</li>
+<li>转化的容器应用在架构上也存在缺陷。容器运行时，会先调用<a href=https://github.com/cloudfoundry-incubator/configgin>configgin</a>来渲染应用模板，然后通过monit来管理多个应用进程。在一个容器中执行多个进程这本身就不合理，容器应该是一个有着资源隔离的和轻量化的进程。而scf从启动到运行将容器当成虚拟机来使用。并且应用执行错误时，也很难定位出问题的进程和追踪问题。</li>
+</ol>
+<p>而cf-operator就是为了解决CFF在Kubernetes上部署CF遇到的这些问题。</p>
+<h2 id=cf-operator是怎么做的>cf-operator是怎么做的</h2>
+<p>cf-operator的最初设计是将image build和deploy configuration分离，并且通过Kuberntes的CRD和<a href=/2019/05/14/kubernetesbian-controller-pattern/>controller-runtime</a>来实现BOSH release在Kubernetes上的部署。</p>
+<p>首先，我们重新划分Fissile和cf-operator的职能：</p>
+<ul>
+<li>fissile只需要完成image构建的工作，并且构建不再需要release manifest指定BOSH release容器化的配置。</li>
+<li>cf-operator要做的是：1. 接收cf-deployment manifest并且将BOSH instance group转化成Kubernetes的资源定义 2.将configgin的render BOSH ERB templates步骤放在了每个pod的Init Containers中 3. 移除monit，并使用BOSH Process Manager（BPM）来管理应用进程, 通过BPM和Bosh link的信息来限制process的启动 4. 每个容器只运行一个Job的进程，并且通过 BPM来提供entrypoint所需信息</li>
+</ul>
+<p>那么CF Containerization的流程就变成了这样：</p>
+<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/FmR7_VajHMBK64wIXdtlm79SHj6I.png alt="cf-o flow"></p>
+<p>cf-operator将读取BOSH相兼容的<a href=https://github.com/cloudfoundry/cf-deployment>cf-deployment manifest</a>的配置信息并使用fissile构建的release image来部署CF。更进一步说，只要用户提供来包含BOSH release的image和相应的BOSH deployment manifest，cf-operator就能够将这个应用部署在Kubernetes上。</p>
+<p>为了实现上述功能，cf-operator需要扩展Kube原有的资源类型并且自定义一个总体控制部署的资源类型。</p>
+<h3 id=extended-resources-definitions>Extended-resources definitions</h3>
+<p>为了完成实现BOSH deployment在kube上的部署，cf-operator定义了三种资源类型来扩展现有的Statefulset、Job和Secret类型。</p>
+<h4 id=1-extendedstatefulset>1. ExtendedStatefulSet</h4>
+<p>ExtendedStatefulSet负责Service类型的Instance group在Kubernetes上的实现。一个Service会持续运行并且当出现故障时会自动重启。ExtendedStatefulSet的controller会创建运行Service的Statefulset并且支持如下功能：</p>
+<ul>
+<li>当存储Statefulset的配置资源（ConfigMap，Secret）被修改时，ExtendedStatefulSet会被自动更新（创建新版本的Statefulset）</li>
+<li>自动的蓝绿部署：当需要更新时，新版本的Statefulset会被创建并且和旧版同时存在。直到新版本满足canary的条件（默认是一个新版本的Pod准备就绪）时，旧版本的资源都会被删除</li>
+<li>存储卷的管理：当更新时，能够重用旧版本的PVC</li>
+<li>可用区域（AZ）的支持：AZ是BOSH的概念，controller会在每个zone里创建一个StatefulSet并通过node affinity来控制编排</li>
+</ul>
+<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/Fss4KcRyWRzmgHIBDVZ0ZZTOr_sE.png alt="ests controller"></p>
+<p>为了实现如上功能，cf-operator会启动两个controller来管理ExtendedStatefulSet。一个ExtendedStatefulSet controller会监控ExtendedStatefulSet的定义和其引用的ConfigMap或者Secret（volume或者env value）。当监控的资源发送变化时，这个controller会依据新的spec创建新版本的StatefulSet。而另一个cleanup controller则会监控新StatefulSet的创建，并且当新版本的Pod准备就绪之后尝试删除旧版本的StatefulSet。</p>
+<h4 id=2-extendedjob>2. ExtendedJob</h4>
+<p>和ExtendedStatefulSet类型，ExtendedJob负责实现Errand的Instance group。一个Errand会创建一个Kube Job来完成任务。并且依据spec不同，ExtendedJob支持如下功能：</p>
+<ul>
+<li>不同类型的Job：one-off job是创建之后会被自动执行的任务单元，errand job是需要手动触发执行的任务单元。</li>
+<li>当Job的配置资源（ConfigMap，Secret）修改时，one-off job会被自动执行</li>
+<li>存储job container执行结果：能够将执行之后的结果存储到Kube Secret中并且删除Kube Job。</li>
+<li>带版本的Secret存储：当ExtendedJob选择将结果存储到"Versioned Secrets"时，controller会控制输出存储到比已有Secret的版本加"1"的新Secret中</li>
+</ul>
+<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/Fn74oehaN1z_cbEhbPda6Bj4K3zK.png alt="ejob controller"></p>
+<p>对于ExtendedJob，cf-operator也注册两个controller来协调。erran-controller和ExtendedStatefulSet controller类似，监控ExtendedJob对象和所引用的配置资源的变化，并创建Kube Job来执行任务。如果你想要trigger errand job需要将 <code>spec.trigger.strategy: manual</code>修改成<code>spec.trigger.strategy: now</code>。而job-controller则会依据<code>spec.output</code>的信息，将运行结果存储到指定的secret中。</p>
+<h4 id=3-extendedsecret>3. ExtendedSecret</h4>
+<p>ExtendedSecret的主要功能是配置和生成BOSH Variables。依据<code>spec.type</code>的不同，ExtendedSecret支持下列敏感数据的生成：</p>
+<ul>
+<li><code>password</code></li>
+<li><code>rsa key</code></li>
+<li><code>ssh key</code></li>
+<li><code>self-signed root certificate</code></li>
+<li><code>self-signed certificate</code></li>
+<li><code>cluster-signed certificate</code></li>
+</ul>
+<p>和其他类型不同，<code>cluster-signed certificate</code>的证书是被Kubernetes API Server签发的，这个证书至少是在集群范围内所认可的证书。</p>
+<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/FisLlt16rBBuIkIIbqFbETk0AUCL.png alt=esec-controller></p>
+<p>ExtendedSecret的两个controller中，一个ExtendedSecret controller负责监控ExtendedSecret的对象，然后依据类型和参数生成相应的敏感数据。如果需要生成集群签发的证书，ExtendedSecret controller会生成CertificateSigningRequest对象。CertificateSigningRequest controller会监控ExtendedSecret controller生成的CertificateSigningRequest对象并且自动批准该对象。当API Server签发该证书之后，ExtendedSecret controller再继续将certificate和相应的private key存储到指定的secret中。</p>
+<h3 id=boshdeployment-definition>BoshDeployment definition</h3>
+<p>BoshDeployment的资源定义是一种专门为BOSH Deployment在Kubernetes实现的类型。这个资源的Controller集主要实现三大部分的功能（这里涉及了很多BOSH的概念，需要自己探索）：</p>
+<ul>
+<li>读取Deployment manifest并插入（interpolate）<a href=https://github.com/cloudfoundry/docs-bosh/edit/master/content/cli-ops-files.md>ops file</a>的内容和BOSH Variables</li>
+<li>将BOSH的概念转化成Kubernetes的概念：
+<ul>
+<li>BOSH service转化成ExtendedStatefulSet和kube Service（如果有服务需要暴露）</li>
+<li>BOSH errand转化成ExtendedJob</li>
+<li>BOSH variable转化成ExtendedSecret</li>
+<li>BOSH stemcell和BOSH release一起转化成Docker image</li>
+</ul>
+</li>
+<li>部署Instance group在Kubernetes上的实现</li>
+</ul>
+<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/FujIEQMw7b5Xl6z8D2fJyCeyumDq.png alt=bdpl-workflow></p>
+<p>BoshDeployment的controller集的工作十分复杂，我们先屏蔽一些细节。对于BoshDeployment CRD，Deployment controller会监控这类资源以及所引用的其他配置资源。当BoshDeployment需要更新时，Deployment controller首先会解析base manifest，并且插入spec所引用的ops configMap/secret。处理之后的manifest包含我们期望的应用配置信息和所需的变量信息，所以我们称之为<code>with-ops manifest</code>。并且Deployment controller还会创建三个重要的ExtendedJob：desired manifest eJob（简称<code>dm-ejob</code>），instance group eJob（简称<code>ig-ejob</code>），和bpm config eJob（简称<code>bpm-ejob</code>）。<code>dm-ejob</code>依赖variable secrets，<code>ig-ejob</code>和<code>bpm-ejob</code>依赖<code>dm-ejob</code>的结果Secret（例如<code>desired manifest-v1</code>）。<code>ig-ejob</code>和<code>bpm-ejob</code>为每个instance group创建相应的secret:</p>
+<ul>
+<li>Instance Group解析后的属性(properties)(例如ig-resolved.nats-v1)</li>
+<li>Instance Group的BPM信息 (例如bpm.nats-v1)</li>
+</ul>
+<p>而variable secrets都是通过generated-variable controller来生成的。generated-variable controller监控<code>with-ops manifest</code>并解析variables项，然后创建所需的ExtendedSecret。当<code>dm-ejob</code>所需的variable secrets都被ExtendedSecret controller生成之后，Kube才会分配Job pod到空闲的Node上运行。同理，<code>ig-ejob</code>和<code>bpm-ejob</code>也会在所需的引用资源都生成之后才延后启动pod。</p>
+<p>最终当单个instance group的bpm configs secret被创建出来之后，最后一个controller——bpm controller会监控这类secret的创建并获得早已创建好的<code>desired manifest</code>，通过<code>desired manifest</code>的定义将intance group转化成相应的ExtendedStatefulSet或者ExtendedJob。如果ExtendedStatefulSet需要对外暴露相应的服务，bpm controller也会生成对应的Kube service。直到这时，cf-operator才算是将BOSH Deployment部署到Kubernetes上了。</p>
+<h2 id=最后一点展望>最后一点展望</h2>
+<p>通过扩展Kubernetes API，cf-operator做到了像Kube原生资源一样部署BOSH应用（最大的应用应该就是Cloud Foundry了）。并且这个应用还可以直接通过kubectl来操作和管理。但是目前来说，还只是剥离了fissile的部分功能完成部署的邀请。在未来，我们也会汲取知识继续修复问题和提供新功能：</p>
+<ul>
+<li>对于BOSH lifecycle management的实现不完全。我们还会继续完善BOSH所定义的应用管理功能。</li>
+<li>除了想当然的升级功能，我们还需思考Operation的功能。我们怎么通过cf-operator来实现自恢复、回滚或者备份。</li>
+<li>出于最初设计，我们拘泥于细节的实现。还有很多Kubernetes的功能和新理念需要我们掌握和应用。</li>
+</ul>
+</div>
+<div class=my-4>
+<a href=/tags/cf-operator/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#cf-operator</a>
+<a href=/tags/kubernetes/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Kubernetes</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/post/how-to-easily-deploy-cloud-foundry-applications-on-a-kubernetes-cluster/ class=block>[转载]How to easily deploy Cloud Foundry applications on a Kubernetes cluster</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/post/kubernetesbian-controller-pattern/ class=block>Kubernetes编程范式——Controller pattern</a>
+</div>
+</div>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/post/kubernetesbian-controller-pattern/>Kubernetes编程范式——Controller pattern</a>
+<br>
+<a href=/post/intro-operator/>Intro Operator</a>
+<br>
+<a href=/post/deploy-kubernetes-by-kubeadm/>双机环境部署Kubernetes</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardstudy.com/>Edward Study</a> and <a href=https://www.ruiqima.com/>R. Ma</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

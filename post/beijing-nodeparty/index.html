@@ -1,0 +1,250 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>北京3月26日NodeParty分享会总结（Node.js全栈、探针监控、Docker node） | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="上周参加了北京的NodeParty，收获还是有的。先将学到的总结，并补充一些node.js的内容。 #1. 全栈工程师之路 首先ppt奉上。演讲者为moajs的">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/post/"},{"@type":"ListItem","position":2,"name":"北京3月26日NodeParty分享会总结（Node.js全栈、探针监控、Docker node）","item":"/post/beijing-nodeparty/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/post/beijing-nodeparty/"},"headline":"北京3月26日NodeParty分享会总结（Node.js全栈、探针监控、Docker node） | Edwardesire","datePublished":"2016-04-07T08:13:19+00:00","dateModified":"2016-04-07T08:13:19+00:00","wordCount":3452,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"上周参加了北京的NodeParty，收获还是有的。先将学到的总结，并补充一些node.js的内容。 #1. 全栈工程师之路 首先ppt奉上。演讲者为moajs的"}</script><meta property="og:title" content="北京3月26日NodeParty分享会总结（Node.js全栈、探针监控、Docker node） | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/post/beijing-nodeparty/">
+<meta property="og:description" content="上周参加了北京的NodeParty，收获还是有的。先将学到的总结，并补充一些node.js的内容。 #1. 全栈工程师之路 首先ppt奉上。演讲者为moajs的">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2016-04-07T08:13:19+00:00">
+<meta property="article:modified_time" content="2016-04-07T08:13:19+00:00">
+<meta property="article:section" content="post">
+<meta property="article:tag" content="Nodejs">
+<meta property="article:tag" content="event">
+<meta property="og:see_also" content="/post/code-to-meanjs/">
+<meta property="og:see_also" content="/post/controller-of-async-function/">
+<meta property="og:see_also" content="/post/mongodb-update-operators-apply/">
+<meta property="og:see_also" content="/post/mongodb-query-and-projection-operators-apply/">
+<meta property="og:see_also" content="/post/introduction-of-promise/">
+<meta property="og:see_also" content="/post/pagination-with-mongoose/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/post/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">北京3月26日NodeParty分享会总结（Node.js全栈、探针监控、Docker node）</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-04-07</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>7 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
+<span>, </span>
+<a href=/categories/event/ class=hover:text-eureka>event</a>
+</div>
+</div>
+<div class=content>
+<p>上周参加了北京的NodeParty，收获还是有的。先将学到的总结，并补充一些node.js的内容。</p>
+<hr>
+<p>#1. 全栈工程师之路</p>
+<p>首先<a href=http://git.oschina.net/ubiware/node-party/raw/master/10th/i5ting-node%20%E5%85%A8%E6%A0%88.pdf>ppt</a>奉上。演讲者为moajs的作者，moajs为其开发的web框架。moajs从原始的express框架中抽象出config、controller、model、middleware等业务、配置相关的东西。并有如下功能：</p>
+<ul>
+<li>使用mongoosedao把mongoose的crud、分页等封装成dao（data access object）操作</li>
+<li>使用mount-routes自动挂载路由</li>
+<li>使用res.api约定api返回数据</li>
+<li>前端使用moa-frontend和moa-h5构建前端。</li>
+</ul>
+<p>这个框架没有用过，因为目前没有用的痛点，而这里只是简单了解一下演讲者做的工作。分享的主题还是node全栈，分为5个部分。</p>
+<p>##1.1 为什么选择Node.js</p>
+<p>演讲者的工作主要从事SaaS服务，其更多的是与中小型公司打交道。他们从线上的编程语言趋势分析看到JS的大热。细细分析node的现状，callback hell 通过promise方法来控制代码的编写，而node强大的生态才是其最值得炫耀的地方。</p>
+<p>而创业公司在开发过程中最重要的因素有：人员、开发速度、稳定性。演讲者列举了如下几点来分析为什么选择node：</p>
+<ul>
+<li>node在同样不优化的前提下，性能比大部分语言好。即使优化，也比其他语言简单。（但我觉得这里限定的是node的事务处理的速度，毕竟是一个原生支持异步的语言。）</li>
+<li>有足够多的选择和平衡。（但是选择过程又是一个问题，别的语言在没有太多选择的情况下是不是能够提供编写效率呢？）</li>
+<li>实在不够，Java补。（这里应该指的是计算性能这类node天生的缺陷吧，演讲者选择Java来补也是因为从Java转过来的比较多。）</li>
+</ul>
+<p>当然，node的好处还有JS语言自身的好处，这点在杂乱无章的编写过程中更加明显，可以在面向过程、面向对象、函数式编程中进行斡旋。</p>
+<p>在开发大型软件中，我们可能更需要考虑效率外的问题，比如测试、规范化、构建工具、生成器。</p>
+<p>或许我们只要遵循：在语言层面（node）可以做，就在语言层面上做。在具体操作层面上，就是npm包、自己造轮子（node自身或者c/c++包装）。如果语言层面搞不定，那就架构层面做。模块查分、缓存、运维方面下功夫。如果架构层面也解决不了，就其他语言来补救。</p>
+<p>随后，演讲者介绍了团队目前所做的工作方法。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/4/9a/654dbdc014ee780e15b21c3831c39.jpg alt></p>
+<p>##1.2 Node.js核心</p>
+<p>这一部分主要谈及node.js的核心。node遵从Unix设计哲学中的&rsquo;Small is beautiful'。放到具体业务，比如web应用开发中，从LAMP or WAMP到MEAN架构。（lamp架构是我来实验室接触的第一个技术栈，虽然所学不深，但是还是引我入了软件开发的门，而mean架构是我师从迪总后第一次独立学习（踩坑））。我们可以看到下图架构中的workflow，不同的功能块只处理一个任务，但在整个架构中能完成客户端到数据库数据库的有效操作。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/6/c0/b272555f8b5ded04d7543f84c0985.jpg alt></p>
+<p>mean这几年来也更加稳定、成熟，使用mean最大的有点事前后端统一。但是在使用过程中不能孤注一掷，合理使用其他语言来解决node服务器无法解决的问题。node.js的其他特性还有异步流程控制、事件驱动。</p>
+<p>演讲者再切回node.js的web开发，web框架何其多，相比老气横秋的express，koa是一种更轻量级的框架，restify更加关注RESTful api，hapi更适合大型项目。更多的框架比较可看<a href=https://www.airpair.com/node.js/posts/nodejs-framework-comparison-express-koa-hapi>文章比较3个框架（express、koa、hapi）</a>。</p>
+<p>node的一个孪生兄弟npm大火的原因就是大量的模块开发结果，模块又分为普通模块来扩展node的功能，cli来实现命令行工具，脚手架来实现自动生成程序以及使用c/c++外包来进行高效运算。</p>
+<p>##1.3 快速开发实践</p>
+<p>这个部分演讲者描述了公司在使用node时的几个准则：业务边界优化、静态API、API约定、约定结构、npm化。</p>
+<p>业务边界优化的难点在于保证业务系统的边界，一般还是遵循缩小业务范围。而静态API可以看下图。下图中将UI设计与应用开发并行来进行，保证双方开发接口就是通过静态API。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/f/fe/86f85dca7abef502bba5499da9c4c.jpg alt></p>
+<p>而API又可以遵循新浪微博的详细API或者github RESTful API的方式两种方法来约定。演讲者公司约定的结构主要将中间件和服务这种功能分离出来，而不是统一放在controller中。使用npm工具可以分为：private模块和本地模块或者npm私服，最快速当然还是本地模块开发。</p>
+<p>综合上节所说的模块化开发，可以使用项目框架的生成器来快速开发应用。至于前后端分离，也是由于创业公司同类功能经常重复，通过前后端分类来多样化的匹配前后端功能。</p>
+<p>##1.4 全栈展望</p>
+<p>想要实践全栈，通过node的一系列工具（gulp、npm、mocha）来完成自动化任务、模块管理、测试，此外还有越来愈近的ES6的工具babel。</p>
+<p>而在前端开发经历了4个阶段，如下图（目前我也就第三个层级MVC框架比较熟悉）。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/7/32/7b253a0626c4490b0582aa6304986.jpg alt></p>
+<p>而hybird应用的开发，也是需要看具体需求来进行h5开发跨浏览器应用，以及跨平台应用开发。核心概念：Actions、Reducers 和 Store，简单点说就是状态控制，然后再结合打包加壳，变成 app 或可执行文件。iOS、Android 上用 Cordova，PC 上使用 Electron。</p>
+<p>##1.5 如何全栈</p>
+<p>如何全栈分为从后端和从前端开始。从后端开始就按照4个阶段开始，从前端开始就从Nginx涉入后端逻辑。从移动端也可以说从前端转，只要学会用好h5开发，之后就能慢慢往全栈靠拢。</p>
+<p>#2. Node.JS 项目中的性能监控的原理 和 Docker 的使用</p>
+<p><a href=http://7xsa3z.com1.z0.glb.clouddn.com/index2.html#1>ppt</a>奉上。演讲者是oneapmAPM公司的员工。他首先介绍了性能监控的方法：插桩和采样。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/3/7b/e755d10e330106e1aea465d30d4fd.jpg alt></p>
+<p>##2.1 插桩和采样</p>
+<blockquote>
+<p>最早是由J.C. Huang 教授提出的，它是在保证被测程序原有逻辑完整性的基础上在程序中插入一些探针（又称为“探测仪”），通过探针的执行并抛出程序运行的特征数据，通过对这些数据的分析，可以获得程序的控制流和数据流信息，进而得到逻辑覆盖等动态信息，从而实现测试目的的方法。</p>
+</blockquote>
+<p>探针为在被测程序指定位置抛出运行信息的语句。而在什么位置插入探针就需对目标代码进行必要的分析。这里以alert为例</p>
+<pre><code>var _original=window.alert;
+window.alert=function(){
+    console.log('in');
+    var result=_original.apply(this,arguments);
+    console.log('out');
+    return result;
+}
+</code></pre>
+<p>在这里例子中我们可以得到3个值：进入、退出和返回值。对于运行分析可能就需要从返回值中来获得。随后，演讲者又以setTimeout为一个例子，这里不再赘述。</p>
+<p>演讲者拿出公司大杀器：oneapm模块，通过node命令的-r参数来预载模块。</p>
+<p>接下来介绍了前端埋点。比如，在前端通过埋点来监控页面的访问和button点击次数。通过ES7的decorator来对目标函数做一些额外的操作，通过@decorator来执行wrapper封装器，我们就可以在封装器中获得性能指标。（我们首先看个decorator的例子，摘自<a href=http://hackll.com/2015/07/24/decorators-in-es7/>hackll.com/</a>）</p>
+<pre><code>//声明一个Dog类
+class Dog {
+  bark () {
+    return 'wang!wang!'
+  }
+}
+</code></pre>
+<p>然后我们定义一个 readonly 的 decorator，并作用到bark上</p>
+<pre><code>function readonly(target, key, descriptor) {
+  descriptor.writable = false
+  return descriptor
+}
+//把 readonly 作用到 bark 方法上
+class Dog {
+  @readonly
+  bark () {
+    return 'wang!wang!'
+  }
+}
+let dog = new Dog()
+dog.bark = 'bark!bark!'
+//报错：Cannot assign to read only property 'bark' of [object Object]
+</code></pre>
+<p>回到刚才要求——监控页面的访问和button点击时间。只要创建两个decorator：pageview、event()就可以了。</p>
+<p>在性能监控的最后一部分，演讲者分享了采样方法。在前端的通过调用console.profile，node调用v8-profiler来采样。输出火焰图（如下图，绿色为js，蓝色为内置模块、黄色为c++，红色为v8）</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/7/84/18331abbaa82b7ae28a794903a227.jpg alt></p>
+<p>还有将v8内存使用堆也可视化为图。（使用heapdump来对内存进行快照）。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/e/9a/7c347a26c028dc396618d266ceb2b.jpg alt></p>
+<p>##2.2 Docker的应用</p>
+<p>首先是兼容性测试，Docker对node.js大部分稳定版本都支持，并且还支持MySQL、MongoDB、Redis。基于Docker的前端自动化工作流，流程可看下图。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/b/bd/aa8207a7d53ee620bdfbd940ee074.jpg alt></p>
+<p>（很多细节对于我来说未知）</p>
+<ul>
+<li>Dockerfile和gruntfile类似，包含创建镜像所需要的全部指令</li>
+<li>Gitlab是实现自托管的Git项目仓库程序</li>
+<li>Jenkins是持续集成工具</li>
+<li>ESLint是JS的QA工具</li>
+<li>Unit Test是单元测试</li>
+<li>Build是软件开发过程中用于内部测试的功能和性能等不完善的软件版本</li>
+<li>Tag 不知道是什么</li>
+<li>Push是git的推送操作</li>
+<li>Run 不知道是什么</li>
+<li>A/B Testing也称为对比测试或分离测试（split-testing）。它是测试网站或在线服务的游戏中的两个变量，最后得出哪个变量更符合要求。</li>
+</ul>
+<hr>
+<p>总的来说，这次收获还是很大的。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/2/cf/6e1d4de42babfdece836f3a5b2a04.jpg alt></p>
+</div>
+<div class=my-4>
+<a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
+<a href=/tags/event/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#event</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/post/paper-reader-analysis-of-range-based-key-properties-for-sharded-cluster-of-mongodb/ class=block>Paper Reader:Analysis of range-based key properties for sharded cluster of MongoDB</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/post/a-mountain-to-climb-mongodb-index-query/ class=block>越过大山和mongoDB查询操作的坑</a>
+</div>
+</div>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/post/code-to-meanjs/>从MongoDB入门到编写数据库相关API</a>
+<br>
+<a href=/post/controller-of-async-function/>使用Async进行流程控制</a>
+<br>
+<a href=/post/mongodb-update-operators-apply/>MongoDB更新操作符的实践</a>
+<br>
+<a href=/post/mongodb-query-and-projection-operators-apply/>MongoDB查询以及投影操作符的实践</a>
+<br>
+<a href=/post/introduction-of-promise/>初识Promise</a>
+<br>
+<a href=/post/pagination-with-mongoose/>Web应用分页功能的简单实现</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardstudy.com/>Edward Study</a> and <a href=https://www.ruiqima.com/>R. Ma</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>时间维度的数据分析案例 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="维度是用于在不同角度描述事物特征的概念，比如在时间维度上分析数据就是一种常见的方法。时间维度一般包含年、月、日等多个层次，每个层次都有与任务相关的属性">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/post/"},{"@type":"ListItem","position":2,"name":"时间维度的数据分析案例","item":"/post/data-analysis-example-with-time-dimension/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/post/data-analysis-example-with-time-dimension/"},"headline":"时间维度的数据分析案例 | Edwardesire","datePublished":"2016-10-30T10:54:14+00:00","dateModified":"2016-10-30T10:54:14+00:00","wordCount":1891,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"维度是用于在不同角度描述事物特征的概念，比如在时间维度上分析数据就是一种常见的方法。时间维度一般包含年、月、日等多个层次，每个层次都有与任务相关的属性"}</script><meta property="og:title" content="时间维度的数据分析案例 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/post/data-analysis-example-with-time-dimension/">
+<meta property="og:description" content="维度是用于在不同角度描述事物特征的概念，比如在时间维度上分析数据就是一种常见的方法。时间维度一般包含年、月、日等多个层次，每个层次都有与任务相关的属性">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2016-10-30T10:54:14+00:00">
+<meta property="article:modified_time" content="2016-10-30T10:54:14+00:00">
+<meta property="article:section" content="post">
+<meta property="article:tag" content="Analysis">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/post/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">时间维度的数据分析案例</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-10-30</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>4 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/analysis/ class=hover:text-eureka>Analysis</a>
+</div>
+</div>
+<div class=content>
+<p>维度是用于在不同角度描述事物特征的概念，比如在时间维度上分析数据就是一种常见的方法。时间维度一般包含年、月、日等多个层次，每个层次都有与任务相关的属性。</p>
+<p>在实际的案例中，数据源是由监控PaaS产品的监控工具产生，会产生两类数据：一类是性能指标（metrics），以固定时间间隔监控平台组件的性能指数（比如http server的latency）；另一类是警报数据（alerts），当指标超过人为设定的阈值时就会产生警报数据。这种方法会在产生警报的一段时间内产生大量，导致警报风暴。并且很难找到警报产生的真正原因和预测警报的产生。如下图所示，在这样的监控环境下，SRE（运维人员）的工作负担会很大。所以，我们依据时间维度上的警报和性能指标数据尝试减少警报数据的产生，并定位警报进而预测警报。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/9/43/5f13a9db500acbfe46111e19dc927.jpg alt=brief></p>
+<p>我们首先将数据存储到Hadoop上，并依据dt字段（字符串类型，记录日期信息）对数据进行partition。partition的好书在于缩小查询范围，从而提高查询速度。在下图表示的数据schema中，（customer, env, component, item）是记录环境信息的字段，以下我都称为环境四元组。collect_time是在划分时间维度的时间字段。recover_alert是标识故障是否修复的布尔值。value是性能指标值，值为数值或者状态描述字符串。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/3/0e/0761ace45d2beaa1c69de65d14584.jpg alt=schema></p>
+<p>下面我将分别介绍怎么分析这两类数据。</p>
+<h1 id=警报分析>警报分析</h1>
+<p>首先使用贝叶斯概率来分析警报数据之间的相关性。</p>
+<p>我们发现：产生的警报数据量大，但警报数据之间有很多冗余。这些冗余数据会干扰运维人员进行问题的定位和修复，所以我们要建立警报数据之间的关联关系，来降低冗余的警报数据产生的影响。</p>
+<p>我们首先将警报数据依据环境四元组进行分类，将每类警报的第一次发出时间记为警报时间的开始时间，并修复的时间记为该警报的结束时间。如果这次警报没有修复或者修复时间超过一天则将结束时间记为系统最大值（sys.maxint）。这样我们就将这段时间的重复报警数据过滤掉。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/2/04/9d746add51d54b4bf994762c823fc.jpg alt=events></p>
+<p>接下来只记录固定时间窗口（默认16分钟）内的一个警报数据的起止时间，当另一个警报的开始时间落在这个警报的时间窗口内时，则将这两个警报统计为一个组合（events_pair）。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/8/fa/01758e602b81aaaac57fe369dc057.jpg alt=events_pair></p>
+<p>我们通过这个组合出现的次数和这类警报出现的总次数之比\(r=\frac{c(alert2 | alert1)}{c(alert1)}\)，来衡量这两类警报关联程度。即值越高，这该两类警报的关系越大。比如在一个环境下的缓存redis出现故障，随后mysql集群也出现警报。那么在下次redis出现故障时，可能mysql集群中的实例也会先后发出报警。这时，我们的方法就能衡量这种关系的可能性。</p>
+<h1 id=性能指标分析>性能指标分析</h1>
+<p>我们使用相关系数衡量指标之间的相关性。由于目前我们对于两个指数之间的关系是未知的，所以采用两种计算相关性的方法（pearson, spearman相关系数）来计算相关系数，系数的取值范围如下图。其绝对值越大表示两者的相关性越强。</p>
+<blockquote>
+<p>当一个变量增大，另一个变量也增大时，表明它们之间是正相关的，相关系数大于0；如果一个变量增大，另一个变量却减小，表明它们之间是负相关的，相关系数小于0；如果相关系数等于0，表明它们之间不存在线性相关关系。</p>
+</blockquote>
+<p><img src=http://edwardsblog.qiniudn.com/image/e/07/4267cb0149e2ce32b59f726ec07d5.jpg alt=index></p>
+<p>由于相关系数描述的是两组数据一同变化移动的趋势。所以在进行系数计算前，需要进行预处理工作，将两组性能指标的数据处理成有序离散值（相同时间单位内的数据）。首先统计指定时间周期内的性能指标，将非数值类指标转换为数值。这一步骤称之为数值化（Numeralization）。然后再标准化（Normalize）为同一时间单位内的数据。</p>
+<p>比如下图例子所表示的预处理流程。在数值化中，将app的状态值依据映射关系转化为数值。在标准化中过滤掉不同时间单位的指标数据。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/4/fa/7b4f723b5ba9326b621ab83950046.jpg alt=process></p>
+<p>正如前面所说，求出的相关系数范围在-1到1之间。系数绝对值越大，则表示两者的相关性越高。比如这个环境下的网络io与应用运行状态的相关系数表现出强正相关性。那么在下次应用出现故障时就可以先去检查网络环境来快速定位问题可能产生的原因。</p>
+<h1 id=总结>总结</h1>
+<p>依据时间维度来分析数据还有很多方法，我这次介绍的只是分析数据关系性的方法。虽然我们在实际开发过程中获得了监控平台同事的肯定。但是我们不能将时间上的先后次序，简单地定义为逻辑上的因果。这因为这种弱相关性判断，我们开发的分析工具，目前还只能够辅助运维人员的工作。想要添加到整个PaaS产品的自动化流程中，我们还要继续在这方面下功夫。</p>
+<p>##参考</p>
+<ol>
+<li>
+<p><a href=https://my.oschina.net/leejun2005/blog/188770>维度与数据立方</a></p>
+</li>
+<li>
+<p><a href=https://my.oschina.net/mazhiyuan/blog/144762>相似性度量&ndash;Pearson相关系数</a></p>
+</li>
+<li>
+<p><a href=http://bbs.pinggu.org/thread-479730-1-1.html>spearman相关系数与pearson相关系数的使用场景</a></p>
+</li>
+</ol>
+</div>
+<div class=my-4>
+<a href=/tags/analysis/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Analysis</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/post/ccf-big-data-conf-evening/ class=block>兰州CCF大数据会议</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/post/python-use-memcache/ class=block>Memcache的使用</a>
+</div>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardstudy.com/>Edward Study</a> and <a href=https://www.ruiqima.com/>R. Ma</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

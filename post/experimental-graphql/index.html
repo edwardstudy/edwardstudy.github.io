@@ -1,0 +1,669 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>GraphQL：一种不同于REST的接口风格 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="从去年开始，JS算是完全踏入ES6时代。在React相关项目中接触到了一些ES6的语法。这次接着GraphQL这种新型的接口风格，从后端的角度接触ES">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/post/"},{"@type":"ListItem","position":2,"name":"GraphQL：一种不同于REST的接口风格","item":"/post/experimental-graphql/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/post/experimental-graphql/"},"headline":"GraphQL：一种不同于REST的接口风格 | Edwardesire","datePublished":"2016-11-23T14:47:10+00:00","dateModified":"2016-11-23T14:47:10+00:00","wordCount":7759,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"从去年开始，JS算是完全踏入ES6时代。在React相关项目中接触到了一些ES6的语法。这次接着GraphQL这种新型的接口风格，从后端的角度接触ES"}</script><meta property="og:title" content="GraphQL：一种不同于REST的接口风格 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/post/experimental-graphql/">
+<meta property="og:description" content="从去年开始，JS算是完全踏入ES6时代。在React相关项目中接触到了一些ES6的语法。这次接着GraphQL这种新型的接口风格，从后端的角度接触ES">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2016-11-23T14:47:10+00:00">
+<meta property="article:modified_time" content="2016-11-23T14:47:10+00:00">
+<meta property="article:section" content="post">
+<meta property="article:tag" content="Nodejs">
+<meta property="article:tag" content="GraphQL">
+<meta property="article:tag" content="ES6">
+<meta property="og:see_also" content="/post/docker/">
+<meta property="og:see_also" content="/post/beijing-nodeparty/">
+<meta property="og:see_also" content="/post/code-to-meanjs/">
+<meta property="og:see_also" content="/post/controller-of-async-function/">
+<meta property="og:see_also" content="/post/mongodb-update-operators-apply/">
+<meta property="og:see_also" content="/post/mongodb-query-and-projection-operators-apply/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/post/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">GraphQL：一种不同于REST的接口风格</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-11-23</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>16 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
+<span>, </span>
+<a href=/categories/graphql/ class=hover:text-eureka>GraphQL</a>
+<span>, </span>
+<a href=/categories/es6/ class=hover:text-eureka>ES6</a>
+</div>
+</div>
+<div class=content>
+<p>从去年开始，JS算是完全踏入ES6时代。在React相关项目中接触到了一些ES6的语法。这次接着GraphQL这种新型的接口风格，从后端的角度接触ES6。</p>
+<p>这篇文章从ES6的特征讲起，打好语法基础；然后引用GraphQL的规范说明；最后实验性质地在node环境下实践GraphQL这种接口风格，作为接下来重构接口工作的起点。</p>
+<ol>
+<li><a href=/2016/11/23/experimental-graphql/#es6>ES6</a></li>
+<li><a href=/2016/11/23/experimental-graphql/#graphql>GraphQL</a></li>
+<li><a href=/2016/11/23/experimental-graphql/#nodewithes6>Node ES6语法环境</a></li>
+<li><a href=/2016/11/23/experimental-graphql/#expressgraphql>搭建GraphQL Server</a></li>
+</ol>
+<h1 id=es6>ES6</h1>
+<p><img src=http://edwardsblog.qiniudn.com/image/3/d0/ec42651cce36bba99a4dbd482c4ce.png alt="babel learning page"></p>
+<p>ES6也就是ECMAScript2015于2015年6月正式发布，这是最新的Javascript核心语言标准。新的语法规范涵盖各种语法糖和新概念。ES6既兼容过去编写的JS代码，又以一种新的方式彻底改JS代码。ES6始终坚持这样的宗旨：</p>
+<blockquote>
+<p>凡是新加入的特性，势必已在其它语言中得到强有力的实用性证明。</p>
+</blockquote>
+<p>下面依据<a href=https://babeljs.io/docs/learn-es2015/>Babeljs的文档</a>介绍ES6的新特性。</p>
+<h2 id=arrows箭头函数>Arrows：箭头函数</h2>
+<p>能够编写lambda函数的新语法，它的语法非常简单：<code>标志符=>表达式</code>。表达式可以是返回值，也可以是块语句（块语句需要使用return手动返回）。当然要注意下列代码出现的情况。由于空对象与块语句的符号都是使用<code>{}</code>标志，箭头函数看到<code>{}</code>会判定为空语法块，需要强制使用括号包裹空对象。</p>
+<pre><code class=language-javascript>let items = Objs.map(stuff =&gt; {});  //空语法块
+let items = Objs.map(stuff =&gt; ({})); //空对象
+</code></pre>
+<p>并且，箭头函数的this值继承外围作用域，共享父函数的“arguments”参数变量。</p>
+<h2 id=class类>Class：类</h2>
+<p>我们知道在ES5中我们用多种方式实现函数的构造，这些分发看起来都比较复杂。ES6提供了一种原型OO的语法糖。比如使用static添加方法时，函数的.prototype属性也能添加相应的方法。</p>
+<h2 id=subclassing子类>Subclassing：子类</h2>
+<p>ES5中原有的继承方式是这样的：</p>
+<blockquote>
+<p>为了使新创建的类继承所有的静态属性，我们需要让这个新的函数对象继承超类的函数对象；同样，为了使新创建的类继承所有实例方法，我们需要让新函数的prototype对象继承超类的prototype对象。</p>
+</blockquote>
+<p>ES6添加使用关键词‘extends’声明子类继承父类，使用关键词‘super’访问父类的属性。而父类可以使用new.target来确定子类的类型。</p>
+<h2 id=template-string模板字符串>Template String：模板字符串</h2>
+<p><code>`Hello, This is template of ${language}?`</code> 这种使用反引号的字符串就是模板字符串，它为JS提供了简单的字符串插值。</p>
+<h2 id=destructuring解构>Destructuring：解构</h2>
+<p>解构赋值允许你使用类似数组或者对象字面量的语法将数组和对象的属性赋给各种变量。</p>
+<pre><code class=language-javascript>let [foo, [[bar], baz]] = [1, [[2], 3]];  //嵌套数据解构
+let { name: nameA } = { name: 'Ips' }  //对象解构
+</code></pre>
+<p>解构还可以应用到交换变量、函数返回多值、函数参数默认值（like python），使编写的代码更加简洁。</p>
+<h2 id=symbols符号>Symbols：符号</h2>
+<p>JS的第七种类型的原始量，能够避免冲突的风险地创建作为属性键的值险。</p>
+<h2 id=iterators迭代器>Iterators：迭代器</h2>
+<p>ES6增加了新的一种循环语法 for-of。该方法可以正确响应break、continue、return。</p>
+<p>向对象添加Symbol.iterator，就可以遍历对象。迭代器对象是具有.next()方法的对象。for-of首次调用集合的Symbol.iterator()方法，紧接着返回一个新的迭代器对象。for-of循环每次调用.next()方法。比如下面这个迭代器实现了每次返回0。</p>
+<pre><code class=language-javascript>let objIterator = {
+  [Symbol.iterator]: function(){
+    return this;
+  };
+  next: function(){
+    return { done: false, value: 0 };
+  }
+}
+</code></pre>
+<h2 id=generators生成器>Generators：生成器</h2>
+<p>生成器就是包含 <code>yield</code> 表达式的函数。yield类似return，不过在生成器的执行过程肿，遇到yield时立即暂停，后续可以恢复执行状态。普通函数使用function声明，而生成器函数使用function*声明。</p>
+<p>所有的生成器都有内建.next()和Symbol.interator方法的实现，所以<strong>生成器就是迭代器</strong>。</p>
+<h2 id=modules模块>Modules：模块</h2>
+<p>模块标志就是一段脚本，Node采用CommonJS的方式模块化。在ES6中的模块默认在严格模式下运行模块，并且可以使用关键词‘import’和‘export’。‘export’可以导出最外层的函数、类以及var、let或者const声明的变量。‘import’可以直接导入或者导入模块内部多个模块、重命名模块。除了node使用‘require’关键字外，ES6的模块和node的是一样的。</p>
+<p>当JS引擎运行模块时，按照下列四个步骤执行：</p>
+<ol>
+<li>语法解析：阅读模块源代码，检查语法错误。</li>
+<li>加载：递归地加载所有被导入的模块。<del>这也正是没被标准化的部分。</del></li>
+<li>连接：每遇到一个新加载的模块，为其创建作用域并将模块内声明的所有绑定填充到该作用域中，其中包括由其它模块导入的内容。</li>
+<li>运行时：最终，在每一个新加载的模块体内执行所有语句。</li>
+</ol>
+<h2 id=proxies代理>Proxies：代理</h2>
+<p>代理（Proxy）对象作为定义对象基础操作（get、set、has等总共14个方法名称）的全局构造函数。它接受两个参数：目标对象与句柄对象。</p>
+<p><code>var p = new Proxy(target, handler);</code></p>
+<p>代理的行为很简单：将代理的所有内部方法转发到目标对象。而句柄对象是用来覆写任意代理的内部方法。</p>
+<h2 id=reflect反射>Reflect：反射</h2>
+<p>ES6的Reflect对象提供对任意对象进行某种特定的可拦截操作（interceptable operation）。Reflect对象提供14个与代理方法名字相同的方法，可以方便的管理对象。使用时直接通过Reflect.method()这样来调用。</p>
+<h2 id=promises>Promises：</h2>
+<p>Promise代表某个未来才会结束的事件的结果，这通常是异步的。ES
+6提供Promise后，就可以将异步操作以同步操作的流程表达出来。Promise接受一个executor参数。executor带有resolve、reject参数，resolve失成功的回调函数，reject是失败的回调函数。</p>
+<p>Promise对象是一个返回值的代理，这个返回值在promise对象创建时是未知的。</p>
+<p>如图，Promise对象有：pending、fulfilled、rejected状态。pending状态可以转换成带成功值的fulfilled状态，也可以转换成带失败信息的rejected状态。当状态发生变化时，就会调用绑定在.then上的方法。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/8/35/119a5c72db92a1ae89730a7af1251.png alt="promise from mdn"></p>
+<p>创建一个Promise：</p>
+<pre><code class=language-javascript>let p = new Promise(function(resolve, reject) {  
+  if (/* condition */) {
+    resolve(/* value */);  // fulfilled successfully
+  }
+  else {
+    reject(/* reason */);  // error, rejected
+  }
+});
+</code></pre>
+<p>Promise的.then()方法接受两个参数：第一个函数当Promise成功（fulfilled）时调用，第二个函数当Promise失败（rejected）时掉用。</p>
+<pre><code class=language-javascript>p.then((val) =&gt; console.log(&quot;fulfilled:&quot;, val),  
+       (err) =&gt; console.log(&quot;rejected: &quot;, err));
+</code></pre>
+<p>上述代码等价于</p>
+<pre><code class=language-javascript>p.then((val) =&gt; console.log(&quot;fulfilled:&quot;, val))  
+ .catch((err) =&gt; console.log(&quot;rejected:&quot;, err));
+</code></pre>
+<h2 id=others新增数值字面量数据结构库函数>Others：新增数值字面量、数据结构、库函数</h2>
+<p>ES6还有一些新增的特性，这些都是不对语言原有的内容进行冲突而加入的补充功能。</p>
+<h1 id=graphql>GraphQL</h1>
+<p>GraphQL是一种API<strong>查询语言</strong>，也是开发者定义数据的<strong>类型系统</strong>在服务器端的运行时。</p>
+<p>GraphQL分为定义数据和查询交互过程。比如定义一个包含两个字段的User类型的GraphQL service，其提供数据结构和处理该类型各字段的函数。</p>
+<pre><code class=language-markdown>type User{
+  id: ID
+  name: String
+}
+function User_name(user){
+  return user.getName();
+}
+</code></pre>
+<p>而查询的方式与json类型有点相似。</p>
+<pre><code class=language-markdown>{
+  user{
+    name
+  }
+}
+</code></pre>
+<p>查询返回的数据可以以一个json对象的形式表达。</p>
+<pre><code class=language-json>{
+  &quot;data&quot;: {
+    &quot;user&quot;: {
+      &quot;name&quot;: &quot;Leo&quot;
+    }
+  }
+}
+</code></pre>
+<p><img src=http://edwardsblog.qiniudn.com/image/4/5a/a524076386b94d6a8368aa7151ef8.png alt=@medium></p>
+<p>上图来自<a href=https://medium.com/chute-engineering/graphql-in-the-age-of-rest-apis-b10f2bf09bba>medium</a>的文章。GraphQL的查询与Rest风格是不一样的。Rest的数据是以资源为导向的，交互围绕着定位资源的路由（Route）进行；而GraphQL的模型与对象模型更加类似，模型是通过图的形式组织数据。相比Rest在客户端定义响应数据的结构，GraphQL灵活地将响应数据的结构交给了客户端。这样的好处是：客户端只需要一次请求就能够获得结构复杂的数据。</p>
+<p>GraphQL有着自己的规范。依据官网给出的主要概念，规范文档主要分为查询操作和封装数据的类型系统两方面的内容。</p>
+<h2 id=query-and-mutation查询和修改>Query and Mutation：查询和修改</h2>
+<p>查询和修改都是针对GraphQL服务器的查询操作。</p>
+<h3 id=field字段>Field：字段</h3>
+<p>GraphQL对数据对象的指定字段进行操作。</p>
+<p>除了上一节的查询，还可以对内嵌对象、数组进行查询：</p>
+<pre><code class=language-markdown>{
+    user {
+        name
+	friends {
+	    name
+	}
+    }
+}
+</code></pre>
+<p>其json格式的结果如下：</p>
+<pre><code class=language-json>{
+    &quot;data&quot;: {
+        &quot;user&quot;:{
+	    &quot;name&quot;: &quot;Leo&quot;，
+	    &quot;friends&quot;: {
+		[…]
+	    }
+	}	
+    }
+}
+</code></pre>
+<h3 id=arguments查询参数>Arguments：查询参数</h3>
+<p>查询语法还支持传递参数，并且参数也是可以嵌套的。</p>
+<pre><code class=language-markdown>{
+    user(id: &quot;1003&quot;){
+        name
+    }
+}
+</code></pre>
+<h3 id=aliases别名>Aliases：别名</h3>
+<p>如同SQL的AS作别名功能一样，我们可以对每一个查询字段的<code>:</code>前面添上别名。</p>
+<pre><code class=language-markdown>{
+    Chinese: user(nation: &quot;china&quot;){
+        name
+    }
+}
+</code></pre>
+<h3 id=fragments片段>Fragments：片段</h3>
+<p>片段可以构造查询需要的字段，用分割复杂应用所需的数据来提高查询语句的复用程度。</p>
+<pre><code class=language-markdown>{
+    Chinese: user(nation: &quot;china&quot;){
+        ...comparisonFields
+    }
+    American: user(nation: &quot;America&quot;){
+        ...comparisonFields
+    }
+}
+fragment comparisonFields on User{
+    name
+    age
+    speaksLanguage
+}
+</code></pre>
+<h3 id=variables查询中的变量>Variables：查询中的变量</h3>
+<p>为了动态传递参数，GraphQL提供了查询语言设置变量的功能，查询以字典的形式传递变量。</p>
+<pre><code class=language-markdown>query UserNameAndFriends($age: Age) {  //变量定义： 变量以$前缀，后接类型
+  user(age: $age) {
+    name
+    friends {
+      name
+    }
+  }
+}
+{
+  “age”: 26
+}
+</code></pre>
+<h3 id=directives指令>Directives：指令</h3>
+<p>在查询中标记字段的指令，可以改变查询的结构。比如下述这两种指令就能控制字段是否返回。</p>
+<ul>
+<li>@include(if: Boolean) 条件为真时，只返回当前字段</li>
+<li>@skip(if: Boolean) 条件为真时，过滤掉该字段</li>
+</ul>
+<h3 id=mutations修改数据>Mutations：修改数据</h3>
+<p>就像Rest以PUT／POST约定为修改服务器端数据一样，Mutations操作在GraphQL的意义就是修改数据库。就像官网中的例子：</p>
+<pre><code class=language-markdown>mutation CreateReviewForEpisode($ep: Episode!, $review: ReviewInput!) { //!表示必须填写的查询条件
+  createReview(episode: $ep, review: $review) {
+    stars
+    commentary
+  }
+}
+{
+  &quot;ep&quot;: &quot;JEDI&quot;,
+  &quot;review&quot;: {
+    &quot;stars&quot;: 5,
+    &quot;commentary&quot;: &quot;This is a great movie!&quot;
+  }
+}
+</code></pre>
+<p>需要注意的是，为了保证mutation操作不冲突，mutation只能序列执行。而query可以并行。</p>
+<h3 id=inline-fragments内联片段>Inline Fragments：内联片段</h3>
+<p>使用内联片段返回接口或者联合类型（interface、union）的数据。如果查询接口或者联合类型的字段，会返回其具体的类型。比如下方的例子，这个查询的fragment以 <code>... on Droid</code> 标记，表示当Hero的Character是Droid类型时primaryFunction字段才会被执行。同样的，height字段只有在Human类型下才显示。</p>
+<pre><code class=language-markdown>query HeroForEpisode($ep: Episode!) {
+  hero(episode: $ep) {
+    name
+    ... on Droid {
+      primaryFunction
+    }
+    ... on Human {
+      height
+    }
+  }
+}
+</code></pre>
+<h3 id=meta-fields元字段>Meta fields：元字段</h3>
+<p>元字段用来描述查询中的各个字段。比如当Query查询__typename时，服务器端就会返回响应的数据类型。</p>
+<h2 id=schema-and-type数据结构和类型>Schema and Type：数据结构和类型</h2>
+<p>GraphQL有着自己的类型系统来描述被查询的数据。</p>
+<h3 id=type-system类型系统>Type system：类型系统</h3>
+<p>当接收到客户端发送的查询时，服务器毁从指定的‘root’对象开始，一层层选择查询字段。GraphQL的结合与返回结果类似，客户端通过schema可以预知服务器大概返回的结果。</p>
+<h3 id=type-language类型语言>Type language：类型语言</h3>
+<p>GraphQL不依赖特定的编程语言，自有一套GraphQL schema language，与大多数的查询语言类似。</p>
+<h3 id=object-types-and-fields对象类型和字段>Object types and fields：对象类型和字段</h3>
+<p>对象类型是GraphQL用来表示该对象结构的对象，其包含查询的目标字段。</p>
+<h3 id=query-and-mutation-types>Query and Mutation types：</h3>
+<p>这两个是特殊的类型。每一个GraphQL必须有一个Query来指定查询处理。</p>
+<h3 id=scalar-types默认标量类型>Scalar types：默认标量类型</h3>
+<p>GraphQL对象类型有Int、Float、String、Boolean、ID这几种标量类型。</p>
+<h3 id=enumeration-types枚举类型>Enumeration types：枚举类型</h3>
+<p>枚举类型用来指定该类型的取值（可数的）。比如下列Nation类型只能取China、Japan、India这三个值。</p>
+<pre><code class=language-markdown>enum Nation {
+  China
+  Japan
+  India
+}
+</code></pre>
+<h3 id=lists列表>Lists：列表</h3>
+<p>GraphQL支持的数组类型。除了对象、标量、枚举类型这些类型外，还可以将字段定义为数组类型的数据，该字段能够内嵌包含标量的数组。</p>
+<h3 id=interface-types接口类型>Interface types：接口类型</h3>
+<p>接口是一种抽象类型，可以指定实现接口时的类型字段。比如下列代码中的Character接口，和实现它的Human类型。Human类型除了实现接口必备的字段外，还有其特殊拥有的字段。</p>
+<pre><code class=language-markdown>interface Character {
+  id: ID!
+  name: String!
+  friends: [Character]
+  appearsIn: [Episode]!
+}
+type Human implements Character {
+  id: ID!
+  name: String!
+  friends: [Character]
+  appearsIn: [Episode]!
+  starships: [Starship]
+  totalCredits: Int
+}
+</code></pre>
+<p>正如我们上面所说，接口的查询需要借助内联片段来查询。</p>
+<h3 id=union-types联合类型>Union types：联合类型</h3>
+<p>联合类型与接口非常相似，不过其不需要指定公共字段。而是会把满足查询条件的所有union指定的数据组合在一个结果里。比如下列的SearchResult联合类型，就可以将不同类型（Hunam | Droid | Starship）的数据对象以一个结果数组返回给客户端。</p>
+<pre><code class=language-markdown>union SearchResult = Human | Droid | Starship
+</code></pre>
+<h3 id=input-types输入类型>Input types：输入类型</h3>
+<p>除了传递标量数据，查询还可以传递复杂的对象。</p>
+<pre><code class=language-markdown>input ReviewInput {
+  stars: Int!
+  commentary: String
+}
+</code></pre>
+<p>这样我们在mutation时就可以传递一个对象ReviewInput作为查询条件。</p>
+<pre><code class=language-markdown>mutation CreateReviewForEpisode($ep: Episode!, $review: ReviewInput!) {
+</code></pre>
+<h2 id=execution执行>Execution：执行</h2>
+<p>当被认可后，GraphQL查询就会被服务器执行并返回给客户端。GraphQL借助类型系统来执行查询，将每个字段当作函数或者上个类型的方法。而这类方法就叫做<code>resolver</code>。当执行到一个字段，相应的函数resolver也会被执行。而我们大多数的开发任务都将在这里完成。</p>
+<p><code>resolver(obj, args, context)</code>的三个参数分别表示：</p>
+<ul>
+<li>obj: 前一个对象，root字段时这个参数为空</li>
+<li>args: 查询条件参数</li>
+<li>context: 上下文信息（比如用户信息、数据库链接）</li>
+</ul>
+<p>如果resovler的执行是一种异步的方式（比如node中的数据库操作），GraphQL会等待Promises。</p>
+<h2 id=introspection>Introspection</h2>
+<p>该特性支持查询GraphQL Service提供查询的Schema信息。比如__schema可以获得查询的数据结构，__type可以获得字段的类型。</p>
+<p>铺垫了这么多，下面开始动手编写GraphQL。首先，需要有一个支持ES6的node环境，然后搭建一个支持查询MongoDB数据库的Express with GraphQL。</p>
+<h1 id=node-with-es6>Node with ES6</h1>
+<p>搭建Node环境版本为6.9.1，其可以通过&ndash;harmony参数运行带ES6特性的代码。但是Node不支持模块的导入导出（import）等特性，我们还是需要借助Babel库来将ES6的代码转换成兼容版本代码。</p>
+<p>首先我们将必要的包安装好。</p>
+<pre><code class=language-json>{
+  &quot;dependencies&quot;: {
+    &quot;bluebird&quot;: &quot;^3.4.6&quot;,  //提供异步Promise的
+    &quot;body-parser&quot;: &quot;^1.15.2&quot;,  //解析http请求主体
+    &quot;express&quot;: &quot;^4.14.0&quot;,  //后端框架
+    &quot;express-graphql&quot;: &quot;^0.6.1&quot;,  //封装上graphql的express
+    &quot;graphql&quot;: &quot;^0.8.1&quot;,  //GraphQL的node实现
+    &quot;mongodb&quot;: &quot;^2.2.11&quot;  //数据库驱动
+  },
+  &quot;devDependencies&quot;: {
+    &quot;babel-core&quot;: &quot;^6.18.2&quot;,  //babel编译器
+    &quot;babel-polyfill&quot;: &quot;^6.16.0&quot;,  //提供ES2015+的环境
+    &quot;babel-preset-es2015&quot;: &quot;^6.18.0&quot;,  //提供所有2015包含的内容
+    &quot;babel-preset-node6&quot;: &quot;^11.0.0&quot;,  //在node6.x的preset
+    &quot;babel-preset-stage-3&quot;: &quot;^6.17.0&quot;,  //提供stage-3
+    &quot;babel-register&quot;: &quot;^6.18.0&quot;  //babel require的钩子
+  }
+}
+</code></pre>
+<p>上述 <code>babel-preset-*</code> 表示设定转码规则，我们需要在<code>.babelrc</code>中添加这些规则。</p>
+<pre><code class=language-json>{
+  &quot;presets&quot;: [
+    &quot;es2015&quot;,
+    &quot;stage-3&quot;
+  ]
+}
+</code></pre>
+<p>首先是入口文件，我们使用babel-register将后续的<code>require</code>改写成使用Babel进行转码。</p>
+<pre><code class=language-javascript>//index.js
+//require 'babel/register' to handle JavaScript code（successive 'require's will be babeled）
+require('babel-register') //rewrite require cmd with Babel transform
+require('./server.js')
+</code></pre>
+<p>在写后续的代码(server.js)就可以使用ES6的语法，首先是编写一个http服务器。</p>
+<pre><code class=language-javascript>//server.js
+import express from 'express';
+import schema from './schema.js';
+import { graphql} from 'graphql';
+import bodyParser from 'body-parser';
+</code></pre>
+<p>第一步是使用<code>import</code>引用依赖模块。</p>
+<pre><code class=language-javascript>//server.js
+let app = express();
+let PORT = 2333;
+// parse post content as text
+app.use(bodyParser.text({ type: 'application/graphql'}))
+app.use('/graphql', (req, res) =&gt; {
+  //GraphQL executor
+  graphql(schema, req.body)
+  .then((result) =&gt; {
+  res.send(JSON.stringify(result, null, 2));
+  })
+});
+</code></pre>
+<p>然后就是配置一个GraphQL的Endpoint。将所有给/graphql路径的请求就交给GraphQL处理，并且请求的正文会被解析为&rsquo;application/graphql&rsquo;的文本。</p>
+<pre><code class=language-javascript>let server = app.listen(PORT, function(){
+  let host = server.address().address;
+  let port = server.address().port;
+  console.log('GraphQL-api listening at http://%s:%s', host, port);
+});
+</code></pre>
+<p>最后就是启动服务器。</p>
+<p>而GraphQL处理请求的schema来自schema.js文件。schema.js中定义了一个简单的schema，其包含一个query操作和一个mutation操作。</p>
+<pre><code class=language-javascript>// schema.js
+import {
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLInt,
+  GraphQLString
+} from 'graphql';
+// local variable to give client
+let count = 0;
+// return RootQueryType Object { field: count }
+let schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: 'RootQueryType',
+    fields: {
+      count: {
+        type: GraphQLInt,
+        description: 'Get count value',
+        resolve: function(){
+          return count;
+        }
+      }
+    }
+  }),
+  // Note: Mutation is serialization of change data query
+  mutation: new GraphQLObjectType({
+    name: 'RootMutationType',
+    fields: {
+      updateCount: {
+        type: GraphQLInt,
+        description: 'Update the count',
+        resolve: function(){
+          count += 1;
+          return count;
+        }
+      }
+    }
+  })
+});
+export default schema;
+</code></pre>
+<p>我们打开命令行，敲入 <code>curl -v -POST -H "Content-Type:application/graphql" -d 'query RootQueryType { count }' http://localhost:2333/graphql</code> 就可以看到结果。</p>
+<p>这样，我们就完成基本GraphQL Service。</p>
+<h1 id=express-graphql>Express-GraphQL</h1>
+<p>上述内容虽然能够完成GraphQL Server基本任务，但是对于调试不太友好。GraphiQL是官方推荐的调试工具，而express-graphql就集成了GraphiQL。所以我们用express-graphql重构下服务器代码。首先我们将schema.js移到data目录下方便管理代码。然后用graphqlHTTP替换成处理<code>/graphql</code>路由的函数。</p>
+<p>graphqlHTTP接受的参数：schema就是数据对象的schema，graphiql控制GraphiQL（debug一般开启）的提供，pretty参数控制json响应的形式，rootValue用来传递在整个graphql共享的变量，formatError参数来指定处理错误的方式。</p>
+<pre><code class=language-javascript>//server.js
+import express from 'express';
+import query_schema from './data/schema.js';
+import graphqlHTTP from 'express-graphql';
+import bodyParser from 'body-parser';
+import { MongoClient } from 'mongodb';
+import Promise from 'bluebird';
+let app = express();
+let PORT = 2333;
+app.use(bodyParser.json({ type: 'application/json' }))
+app.use('/graphql', graphqlHTTP(req =&gt;({
+  schema: query_schema,
+  graphiql: true, // debug work
+  pretty: true,
+  rootValue: { db: req.app.locals.db }, // pass db(mongodb) to graphql
+  formatError: error =&gt; ({ // return error
+    message: error.message,
+    locations: error.locations,
+    stack: error.stack
+  })
+})));
+</code></pre>
+<p>在rootValue传递来一个express内置对象req的成员变量，在这个应用里是数据库连接客户端。这个客户端的定义如下。使用MongoClient连接本地数据库，第二个参数中的promiseLibrary用来指定异步处理的库，这里选用的是Bluebird的Promise对象。当app.locals.db的引用变量被指定为成功连接数据库的句柄后，就可以发布GraphQL service了。</p>
+<pre><code class=language-javascript>MongoClient.connect('mongodb://localhost:27017/atm_analysis', { promiseLibrary: Promise })
+  .catch(err =&gt; console.error(err.stack))
+  .then(db =&gt; {
+    app.locals.db = db;
+    let server = app.listen(PORT, function () {
+      let host = server.address().address;
+      let port = server.address().port;
+      console.log('GraphQL-api listening at http://%s:%s', host, port); // ipv6 is :: 
+    });
+  });
+</code></pre>
+<p>接下来看看，schema应该怎么写。</p>
+<p>首先是外层的GraphQL Schema对象，里头包含里一个查询。这个对象还内嵌了一个GraphQL Object类型的对象。对于这个内嵌对象，我们在resolve函数上进行数据库查询操作（node对于直接返回标量数据的resolver，会忽略resolver执行直接获得数据，这样可以加快响应速度）。</p>
+<pre><code class=language-javascript>let NetnodeType = new GraphQLObjectType({
+  name: 'netnode',
+  fields: {
+    id: {
+      type: GraphQLID
+    },
+    net_node_name: {
+      type: GraphQLString
+    },
+    customer_name: {
+      type: GraphQLString
+    }
+  }
+});
+// create instance of 'GraphQLSchema'
+let schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: 'NetNodeInfo',  //object
+    description: 'get netnode geograph infomation about fault, alarm',
+    fields: {
+      test: {
+        type: GraphQLString,
+        description: 'test info string',
+        resolve: function () {
+          return 'test graphql';
+        }
+      },
+      node: {
+        type: new GraphQLList(NetnodeType),
+        description: 'netnode info',
+        async resolve({ db }, args) {
+          let data = await db.collection('dbo.TBL_NETNODE_INFO').find().limit(1500).sort({ 'ID': 1 }).toArray();
+          return data.map(x =&gt; ({ id: x.ID, net_node_name: x.net_node_name, customer_name: x.customer_name }));
+        }
+      }
+    }
+  })
+});
+</code></pre>
+<p><strong>注意</strong>，这里一定要引入<code>babel-polyfill</code>库，不然会由于node没有完全支持async的相关特性，async函数的regenerator功能报错。</p>
+<p>对于客户端的测试请求，我们可以先使用GraphiQL工具来操作。在浏览器敲入地址：<code>http://localhost:2333/graphql</code>。</p>
+<p>首先测试GraphQL的query，我们对NetNodeInfo的test字段进行查询。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/5/e1/0b4cef820f291d3b686f75e6b747d.jpeg alt="test query"></p>
+<p>我们看到返回的data中有对应的数据，证明GraphQL Service正常运行。</p>
+<p>然后测试对于数据库操作的字段，我们对NetNodeInfo的node字段进行查询。通过GraphiQL上右侧的自建文档可以看到，这个字段内部的对象有3个字段。下图的查询结果是只对"id"和"net_node_name"字段查询的情况，返回的数据就不会包括没有请求的字段（没有"customer_name"字段）。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/7/ab/a80d9d8be2569cf77ed50bd8eca28.jpeg alt="test node"></p>
+<p>GraphQL的这种灵活的接口能够降低对于复杂结构数据的请求数量，进而减少网络通信；而接口的自洽（自动生成接口文档）可以帮助前后端开发者的沟通，从而提高开发效率。</p>
+<hr>
+<h2 id=references>References：</h2>
+<ol>
+<li>
+<p><a href=http://es6.ruanyifeng.com/>es6入门</a></p>
+</li>
+<li>
+<p><a href=http://www.infoq.com/cn/ES6-In-Depth>深入浅出ES6</a></p>
+</li>
+<li>
+<p><a href=http://www.datchley.name/es6-promises/>ES6 Promises</a></p>
+</li>
+<li>
+<p><a href=https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect>Reflect on MDN</a></p>
+</li>
+<li>
+<p><a href=https://ponyfoo.com/articles/es6-reflection-in-depth>Reflection in Depth</a></p>
+</li>
+<li>
+<p><a href=http://gold.xitu.io/entry/56e622ffda2f60004c4da32f>GraphQL浅析</a></p>
+</li>
+<li>
+<p><a href=http://graphql.org/learn/>GraphQL官网资料</a></p>
+</li>
+<li>
+<p><a href=http://taobaofed.org/blog/2015/11/26/graphql-basics-server-implementation/>Node.js 服务端实践之 GraphQL 初探</a></p>
+</li>
+</ol>
+</div>
+<div class=my-4>
+<a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
+<a href=/tags/graphql/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#GraphQL</a>
+<a href=/tags/es6/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#ES6</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/post/graphql-resovler-execution-and-practice/ class=block>GraphQL Resovler的执行与实践</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/post/the-intro-of-gossip-protocol/ class=block>Gossip协议</a>
+</div>
+</div>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/post/docker/>在Docker搭建Node.js+mongoDB开发环境</a>
+<br>
+<a href=/post/beijing-nodeparty/>北京3月26日NodeParty分享会总结（Node.js全栈、探针监控、Docker node）</a>
+<br>
+<a href=/post/code-to-meanjs/>从MongoDB入门到编写数据库相关API</a>
+<br>
+<a href=/post/controller-of-async-function/>使用Async进行流程控制</a>
+<br>
+<a href=/post/mongodb-update-operators-apply/>MongoDB更新操作符的实践</a>
+<br>
+<a href=/post/mongodb-query-and-projection-operators-apply/>MongoDB查询以及投影操作符的实践</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardstudy.com/>Edward Study</a> and <a href=https://www.ruiqima.com/>R. Ma</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>
