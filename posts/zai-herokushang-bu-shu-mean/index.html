@@ -1,0 +1,182 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>在Heroku上部署MEAN | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="Heroku是国外普遍使用大受好评的PaaS，支持Nodejs，基础服务（Nodejs+MongoDB）基本都是免费的。搭建MEAN框架也不怎么费劲。">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"在Heroku上部署MEAN","item":"/posts/zai-herokushang-bu-shu-mean/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/zai-herokushang-bu-shu-mean/"},"headline":"在Heroku上部署MEAN | Edwardesire","datePublished":"2014-11-06T09:00:32+00:00","dateModified":"2014-11-06T09:00:32+00:00","wordCount":1048,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"Heroku是国外普遍使用大受好评的PaaS，支持Nodejs，基础服务（Nodejs\u002bMongoDB）基本都是免费的。搭建MEAN框架也不怎么费劲。"}</script><meta property="og:title" content="在Heroku上部署MEAN | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/posts/zai-herokushang-bu-shu-mean/">
+<meta property="og:description" content="Heroku是国外普遍使用大受好评的PaaS，支持Nodejs，基础服务（Nodejs+MongoDB）基本都是免费的。搭建MEAN框架也不怎么费劲。">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2014-11-06T09:00:32+00:00">
+<meta property="article:modified_time" content="2014-11-06T09:00:32+00:00">
+<meta property="article:section" content="posts">
+<meta property="article:tag" content="Nodejs">
+<meta property="article:tag" content="Deploy">
+<meta property="og:see_also" content="/posts/bo-ke-qian-yi-dao-aceliao/">
+<meta property="og:see_also" content="/posts/nodejsxue-xi-sailskuang-jia-de-xue-xi/">
+<meta property="og:see_also" content="/posts/nodejsxue-xi-shi-ge-zi-jia-de-twentybo-ke-kuang-jia/">
+<meta property="og:see_also" content="/posts/cheng-gong-zai-baeshang-bu-shu-ghost-5-0/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">在Heroku上部署MEAN</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2014-11-06</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>3 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
+<span>, </span>
+<a href=/categories/deploy/ class=hover:text-eureka>Deploy</a>
+</div>
+</div>
+<div class=content>
+<p>Heroku是国外普遍使用大受好评的PaaS，支持Nodejs，基础服务（Nodejs+MongoDB）基本都是免费的。搭建MEAN框架也不怎么费劲。名字是&rsquo;Hero&rsquo;和&rsquo;taiku(俳句)&lsquo;的合体。我们先一起来读一读发音(her-OH-koo)好了。</p>
+<hr>
+<ol>
+<li>
+<p>准备工作
+在<a href=https://windows.github.com/>github官网</a>上下载GitHubSetup.exe，我们需要使用Git Bash进入到shell里头输入命令(与RSA公钥的有关)。</p>
+<p>还有就是下载<a href=https://toolbelt.heroku.com/>heroku toolbelt</a>工具来使用heroku的一套命令了。</p>
+</li>
+<li>
+<p>RSA密钥的配置
+Heroku支持RSA和DSA密钥格式，我们在安装好GitHub Windows客户端后，在/Users/user/下右键点击.ssh(没有就新建一个)，打开Git Bash。如图，输入 <code>ssh-keygen -t rsa</code>，确认路径，无需理会passphrase确确认（因为我已经有id_rsa密钥所以多了个覆盖确定）。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/2/c4/b2adfd9e4917dedc737c9b68b99f7.jpg alt></p>
+<p>接着就是想公钥上传到Heroku了，这里使用<code>heroku keys:add</code>添加密钥，如果成功应该会出现下图。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/8/5c/89b015542a87f28568747e372c9fd.png alt></p>
+<p>还有一些命令也许以后会用到，显示已有密钥 <code>heroku keys</code>，移除已有密钥 <code>heroku keys:remove 密钥名(从上个命令可以得到)</code>，移除所有密钥 <code>heroku keys:clear</code>。</p>
+<p>最后我们只确定SSH是否能正常使用，输入命令 <code>ssh -v git@heroku.com</code>,如果出现下图的Authenticated to heroku.com就可以用git来同步代码了。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/c/f4/7136ae8690d2001abdb4c3e791003.jpg alt></p>
+</li>
+<li>
+<p>上传源码
+在项目（最好没有.git文件夹）根目录添加一个能让Heroku识别应用入口的文件Procfile，里头输入<code>web: node server.js</code>。再右键点击空白，点击Git Bash进入Shell。</p>
+<p>输入<code>heroku login</code>输入你的用户名和密码。接下来就是创建应用和数据库</p>
+<pre><code> heroku create appName
+ heroku addons:add mongoLab
+</code></pre>
+<p>添加mongoDB的插件后还需要配置数据库信息。我们最好在<a href=https://www.mongolab.com>mongolab</a>新建一个用户来给应用使用，把项目的数据库配置修改为 <code>mongodb://&lt;dbuser>:&lt;dbpassword>@ds051720.mongolab.com:51720/&lt;dbname></code></p>
+<p>再用git同步代码（这里就会覆盖掉以前git的配置咯）</p>
+<pre><code> git init
+ git add .
+ git commit -m &quot;some messages&quot;
+</code></pre>
+<p>再就是创建数据库的插件 <code>heroku addons:add mongolab</code>，最后使用命令 <code>git push heroku master</code>，如果出现下图的Launching&mldr; done，我们就打开链接试试。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/3/ba/3b94c329271bd269a2e797dafaac9.jpg alt></p>
+<p>以后需要更新代码就按下列命令同步上去就可以了。</p>
+<pre><code> git commit -a -m &quot;some new messages&quot;
+ git push heroku master
+</code></pre>
+</li>
+<li>
+<p>相关调试方法
+当我们程序出错时，我们可以使用 <code>heroku logs --tail</code>查看服务器的日志。一般来说，在本地能正常运行的app，放在平台上无法运行就应该是app配置方面的问题了。</p>
+</li>
+</ol>
+</div>
+<div class=my-4>
+<a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
+<a href=/tags/deploy/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Deploy</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/posts/the-way-to-mongoose-schema/ class=block>Mongoose:Schema之路</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/posts/sou-suo-kon-npwan-quan-wen-ti/ class=block>搜索控：NP完全问题</a>
+</div>
+</div>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/posts/bo-ke-qian-yi-dao-aceliao/>是时候迁移到ACE了</a>
+<br>
+<a href=/posts/nodejsxue-xi-sailskuang-jia-de-xue-xi/>nodejs学习：sails框架的学习</a>
+<br>
+<a href=/posts/nodejsxue-xi-shi-ge-zi-jia-de-twentybo-ke-kuang-jia/>nodejs学习：师哥自家的twenty博客框架</a>
+<br>
+<a href=/posts/cheng-gong-zai-baeshang-bu-shu-ghost-5-0/>成功在BAE上部署ghost 5.0</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

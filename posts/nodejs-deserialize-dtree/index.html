@@ -1,0 +1,237 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>NodeJS:树的反序列化 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="树的反序列化就是将序列数组安装线索组成树结构，今次项目数据库存储决策节点的方式是通过数组进行，每个节点有一个parent_id键直指双亲节点的node">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"NodeJS:树的反序列化","item":"/posts/nodejs-deserialize-dtree/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/nodejs-deserialize-dtree/"},"headline":"NodeJS:树的反序列化 | Edwardesire","datePublished":"2014-12-15T15:15:52+00:00","dateModified":"2014-12-15T15:15:52+00:00","wordCount":1116,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"树的反序列化就是将序列数组安装线索组成树结构，今次项目数据库存储决策节点的方式是通过数组进行，每个节点有一个parent_id键直指双亲节点的node"}</script><meta property="og:title" content="NodeJS:树的反序列化 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/posts/nodejs-deserialize-dtree/">
+<meta property="og:description" content="树的反序列化就是将序列数组安装线索组成树结构，今次项目数据库存储决策节点的方式是通过数组进行，每个节点有一个parent_id键直指双亲节点的node">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2014-12-15T15:15:52+00:00">
+<meta property="article:modified_time" content="2014-12-15T15:15:52+00:00">
+<meta property="article:section" content="posts">
+<meta property="article:tag" content="Nodejs">
+<meta property="article:tag" content="DTree">
+<meta property="article:tag" content="MongoDB">
+<meta property="og:see_also" content="/posts/the-way-to-mongoose-schema/">
+<meta property="og:see_also" content="/posts/nodejsxue-xi-shi-ge-zi-jia-de-twentybo-ke-kuang-jia/">
+<meta property="og:see_also" content="/posts/nodejs-crawler-is-better/">
+<meta property="og:see_also" content="/posts/nodejs-crawler-demo/">
+<meta property="og:see_also" content="/posts/install-bcrypt-issues/">
+<meta property="og:see_also" content="/posts/zai-herokushang-bu-shu-mean/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">NodeJS:树的反序列化</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2014-12-15</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>3 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
+<span>, </span>
+<a href=/categories/dtree/ class=hover:text-eureka>DTree</a>
+<span>, </span>
+<a href=/categories/mongodb/ class=hover:text-eureka>MongoDB</a>
+</div>
+</div>
+<div class=content>
+<p>树的反序列化就是将序列数组安装线索组成树结构，今次项目数据库存储决策节点的方式是通过数组进行，每个节点有一个parent_id键直指双亲节点的node_id键，而在前端展示是决策树的结构。这是在比较在MongoDB存储数组的性能和前后台实现难度下决定的(在此呜谢师哥)。</p>
+<hr>
+<ol>
+<li>
+<p>数据库中的文档
+先来看看存储在数据库中的数据，后台通过ObjectId找到样例文档。注意这里，如果直接使用.findById(checkId,callback)，回调函数得到结果为MongooseDocuments(其子文档都是embedded document类型，这一类型又有许多多余的参数)，这个东西不太适合操作。应该需要使用Mongoose的API lean()，此方法得到的是一个javascript objects。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/a/ca/2be9e3341d09c5fabb07fad857935.jpg alt></p>
+<p>javascript的objects相对就容易操作了，亲身经历。</p>
+<pre><code> Dtree.findById(checkId).lean().exec( function(err, dtrees){
+     node_array = dtrees.node_array;
+     console.log(dtrees);
+     console.log('node_array: ',node_array);
+     //nodes node_array 树结构
+     nodes = arrayToTree(node_array);
+     //排序
+     nodes = sortNodes(nodes);
+     console.log('nodes: ', JSON.stringify(nodes));
+ }
+</code></pre>
+<p>这里得到的dtrees就是一个纯粹javascript object。</p>
+</li>
+<li>
+<p>arrayToTree方法
+在上节可以看到，我截取了dtrees的node_array作为参数调用方法arrayToTree，参照的是<a href=http://chen498402552-163-com.iteye.com/blog/1853778>ling凌yue月的文章</a>。首先将数组按升序排序，以便接下来的操作。从数组尾开始，找到它的双亲节点，插入双亲节点的children数组中。最后得到的根节点(node_id===1)就是一颗完整的树。</p>
+<pre><code>   /**
+  * 将dtree的节点反序列化为树结构
+  * @function arrayToTree
+  * @param {Array} node_array dtree文档中的node_array节点数组
+  * @return {Object Node} temp_array[0] 包含树结构的根节点
+  */
+ var arrayToTree = function(node_array){
+     var temp_array = node_array;
+     //将节点数组升序
+     temp_array.sort(function(a, b){
+         return a.node_id-b.node_id
+     });
+     //节点的children定义为空数组，@TODO 是否可以删除
+     node_array.forEach(function(node){
+         node.children = []; //children is Array
+     });
+     //从下往上将每个节点添加到父节点的children数组中
+     var i = 0;
+     var count = temp_array.length;
+     for(i = (count - 1); i &gt; 0; i-- ){
+         if(temp_array[temp_array[i].parent_id - 1] !== null){
+             var tNode = temp_array[i];
+             temp_array[tNode.parent_id - 1].children.push(tNode);
+         }
+     }
+     return temp_array[0];
+ }
+</code></pre>
+</li>
+<li>
+<p>sortNodes方法
+我们得到的树在结构上还有问题，其每层的节点序号大小事逆序的，也就是说节点1的子节点数组是[node[3], node[4]]。这个细节在传到前台可能会导致展示问题(与需要展示的内容互为镜像)。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/f/6a/b3fd0fbe4c60b5fa0b0e1783567cb.jpg alt></p>
+<pre><code> /**
+  * 将树的每层子节点排序，递归
+  * @function sortNodes
+  * @param {Object Node} nodes 包含树结构的根节点，子节点的顺序为降序
+  * @return {Object Node} nodes 原物奉还，各子节点数组的顺序为升序
+  */
+ var sortNodes = function(nodes){
+     if(nodes.children.length &gt; 0){
+         var i = 0;
+         for(; i &lt; nodes.children.length; i++){
+             nodes.children[i] = sortNodes(nodes.children[i]);
+         }
+         nodes.children.sort(function(a, b){
+             return a.node_id-b.node_id
+         });
+     }
+     return nodes;
+ }
+</code></pre>
+</li>
+<li>
+<p>总结
+这周工作量看起来很轻松，实际完成起来还是花了不少时间。当然还有一些其他课程的作业也占用了不少时间。树的反序列化可能还有需要改进的地方。洛阳亲友如相问，午夜清风四零零。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/6/60/e07cd38828dd85b4139ab84b58cbe.JPG alt></p>
+</li>
+</ol>
+<hr>
+<p>Notes:</p>
+<ol>
+<li><a href=http://blog.mongolab.com/2013/04/thinking-about-arrays-in-mongodb/>Thinking about arrays in mongodb</a>—monglab上一篇关于在MongoDB存储数组文章</li>
+</ol>
+</div>
+<div class=my-4>
+<a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
+<a href=/tags/dtree/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#DTree</a>
+<a href=/tags/mongodb/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#MongoDB</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/posts/nodejs-serialize-dtree/ class=block>NodeJS:树的序列化</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/posts/nodejs-crawler-is-better/ class=block>NodeJS学习：爬虫小探补完计划</a>
+</div>
+</div>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/posts/the-way-to-mongoose-schema/>Mongoose:Schema之路</a>
+<br>
+<a href=/posts/nodejsxue-xi-shi-ge-zi-jia-de-twentybo-ke-kuang-jia/>nodejs学习：师哥自家的twenty博客框架</a>
+<br>
+<a href=/posts/nodejs-crawler-is-better/>NodeJS学习：爬虫小探补完计划</a>
+<br>
+<a href=/posts/nodejs-crawler-demo/>NodeJS学习：爬虫小探</a>
+<br>
+<a href=/posts/install-bcrypt-issues/>依赖包bcrypt安装Issues</a>
+<br>
+<a href=/posts/zai-herokushang-bu-shu-mean/>在Heroku上部署MEAN</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>实验室简明mongoDB用户体验指南·续——查询 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="上篇： 2015-12-22 blog: 从MongoDB入门到编写数据库相关API 本指南延续上篇的内容，带领大家使用MongoDB Node.js Driver进行应用开发。 Node.js Driver与Mon">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"实验室简明mongoDB用户体验指南·续——查询","item":"/posts/user-experience-of-mongodb-query/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/user-experience-of-mongodb-query/"},"headline":"实验室简明mongoDB用户体验指南·续——查询 | Edwardesire","datePublished":"2016-12-18T14:54:03+00:00","dateModified":"2016-12-18T14:54:03+00:00","wordCount":1504,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"上篇： 2015-12-22 blog: 从MongoDB入门到编写数据库相关API 本指南延续上篇的内容，带领大家使用MongoDB Node.js Driver进行应用开发。 Node.js Driver与Mon"}</script><meta property="og:title" content="实验室简明mongoDB用户体验指南·续——查询 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/posts/user-experience-of-mongodb-query/">
+<meta property="og:description" content="上篇： 2015-12-22 blog: 从MongoDB入门到编写数据库相关API 本指南延续上篇的内容，带领大家使用MongoDB Node.js Driver进行应用开发。 Node.js Driver与Mon">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2016-12-18T14:54:03+00:00">
+<meta property="article:modified_time" content="2016-12-18T14:54:03+00:00">
+<meta property="article:section" content="posts">
+<meta property="article:tag" content="Nodejs">
+<meta property="article:tag" content="MongoDB">
+<meta property="og:see_also" content="/posts/docker/">
+<meta property="og:see_also" content="/posts/code-to-meanjs/">
+<meta property="og:see_also" content="/posts/mongodb-update-operators-apply/">
+<meta property="og:see_also" content="/posts/mongodb-query-and-projection-operators-apply/">
+<meta property="og:see_also" content="/posts/pagination-with-mongoose/">
+<meta property="og:see_also" content="/posts/test-persistent-image-file-in-mongodb/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">实验室简明mongoDB用户体验指南·续——查询</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-12-18</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>4 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
+<span>, </span>
+<a href=/categories/mongodb/ class=hover:text-eureka>MongoDB</a>
+</div>
+</div>
+<div class=content>
+<p>上篇： <a href=http://www.edwardesire.com/2015/12/22/code-to-meanjs/>2015-12-22 blog: 从MongoDB入门到编写数据库相关API</a></p>
+<p>本指南延续上篇的内容，带领大家使用MongoDB Node.js Driver进行应用开发。
+Node.js Driver与Mongoose之间的关系</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/7/d4/62e8ad040f59e7276bb1a20b263d5.png alt="relation about mongoDBs"></p>
+<blockquote>
+<p>可以的话，我们重新来过。</p>
+</blockquote>
+<blockquote>
+<p>可以的话，要我弥补他犯的错。</p>
+</blockquote>
+<h2 id=1-操作类型>1. 操作类型</h2>
+<h3 id=find基本查询>Find——基本查询</h3>
+<ul>
+<li>find &lt;-> select</li>
+</ul>
+<blockquote>
+<p>shell: db.collection.find( <query filter>, <projection> )</p>
+</blockquote>
+<ul>
+<li>与RDBMS比较：</li>
+</ul>
+<p>query filter &lt;-> where condition</p>
+<p>Projection &lt;-> select field</p>
+<ul>
+<li>在Driver中的写法有点不同:</li>
+</ul>
+<blockquote>
+<p>db.collection(&lsquo;dbo.TBL_FAULT_INFO&rsquo;).find( <query filter>, <projection> )</p>
+</blockquote>
+<p>那么我们的分页排序等操作呢？</p>
+<ul>
+<li>链式调用</li>
+</ul>
+<blockquote>
+<p>Obj.method1().method2()……</p>
+</blockquote>
+<p>而异步操作一般会向最后一个函数传入回调函数处理操作结果，like this：</p>
+<pre><code class=language-javascript>db.collection('dbo.TBL_FAULT_INFO')
+  .find({ 'EVENT_NAME': { $ne: null }, 'INFO_TIME': { $ne: null } }, { '_id': 0, 'INFO_TIME': 1, 'EVENT_NAME': 1 })
+  .limit(1000)
+  .sort({ 'INFO_TIME': 1 })
+  .toArray(function (err, result) {
+    if (err) {
+      cb(err);
+    } else {
+      cb(null, result);
+    }
+  });
+</code></pre>
+<p>与之相同效果的SQL 查询：</p>
+<pre><code class=language-sql>SELECT TOP 1000 INFO_TIME, EVENT_NAME 
+FROM dbo.TBL_FAULT_INFO 
+WHERE EVENT_NAME IS NOT NULL and INFO_TIME IS NOT NULL 
+ORDER BY INFO_TIME ASC
+</code></pre>
+<p>两者之间的映射关系：</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/f/dc/51c9be78d1b215d238230c7448bca.png alt="query mapper"></p>
+<p>And more, 查询操作的其他处理方法可查阅，外援：<a href=http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/#read-methods>Node.js Driver 查询操作</a></p>
+<h3 id=aggregation聚合操作>Aggregation——聚合操作</h3>
+<p>聚合操作就是将集合中的数据按步骤进行处理，是一种比MapReduce容易操作的批处理计算方法。</p>
+<p>引入外援： <a href=http://www.edwardesire.com/2016/03/03/mongdb-aggregation-example/>2016-03-03 blog: MongoDB Aggregation实践</a></p>
+<p>在MongoDB 3.2之后，官方将聚合管道和Map-Reduce计算模型统称Aggregation。在我们的上下文中，还是将Aggregation限制为以.aggregate()方法为内容的计算功能。</p>
+<h4 id=方法>方法</h4>
+<p>在 <code>db.collection.aggregate</code>方法中，以数组的方式传递每个stage。集合中的文档会按序传递到这些stages。</p>
+<pre><code class=language-javascript>db.collection('dbo.TBL_FAULT_INFO')
+  .aggregate([
+    { // match stage 
+      $match: { 
+        'INFO_TIME': select_fault_time
+      }
+    },
+    { // group stage
+      $group: {
+        '_id': '$INFO_TIME',
+        'counttime': { $sum: 1 }
+      }
+    },
+    { // limit stage
+      $limit: 1000
+    }
+  ], function (err, result) {
+    if (err) {
+      cb(err);
+    } else {
+      cb(null, result);
+    }
+  });
+</code></pre>
+<p>在这里以思维导图的方式讲解我们会用到的stage。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/e/3a/0dfdd396bd651584cd204518639f5.png alt=stages></p>
+<p><a href=https://www.processon.com/view/link/58569083e4b04ce3878a941e>思维导图原图</a>
+其他stage方法请看，外援： <a href=https://docs.mongodb.com/v3.2/meta/aggregation-quick-reference/#stages>Aggregation stages</a></p>
+<h2 id=2-常见解决方案>2. 常见解决方案</h2>
+<h3 id=is-not-null-的条件><code>IS NOT NULL </code>的条件</h3>
+<p>非空条件分为两种情况：一个是空字段，一个是内嵌空数组。我们将使用$ne表达式过滤数据，$ne的意思就是 not equal 。</p>
+<pre><code class=language-javascript>{
+  $match: {
+    'DEBUG_CONDITION': { $ne: null }
+  }
+}
+</code></pre>
+<p>而过滤空数据只需要修改一个地方。</p>
+<pre><code class=language-javascript>{
+  $match: {
+    'DEBUG_CONDITION': { $ne: [] }
+  }
+}
+</code></pre>
+<h3 id=依据时间字段进行过滤>依据时间字段进行过滤</h3>
+<p>在$match stage中使用$gt（greater than）、$lt（less than）等操作符来过滤。而Javascript是MongoDB的查询语言，我们可以通过JS的Date对象来操作时间字段。</p>
+<pre><code class=language-javascript>{
+  $match: {
+    'insert_time': { $gt: new Date('2015-08-01T00:00:00.000Z') },
+    'EVENT_TYPE': 1
+  }
+}
+</code></pre>
+<h3 id=内联结和左外联结的问题>内联结和左外联结的问题</h3>
+<p>内联结是什么</p>
+<blockquote>
+<p>内联结：查询会将 A 表的每一行和 B 表的每一行进行比较，并找出满足连接谓词的组合。当连接谓词被满足，A 和 B 中匹配的行会按列组合(并排组合)成结果集中的一行。</p>
+</blockquote>
+<p>左外联结是什么</p>
+<blockquote>
+<p>若 A 和 B 两表进行左外连接, 那么结果表中将包含"左表"(即表 A)的所有记录，即使那些记录在"右表" B 没有符合连接条件的匹配。</p>
+</blockquote>
+<p>SQL中JOIN默认为内联结，比如下列联结条件会将A、B表中满足<code>A.NETNODE_NAME = B.net_node_name</code>条件的记录合并成一行记录。</p>
+<pre><code class=language-sql>JOIN dbo.TBL_NETNODE_INFO B ON A.NETNODE_NAME = B.net_node_name 
+</code></pre>
+<p>那么在只有左外联结的MongoDB操作中就只能通过手动将A表多余的数据过滤掉。我们首先将空数组过滤，并将数组展开与原集合组合。</p>
+<pre><code class=language-javascript>{
+  $lookup: {
+    from: 'dbo.TBL_NETNODE_INFO',
+    localField: 'NETNODE_NAME',
+    foreignField: 'net_node_name',
+    as: 'netnodes'
+  }
+},
+{
+  $match: {
+    'netnodes': { $ne: [] }
+  }
+},
+{
+  $unwind: '$netnodes'
+},
+</code></pre>
+<h3 id=分组聚合统计次数的方法>分组聚合统计次数的方法</h3>
+<p>在一个场景中需要依据时间字段统计每日的记录数。</p>
+<p>使用<code>$substr</code>可以对时间字符串进行截取，这里截取10个字符，也就是 &lsquo;2016-12-31&rsquo; 。</p>
+<pre><code class=language-javascript>{
+  $group: {
+    '_id': { $substr: ['$DEAL_TIME', 0, 10] },
+    'COUNT_TIME': { $sum: 1 }
+  }
+}
+</code></pre>
+<h3 id=索引导致的error>索引导致的Error</h3>
+<p>这种情况一般出现在对集合进行排序时。由于没有索引的帮助，排序会将所有字段写入内存中。在集合数据量大时，占用的内存会达到32mb的限制。</p>
+<p>解决方法就是创建相应的索引。</p>
+<h2 id=3-qa>3. Q&A</h2>
+<blockquote>
+<p>答案一直到今天，才在我心中浮现。
+那一瞬间 我们都没发现</p>
+</blockquote>
+</div>
+<div class=my-4>
+<a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
+<a href=/tags/mongodb/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#MongoDB</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/posts/cloud-foundry-components-intro/ class=block>Cloud Foundry：主要组件介绍</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/posts/graphql-resovler-execution-and-practice/ class=block>GraphQL Resovler的执行与实践</a>
+</div>
+</div>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/posts/docker/>在Docker搭建Node.js+mongoDB开发环境</a>
+<br>
+<a href=/posts/code-to-meanjs/>从MongoDB入门到编写数据库相关API</a>
+<br>
+<a href=/posts/mongodb-update-operators-apply/>MongoDB更新操作符的实践</a>
+<br>
+<a href=/posts/mongodb-query-and-projection-operators-apply/>MongoDB查询以及投影操作符的实践</a>
+<br>
+<a href=/posts/pagination-with-mongoose/>Web应用分页功能的简单实现</a>
+<br>
+<a href=/posts/test-persistent-image-file-in-mongodb/>MongoDB图片存储测试</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>TypeError还是ReferenceError——研究生第二学年总结 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="ReferenceError同作用域判别失败相关，而TypeError则代表作用域判别成功了，但是对结果的操作是非法或不合理的。 这句话是在《你不知道的">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"TypeError还是ReferenceError——研究生第二学年总结","item":"/posts/referenceerrorhuan-shi-typeerror/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/referenceerrorhuan-shi-typeerror/"},"headline":"TypeError还是ReferenceError——研究生第二学年总结 | Edwardesire","datePublished":"2016-11-11T14:26:00+00:00","dateModified":"2016-11-11T14:26:00+00:00","wordCount":1532,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"ReferenceError同作用域判别失败相关，而TypeError则代表作用域判别成功了，但是对结果的操作是非法或不合理的。 这句话是在《你不知道的"}</script><meta property="og:title" content="TypeError还是ReferenceError——研究生第二学年总结 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/posts/referenceerrorhuan-shi-typeerror/">
+<meta property="og:description" content="ReferenceError同作用域判别失败相关，而TypeError则代表作用域判别成功了，但是对结果的操作是非法或不合理的。 这句话是在《你不知道的">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2016-11-11T14:26:00+00:00">
+<meta property="article:modified_time" content="2016-11-11T14:26:00+00:00">
+<meta property="article:section" content="posts">
+<meta property="article:tag" content="Study">
+<meta property="article:tag" content="Summary">
+<meta property="og:see_also" content="/posts/coursera-classgetting-your-research-project-started/">
+<meta property="og:see_also" content="/posts/we-need-a-technician/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">TypeError还是ReferenceError——研究生第二学年总结</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-11-11</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>4 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/study/ class=hover:text-eureka>Study</a>
+<span>, </span>
+<a href=/categories/summary/ class=hover:text-eureka>Summary</a>
+</div>
+</div>
+<div class=content>
+<blockquote>
+<p>ReferenceError同作用域判别失败相关，而TypeError则代表作用域判别成功了，但是对结果的操作是非法或不合理的。</p>
+</blockquote>
+<p>这句话是在《你不知道的JavaScript》读书笔记<a href=http://www.edwardesire.com/2016/05/01/book-reader-you-dont-konw-js-part-one/>[1]</a><a href=http://www.edwardesire.com/2016/05/12/book-reader-you-dont-konw-js-part-two/>[2]</a>上摘的。当时正在找实习工作的机会，看着这一段就想以这个为年度总结的题目。为什么呢？请听我慢慢道来。</p>
+<h1 id=学习工作>学习工作</h1>
+<p><img src=http://edwardsblog.qiniudn.com/image/3/de/4bb41b7858dc64ca312832d3ab607.jpg alt=work></p>
+<p>这一年是写论文的一年。本人的论文水平很低，写出来的东西是一坨浆糊。多谢了迪总和肉哥等人的帮忙才能凑合到写出基本达标的文章。底子差进步空间就大嘛，这段写论文的经历也提高了个人把握文章结构的水平。写论文除了使自己消极心态激增，还有一个副作用就是博客更新频率下降了。当我还在洋洋得意的时候，消极怠工也弥漫到其他工作上。这种负面情绪在去实习之后才有好转过来。果然我还是只适合写代码。希望在学校最后的这一段时间，我可以好好地将毕业论文写好。总之，个人对校内学习方面的评价是差。</p>
+<p>这一年是找工作的一年。在找工作中暴露出了很多事情，先从剖析自己的性格开始。不自信是老毛病，自己有意识地在面对面试官的这种表现，以一种自信又自谦的平衡来面对。但是紧张和急躁的情绪相互限制着在面试时的表现。这些心理上的反应隐藏在迷失求职方向的策略事务下。由于这三年在实验室的工作重心在服务器端，使用的技术工具还是偏前端开发需要掌握的js语言。所以在前几次投志愿时都选择的时前端开发，而企业公司需要的前端开发人员的基本分在基本的前端开发任务，使用nodejs的能力只能算作加分项。我以为面试碰壁是因为某种TypeError，也就是自己的具体实践与技术图谱与求职公司的要求不符合（比如我在实验室以服务器开发为主，去应聘前端职位）。但思考后才意识到找工作失败是一种ReferenceError的问题，这也是我为什么引用那段话。换句话说，无论我找哪种岗位。我总是抱一种这种公司选择我的心态去求职，将自己的过往经验看得很重，而自己的内在学习价值很难体现。工作应该是一种双选，也应该反过来思考在这个公司工作是否对我合适，并且还应该体现出我的学习工作的能力。当我再抱以这种心态去面试时，不说得失心的变化，对于面试的学习也能很快提高。人生不就是这样子么，有一时的道理去领悟，也有一时的困惑去面对。而我对找工作这方面的评价是中等。</p>
+<p>在具体的技术磨练再单独放一块来讲。在实验室的工作主要是对mean.js技术栈更深入的学习和掌握。比如使用MongoDB开发项目的聚合分析任务。而暑假实习的机会就像给个人的技术提升打了一剂营养液。在基础技术方面，诸如HDFS、Hive、Spark直接拿来开发使用，测试方法、设计模式在开发时也有在代码中尝试；另一方面，团队合作、提高生产力这些开发方法上也习得许多。最重要的是，这一些方法能够很快地提高一个松散的团队的开发能力。</p>
+<h1 id=生活>生活</h1>
+<p>生活方向上是更加独立自主，也需要独立自主。由于明年参加工作，生活上有许多问题需要解决。实习中每天的通勤使我更倾向于租一个靠近公司的房子。经济上的开始独立也迫使我不能看见什么买什么了，应该更加珍惜手头上的物质资源。情感上也需要更多思考后的行动，这点也是应该更加牢记的。其他抱怨就压在心中吧～(｡ì _ í｡)</p>
+<h1 id=下一步>下一步</h1>
+<p>现在是16年11月11日晚上，双十一没有抢购什么，只是在前段时间购买了Mac。购买的理由是一半为公一半为私。现在用起来的体验很好，觉得买得值了。由于工作差不多确定，前段时间那种奔波感觉也一下子没了，这一两个月在轻松的心态下给自己放了一个假。成长或许就是进一寸有进一寸的欢喜吧。</p>
+<p>接下来就是两点：处理毕业的事情和找机会熟悉工作环境。还有其他的时间就是填满自己的专业知识和表达能力。加油，明年会更好！</p>
+<p>（封面是文明6，今年就指望这款游戏和pokemon新世代了。）</p>
+</div>
+<div class=my-4>
+<a href=/tags/study/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Study</a>
+<a href=/tags/summary/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Summary</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/posts/the-intro-of-gossip-protocol/ class=block>Gossip协议</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/posts/ccf-big-data-conf-evening/ class=block>兰州CCF大数据会议</a>
+</div>
+</div>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/posts/coursera-classgetting-your-research-project-started/>Coursera Data-analysis001:Getting Your Research Project Started</a>
+<br>
+<a href=/posts/we-need-a-technician/>我们的那个朋友确实不懂技术——研究生第一学年总结</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

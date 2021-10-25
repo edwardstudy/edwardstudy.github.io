@@ -1,0 +1,295 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>Hadoop实验环境的搭建：standalone&pesudo cluster | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="这周结束前完成了Hadoop的本机配置，由于权限的原因还引发了一些小插曲。总之在最后完成了环境的安装。本机的配置为RHEL(RedHat Enterprise Linux) 6.7 添加用户">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"Hadoop实验环境的搭建：standalone\u0026pesudo cluster","item":"/posts/hadoop-101-install-hadoop/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/hadoop-101-install-hadoop/"},"headline":"Hadoop实验环境的搭建：standalone\u0026pesudo cluster | Edwardesire","datePublished":"2016-07-04T06:53:08+00:00","dateModified":"2016-07-04T06:53:08+00:00","wordCount":2269,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"这周结束前完成了Hadoop的本机配置，由于权限的原因还引发了一些小插曲。总之在最后完成了环境的安装。本机的配置为RHEL(RedHat Enterprise Linux) 6.7 添加用户"}</script><meta property="og:title" content="Hadoop实验环境的搭建：standalone&pesudo cluster | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/posts/hadoop-101-install-hadoop/">
+<meta property="og:description" content="这周结束前完成了Hadoop的本机配置，由于权限的原因还引发了一些小插曲。总之在最后完成了环境的安装。本机的配置为RHEL(RedHat Enterprise Linux) 6.7 添加用户">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2016-07-04T06:53:08+00:00">
+<meta property="article:modified_time" content="2016-07-04T06:53:08+00:00">
+<meta property="article:section" content="posts">
+<meta property="article:tag" content="Hadoop">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">Hadoop实验环境的搭建：standalone&pesudo cluster</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-07-04</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>5 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/hadoop/ class=hover:text-eureka>Hadoop</a>
+</div>
+</div>
+<div class=content>
+<p>这周结束前完成了Hadoop的本机配置，由于权限的原因还引发了一些小插曲。总之在最后完成了环境的安装。本机的配置为RHEL(RedHat Enterprise Linux) 6.7</p>
+<ol>
+<li>添加用户/用户组</li>
+</ol>
+<p>针对hadoop应用，添加相应的用户和用户组。我们就将其命名为hadoop。</p>
+<pre><code>    # sudo groupadd hadoop
+    # sudo groupuser -g hadoop hadoop
+</code></pre>
+<p>这样就能遵守“最小权限”原则。</p>
+<ol start=2>
+<li>SSH安装</li>
+</ol>
+<p>首先是ssh的安装，在root权限下执行yum update之后，自动更新到最新的软件包。在我的环境下已经安装了ssh，只需启动即可。</p>
+<pre><code>    $ sudo /etc/init.d/sshd start
+</code></pre>
+<p>为了方便Hadoop运作，我们使用ssh-keygen设置ssh无密码登录。<a href=https://github.com/leotse90/SparkNotes/blob/master/Hadoop%E5%AE%89%E8%A3%85%E4%B9%8B%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84%E4%BA%8B.md>[1]</a></p>
+<ol start=3>
+<li>无密登录</li>
+</ol>
+<p>使用公钥-私钥的方式来进行避免密码输入和SSH认证。首先统一规定的hostname，按照<a href=http://blog.csdn.net/leexide/article/details/17252369>[2]</a>所指，修改3处hostname（注意root权限）。</p>
+<pre><code>    # hostname Server
+    # vi /etc/sysconfig/network //直接添加 Server  
+    # vi /etc/hosts //修改 127.0.0.1 的 hostname为 Server
+</code></pre>
+<p>然后就是生成密钥了。使用空密码的rsa加密方法。</p>
+<pre><code>    $ ssh-keygen -t rsa -P &quot;&quot;
+    # cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+    $ chmod 700 ~/.ssh/
+    $ chmod 600 ~/.ssh/authorized_keys
+</code></pre>
+<blockquote>
+<p>cat命令——进行文件之间的拼接并且输出到标准输出。这里是将生成的公钥附加到authorized_keys文件里。</p>
+</blockquote>
+<p>这里一定要记得设置文件模式，不然通过如下命令检查时还是需要密码登录。</p>
+<pre><code>    $ ssh localhost
+</code></pre>
+<ol start=4>
+<li>安装Java</li>
+</ol>
+<p>本机安装时是已经安装Java 1.7.0版本，这里略过。大家可以看这篇文章<a href=http://www.powerxing.com/install-hadoop-in-centos/>[3]</a>。</p>
+<ol start=5>
+<li>安装hadoop</li>
+</ol>
+<p>直接使用wget将官网上的软件包下载下来。接着解压并移动到/usr/local目录下。最后将目录所有为我们新添加的用户和用户组hadoop。</p>
+<pre><code>    $ wget http://apache.fayea.com/hadoop/common/hadoop-2.7.2/hadoop-2.7.2.tar.gz
+    $ tar xzf hadoop-2.7.2.tar.gz
+    $ sudo mv hadoop-2.7.2 /usr/local/hadoop
+    $ sudo chown -R hadoop:hadoop /usr/local/hadoop
+</code></pre>
+<blockquote>
+<p>tar命令——归档文件。参数-xzf表示提取gzip，如果带上v将会解压结果打印到termimal。</p>
+</blockquote>
+<p>然后再配置hadoop-env.sh文件。2.7.2版本的文件在(hadoop/etc/hadoop/hadoop_env.sh)。</p>
+<pre><code>    export JAVA_HOME=/usr/lib/jvm/java-1.7.0-ibm-1.7.0.9.40.x86_64/jre
+    export HADOOP_HOME=/usr/local/hadoop
+    export PATH=$PATH:/usr/local/hadoop/bin
+</code></pre>
+<p>部署单机版Hadoop，source之后通过hadoop version查看是否正常运行。</p>
+<pre><code>    # source /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+    # hadoop version
+</code></pre>
+<blockquote>
+<p>source命令——重新执行刚修改的初始化文件。</p>
+</blockquote>
+<ol start=6>
+<li>example</li>
+</ol>
+<p>这里参照官方文档<a href=http://hadoop.apache.org/docs/r2.7.2/hadoop-project-dist/hadoop-common/SingleCluster.html>[4]</a>的wordCount和PI例子。直接在/usr/local/hadoop/share/hadoop/mapreduce/可以看到例子的jar包。</p>
+<p>wordCount是统计文本的单词数，我们的输入文件使用hadoop的配置目录下的xml文件。然后将结果存在当前目录下的output2目录下。</p>
+<pre><code>    # mkdir input
+    # cp etc/hadoop/*.xml input
+    # bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar wordcount input output2
+</code></pre>
+<p>当敲完这条命令时，Hadoop就会开始运行MapReduce计算。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/d/b4/a853c09a00526d1fdd409f9cd327b.png alt="wordCount run"></p>
+<p>执行命令 # cat output2/* ，可以看到下图所示的计算结果。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/a/04/6e3944bb6150bbffa28b341fcb92a.png alt="wordCount output"></p>
+<p>Pi程序是通过随机投掷点来估算出PI的近似值。这个程序不需要输入参数，只需要设置Map的总数和每个Map的样本数就可以计算出结果。执行完下面这条命令后，可以看到Hadoop开始分配计算任务。</p>
+<pre><code>    # bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar pi 1000 1000
+</code></pre>
+<p><img src=http://edwardsblog.qiniudn.com/image/a/50/f9ed52c9b418f60daa085d587c5f8.png alt="Pi run"></p>
+<p>因为将计算进行了切分，我们可以通过监控系统资源来查看计算任务的执行过程。从下图可以看出，MapReduce主要是占用CPU资源，峰值达到80%以上。而内存相对使用比较低。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/9/a3/4066ac20c5f217496bca2d0393589.png alt="OS resource"></p>
+<p>结果计算出来的Pi值大致为3.141552。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/2/b4/751e023ec7932e5ab1966deb88e13.png alt="Pi output"></p>
+<ol start=7>
+<li>pesudo cluster</li>
+</ol>
+<p>继续跟着官方教程搭建要给单机的伪集群环境。首先我们需要新建HDFS的文件系统目录。我们就直接在Hadoop目录下创建相应的目录。这三个配置文件的详解可见这篇<a href=http://blog.csdn.net/yangjl38/article/details/7583374>文章</a>。</p>
+<pre><code>    # mkdir tmp
+    # mkdir hdfs
+    # mkdir hdfs/name
+    # mkdir hdfs/data
+</code></pre>
+<p>然后配置相应的文件。首先是etc/hadoop/目录下的core-site.xml。</p>
+<blockquote>
+<p>core-site.xml文件中包含如读/写缓冲器用于Hadoop的实例的端口号的信息，分配给文件系统存储，用于存储所述数据存储器的限制和大小。</p>
+</blockquote>
+<p>这里我们只设置了默认的文件系统和临时文件目录。在<configuration></configuration>添加如下内容即可。</p>
+<pre><code>    &lt;configuration&gt;
+        &lt;property&gt;
+            &lt;name&gt;fs.defaultFS&lt;/name&gt;
+            &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;
+        &lt;/property&gt;
+        &lt;property&gt;
+            &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+            &lt;value&gt;/usr/local/hadoop/tmp&lt;/value&gt;
+        &lt;/property&gt;
+    &lt;/configuration&gt;
+</code></pre>
+<p>然后是同目录下的hdfs-site.xml文件。</p>
+<blockquote>
+<p>hdfs-site.xml 文件中包含如复制数据的值，NameNode路径的信息，本地文件系统的数据节点的路径。这意味着是存储Hadoop基础工具的地方。</p>
+</blockquote>
+<p>同样地添加下列内容。这里我们设置复本数为1，nameNode和dataNode的目录则是我们开始创建的目录。</p>
+<pre><code>    &lt;configuration&gt;
+        &lt;property&gt;
+            &lt;name&gt;dfs.replication&lt;/name&gt;
+            &lt;value&gt;1&lt;/value&gt;
+        &lt;/property&gt;
+        &lt;property&gt;
+            &lt;name&gt;dfs.name.dir&lt;/name&gt;
+            &lt;value&gt;/usr/local/hadoop/hdfs/name&lt;/value&gt;
+        &lt;/property&gt;
+        &lt;property&gt;
+            &lt;name&gt;dfs.data.dir&lt;/name&gt;
+            &lt;value&gt;/usr/local/hadoop/hdfs/data&lt;/value&gt;
+        &lt;/property&gt;
+    &lt;/configuration&gt;
+</code></pre>
+<p>最后设置MapReduce框架。我们修改etc/hadoop/mapred-site.xml文件。这里将开启9001的端口来监控任务的执行。</p>
+<pre><code>    &lt;configuration&gt;
+        &lt;property&gt;
+            &lt;name&gt;mapred.job.tracker&lt;/name&gt;
+            &lt;value&gt;localhost:9001&lt;/value&gt;
+        &lt;/property&gt;
+    &lt;/configuration&gt;
+</code></pre>
+<p>这样基本的三个配置文件就修改好了。我们最后还会配置yarn相关内容来监控任务的完成。</p>
+<p>接下来的步骤就是更新配置信息，并格式化namenode。</p>
+<pre><code>    # source /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+    hadoop namenode -format
+</code></pre>
+<p>这样就可以了吗？我们试着运行一下，terminal会报出一句错误。</p>
+<pre><code>    Error: Cannot find configuration directory: /etc/hadoop
+</code></pre>
+<p>这是因为系统无法找到/etc/hadoop路径，我们在hadoop-env.sh文件中添加一条环境变量信息。</p>
+<pre><code>    export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop/
+</code></pre>
+<p>并且记得source一下。</p>
+<pre><code>    # source /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+    # sh sbin/start-all.sh
+</code></pre>
+<p><img src=http://edwardsblog.qiniudn.com/image/2/09/6f4fec1933a2d2d73d394cee22c60.png alt="cluster run"></p>
+<p>这里我们如图上一样，检查一下java进程。然后我们访问8088和50070端口。8088端口的结果还是有，作为这个Hadoop系统的总览。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/f/f3/6166778c3a27272c8c5733853e30b.png alt></p>
+<p>但是<a href=http://stackoverflow.com/questions/19641326/http-localhost50070-does-not-work-hadoop>50070端口无法访问</a>，我需要关闭这个端口的防火墙。在iptables上添加一条规则。</p>
+<pre><code>    iptables -A INPUT -p tcp --dport 50070 -j ACCEPT
+</code></pre>
+<p>这样50070就能正常访问了。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/e/fa/f666a799cbe09d486c0e8bdd344c0.png alt=50070></p>
+<p>我们的最后一步是针对这个Hadoop集群创建HDFS目录和进行一个wordCount测试例程。</p>
+<p>官方教程的命令<a href=http://www.itpub.net/thread-1918430-1-1.html>有误</a>，目录前需要添加/符号。然后我们把etc/hadoop/*.xml全部都存进HDFS。</p>
+<pre><code>    # bin/hdfs dfs -mkdir /input
+    # bin/hdfs dfs -put etc/hadoop/*.xml /input/
+    # bin/hdfs dfs -ls /input
+</code></pre>
+<p>上述最后一条命令的结果可以查看HDFS的目录内文件。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/a/57/4826466b605eb84f46ad11140a142.png alt=HDFS></p>
+<p>最后以同样的命令执行wordCount，其结果也是一样的。</p>
+<pre><code>    # bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar wordcount /input /output
+</code></pre>
+<p><img src=http://edwardsblog.qiniudn.com/image/8/08/c489006cf5995ba71fd698daf82dd.png alt="Cluster outcome"></p>
+<ol start=8>
+<li>SETUP YARN</li>
+</ol>
+<p><strong>to be continue</strong></p>
+</div>
+<div class=my-4>
+<a href=/tags/hadoop/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Hadoop</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/posts/python-beginner/ class=block>Python: 编写面向对象的代码</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/posts/ife-task-04-position-and-centering/ class=block>IFE-Task-04:定位和居中问题</a>
+</div>
+</div>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

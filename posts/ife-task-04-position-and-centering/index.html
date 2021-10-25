@@ -1,0 +1,212 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>IFE-Task-04:定位和居中问题 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="这次的任务是实现下图中灰色元素居中，黄色扇形元素始终在贴附在容器的边框内。 理论知识 定位元素上篇文章讲过，这里再相互比较。 | static | relative | absolute | fixed | | ----------- | ----------------- | ----------------------">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"IFE-Task-04:定位和居中问题","item":"/posts/ife-task-04-position-and-centering/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/ife-task-04-position-and-centering/"},"headline":"IFE-Task-04:定位和居中问题 | Edwardesire","datePublished":"2016-06-05T05:05:42+00:00","dateModified":"2016-06-05T05:05:42+00:00","wordCount":1751,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"这次的任务是实现下图中灰色元素居中，黄色扇形元素始终在贴附在容器的边框内。 理论知识 定位元素上篇文章讲过，这里再相互比较。 | static | relative | absolute | fixed | | ----------- | ----------------- | ----------------------"}</script><meta property="og:title" content="IFE-Task-04:定位和居中问题 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/posts/ife-task-04-position-and-centering/">
+<meta property="og:description" content="这次的任务是实现下图中灰色元素居中，黄色扇形元素始终在贴附在容器的边框内。 理论知识 定位元素上篇文章讲过，这里再相互比较。 | static | relative | absolute | fixed | | ----------- | ----------------- | ----------------------">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2016-06-05T05:05:42+00:00">
+<meta property="article:modified_time" content="2016-06-05T05:05:42+00:00">
+<meta property="article:section" content="posts">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="CSS">
+<meta property="og:see_also" content="/posts/ife-task-03-three-column-layout/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">IFE-Task-04:定位和居中问题</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-06-05</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>4 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/html/ class=hover:text-eureka>HTML</a>
+<span>, </span>
+<a href=/categories/css/ class=hover:text-eureka>CSS</a>
+</div>
+</div>
+<div class=content>
+<p>这次的任务是实现下图中灰色元素居中，黄色扇形元素始终在贴附在容器的边框内。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/7/9c/02f3e984d5e6e835547ac2e53b4be.jpg alt></p>
+<p>理论知识</p>
+<p>定位元素<a href=/2016/05/29/ife-task-03-three-column-layout/>上篇文章</a>讲过，这里再相互比较。</p>
+<pre><code class=language-html>| static      | relative          | absolute               | fixed              |
+| ----------- | ----------------- | ---------------------- | ------------------ |
+| 普通流       | 普通流            | 脱离普通流              | 脱离普通流          |
+| 无法设置位移 | 可以设置位移       | 可以设置位移            | 可以设置位移         |
+| 正常位置     | 定位相对于初始位置 | 定位于非static的祖先元素 | 定位相对于浏览器窗口 |
+</code></pre>
+<p><strong>居中</strong></p>
+<p><a href=https://css-tricks.com/centering-css-complete-guide/>居中问题详解</a>介绍的很清楚。块级元素和行内元素的居中方法有所不同。</p>
+<ol>
+<li>水平居中</li>
+</ol>
+<p>块级元素能够通过设置元素内文本水平居中（{ text-align: center; }），可以将元素内部的行内元素居中。而块级元素自己则通过margin-left、margin-right设置为auto。这是有<a href=http://www.cnblogs.com/moltboy/archive/2013/03/30/2989879.html>原因（原文）</a>的，（在W3C模型中）在水平方向上，包含元素的父元素（元素包含块）的宽度（width）由：margin-left、border-left、padding-left、width、padding-right、border-right、margin-right7个属性确定。属性值默认为0，或者特定值。而width、margin-left、margin-right还可以设置为auto：</p>
+<ul>
+<li>三者之中有一个设置为auto，则该属性的宽度为父元素的宽度减去其他两个属性的值。</li>
+<li>如果width固定，margin: auto，则两个margin平分剩下的宽度。</li>
+<li>如果三个属性都设置auto，而margin设置为0，而width宽度为尽可能的宽。</li>
+</ul>
+<p>所以我们可以通过设置左右外边距来水平居中block元素，{ margin: 0 auto; }。但是这个方法无法满足多个block(inline-block)在一行中水平居中。但是我们可以使用flex布局来将多个block元素在一行中水平居中。使用样式{ display: flex; justify-content: center; } 即可让flex布局的元素水平居中。</p>
+<ol start=2>
+<li>垂直居中</li>
+</ol>
+<p>行内元素不能设置左右内边距、外边距，但是可以设置padding-top、padding-bottom两个属性相等来垂直居中。当多行元素在宽度较小的屏幕上重叠时，就需要设置line-height和white-space，{ line-height: 需要的高度; white-space: nowrap: } 来垂直居中。如果元素为table cell，使用vertical-align = middle。当然也使用flex布局，在 flex容器上设置 flex-direction: column (注意容器需要设置固定高度)，即可垂直布局。</p>
+<p>块级元素有分为是否确定高度。如果确定高度，则在relative父元素内的absolute子元素中设置位移top为50%，margin-top则为高度的一半的负值。并且依据盒子模型，还有需要考虑padding和border的大小。而不确定高度的情况，就需要使用translateY来讲元素居中，{ top: 50%; transform: translateY(-50%); }。最后flex布局也是要给万金油方法，{ display: flex; flex-direction: column; justify-content: center; }。这个属性的设置还可以保持水平居中。</p>
+<ol start=3>
+<li>水平垂直居中</li>
+</ol>
+<p>结合上述两个方面的方法，可以总结水平垂直居中的方法也有三种。</p>
+<ul>
+<li>知道宽高: 使用考虑容器宽高大小，将margin-top和marging-left设置原有宽高的一半，再通过位移移动到中间位置。{ margin: -{ 容器 / 2 } px 0 0 -{ 容器 / 2 }px; top: 50%; left: 50%; }，这里只考虑了W3c模型，IE模型还需将border大小考虑进来。</li>
+<li>不知道宽高: 设置样式 { top: 50%; left: 50%; transform: translate(-50%, -50%); } 即可。</li>
+<li>万金油flex: 设置样式 { display: flex; flex-direction: column; justify-content: center; } 即可。</li>
+</ul>
+<hr>
+<p>实践</p>
+<p>题目要求水平垂直方向都居中并且知道宽高，我就使用了第一种方法。而只有在absolute定位下才能使用百分比高度。</p>
+<pre><code>.content {
+    position: absolute;
+    background-color: #ccc;
+    height: 200px;
+    width: 400px;
+    margin: -100px 0 0 -200px;
+    top: 50%;
+    left: 50%;
+}
+</code></pre>
+<p>其容器样式元素结果如下图。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/4/83/f11039407d103752193cfd07801b5.jpg alt></p>
+<p>而两个四分之一圆需要使用圆角边框border-radius设置，其设置单个半径的<a href=https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-radius>语法</a>为 border-radius: top-left top-right bottom-right bottom-left。左上角的圆半径应该设置在第三个值上，并且元素的位移应该设置为top和left为零来贴合到容器边框上。</p>
+<pre><code>.leftquarter {
+    top: 0;
+    left: 0;
+    -moz-border-radius: 0  0 50px 0; /* 四分之一圆 */
+    -webkit-border-radius: 0  0 50px 0;
+    border-radius: 0  0 50px 0;
+}
+</code></pre>
+<p>同理，右下角的圆半径一个设置在第一个值上，并将其贴合在容器的右下角。</p>
+<pre><code>.rightquarter {
+    right: -350px;
+    bottom: -100px;
+    -moz-border-radius: 50px 0 0 0; /* 四分之一圆 */
+    -webkit-border-radius: 50px 0 0 0;
+    border-radius: 50px 0 0 0;    
+}
+</code></pre>
+<p>当然，他们继承一个公共样式position: relative，以设置元素的位移。</p>
+<p>.element {
+position: relative;
+background-color: #fc0;
+height: 50px;
+width: 50px;
+}</p>
+<p>结果如下图，无论浏览器窗口怎么变化，元素始终居中。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/c/12/04bfaa0322ce78a995632cb7e99d1.jpg alt></p>
+<p>demo<a href=http://htmlpreview.github.io/?https://github.com/EdwardStudy/ife-task/blob/master/task4/index.html>地址</a>。</p>
+<p>参考：</p>
+<p><a href=https://css-tricks.com/centering-css-complete-guide/>居中方法详解</a></p>
+<p><a href=http://www.w3cplus.com/css/css-simple-shapes-cheat-sheet>CSS制作图形速查表</a></p>
+</div>
+<div class=my-4>
+<a href=/tags/html/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#HTML</a>
+<a href=/tags/css/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#CSS</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/posts/hadoop-101-install-hadoop/ class=block>Hadoop实验环境的搭建：standalone&pesudo cluster</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/posts/ife-task-03-three-column-layout/ class=block>IFE-Task-03:三栏式布局</a>
+</div>
+</div>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/posts/ife-task-03-three-column-layout/>IFE-Task-03:三栏式布局</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

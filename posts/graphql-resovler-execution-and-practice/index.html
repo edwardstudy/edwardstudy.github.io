@@ -1,0 +1,291 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>GraphQL Resovler的执行与实践 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="本文首先介绍GraphQL Server对于查询的执行过程，然后结合实际开发使用GraphQL的相关特性。 GraphQL Execution 在执行查询前，GraphQL会先通过类型系">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"GraphQL Resovler的执行与实践","item":"/posts/graphql-resovler-execution-and-practice/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/graphql-resovler-execution-and-practice/"},"headline":"GraphQL Resovler的执行与实践 | Edwardesire","datePublished":"2016-11-30T03:19:30+00:00","dateModified":"2016-11-30T03:19:30+00:00","wordCount":2245,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"本文首先介绍GraphQL Server对于查询的执行过程，然后结合实际开发使用GraphQL的相关特性。 GraphQL Execution 在执行查询前，GraphQL会先通过类型系"}</script><meta property="og:title" content="GraphQL Resovler的执行与实践 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/posts/graphql-resovler-execution-and-practice/">
+<meta property="og:description" content="本文首先介绍GraphQL Server对于查询的执行过程，然后结合实际开发使用GraphQL的相关特性。 GraphQL Execution 在执行查询前，GraphQL会先通过类型系">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2016-11-30T03:19:30+00:00">
+<meta property="article:modified_time" content="2016-11-30T03:19:30+00:00">
+<meta property="article:section" content="posts">
+<meta property="article:tag" content="Nodejs">
+<meta property="article:tag" content="GraphQL">
+<meta property="og:see_also" content="/posts/experimental-graphql/">
+<meta property="og:see_also" content="/posts/docker/">
+<meta property="og:see_also" content="/posts/beijing-nodeparty/">
+<meta property="og:see_also" content="/posts/code-to-meanjs/">
+<meta property="og:see_also" content="/posts/controller-of-async-function/">
+<meta property="og:see_also" content="/posts/mongodb-update-operators-apply/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">GraphQL Resovler的执行与实践</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-11-30</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>5 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
+<span>, </span>
+<a href=/categories/graphql/ class=hover:text-eureka>GraphQL</a>
+</div>
+</div>
+<div class=content>
+<p>本文首先介绍GraphQL Server对于查询的执行过程，然后结合实际开发使用GraphQL的相关特性。</p>
+<h1 id=graphql-execution>GraphQL Execution</h1>
+<p>在执行查询前，GraphQL会先通过类型系统来判断查询是否有效（这里的查询涵盖query和mutation），即查询的字段是否存在、参数的类型是否正确、对象类型是否指定子字段等的规则。下图列举的是gprahql-js库中指定的全部验证规则。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/7/60/4482aa34958560a70b7fd9433f3a8.jpeg alt="node lib:graphql-js"></p>
+<p>验证通过之后，GraphQL就开始执行查询并返回结果。类型系统也会加入到执行阶段中。类型定义中的各个字段都有resolver（即resovle函数）来支持。当执行到该字段时，对应的resolver会被执行并返回数据。如果返回数据是标量，则该字段的执行完毕；如果返回的是对象或对象数组，查询则会继续执行直到查询到标量为止。</p>
+<p>GraphQL Server的顶层有一个顶级类型作为查询的入口，这个类型称为Root类型或者Query类型。比如下列给出的GraphQL schema中，提供了一个查询test字段的query。</p>
+<pre><code class=language-javascript>let schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: 'NetNodeInfo',  //object
+    description: 'test infomation',
+    fields: {
+      test: {
+        type: GraphQLString,
+        description: 'string info for test',
+        resolve: function (parent, args, context) {
+          return 'query graphql successfully';
+        }
+      }
+    }
+  })
+});
+</code></pre>
+<p>分析：这个test字段是String类型，它的resolve（即resolver）函数直接返回字符串。</p>
+<p>当GraphQL resolver需要传递变量怎么办，比如客户端传递的参数提供查询条件、数据库连接提供操作数据库。GraphQL查询方法是将实体对象以层级连接的，如果上一层对象需要提供给本层revoler查询的字段，GraphQL又怎么传递这种参数呢。其实GraphQL早已将参数依据来源分为三类（这也是resolve的参数列表）：</p>
+<ul>
+<li>父类对象（parent）：提供在类型系统中位于上一层的对象，能够用来关联数据。</li>
+<li>查询参数（args）：客户端在查询时传递的参数（query variables），用来查询用户指定的数据。</li>
+<li>环境变量（context）：传递给每个resolver的全局参数，用来传递比如用户凭证、数据库连接等对全体（或者说大多数）resolver都需要使用的状态。</li>
+</ul>
+<p>类型系统在resolver执行时会进行优化操作，即同一层次的字段的resolver会并发执行。</p>
+<p>当每个字段的resolve函数都被执行后，结果会从底层到顶层放置到一个key-value map中。最后这个map数据会以原始查询的结构返回到客户端。http上的GraphQL一般将结果以json格式放置在response的body发送。</p>
+<h1 id=practice>Practice</h1>
+<p>首先我们需要修改在服务器传递MongoDB连接实例的方式。</p>
+<p>在上篇文章中的<a href=/2016/11/23/experimental-graphql/#expressgraphql>实践部分</a>已经成功读取MongoDB的数据。不过这个实例是通过rootValue传递的：<code>rootValue: { db: req.app.locals.db }</code>。这个参数只会传递给schema中的第一层字段的resolver，更低层的resolver无法获得这个参数。正如我们上面所描述的，对于每个resolver都可能会用到参数最好以context的形式传递。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/b/52/dae6f568c652d811e9f2fe6393727.jpeg alt="express-graphql api"></p>
+<p>通过查阅上图 <code>graphqlHTTP</code> 的API，我们以context参数传递db实例变量。同样的，我在这里给出graph.js的API。与express-graphql有点不一样，graphql.js以contextValue传递全局变量，而express-graphql在其封装来一层，全局参数通过context参数，这个参数的默认值是express的req对象。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/d/b1/be2c5befc471f8f9cba819f4d77dc.jpeg alt="graphql.js api"></p>
+<p>正如前面所说，在原来的类型定义中需要修正数据库实例的传递到resolve函数的方式。传递给 <code>resolve</code> 函数的参数为(parent, args, context)， <code>db</code> 就通过 <code>context</code> 传递的，我们使用ES6的解构赋值给局部变量db。</p>
+<pre><code class=language-javascript>let schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: 'NetNodeInfo',  //object
+    description: 'netnode geograph infomation about faults, alarms infomation',
+    fields: {
+      test: {
+        type: GraphQLString,
+        description: 'string info for test',
+        resolve: (() =&gt; 'query graphql successfully')
+      },
+      netnode_info: {
+        type: new GraphQLList(netnode_type),
+        description: 'netnodes information',
+        args: {
+          nums: {
+            type: GraphQLInt,
+            defaultValue: 100
+          },
+          customer_name: {
+            type: GraphQLString
+          }
+        },
+        async resolve(parent, args, { db }) {
+          // in this scope, parent is undefined
+          // args is full with { nums, customer_name } if they send by request(nums has default value)
+          // context has the db instance
+        }
+      }
+    }
+  })
+});
+</code></pre>
+<p>同样的，在位属下一层级的netnode_type类型定义的resovle函数也做类似处理。在这个场景下，fault_log需要netnode的netnode_id字段来查询 <code>fault_log</code> 集合相关数据的。而netnode_id字段能直接通过parent来拿到。</p>
+<pre><code class=language-javascript>let netnode_type = new GraphQLObjectType({
+  name: 'netnode',
+  description: 'single netnode infomation',
+  fields: {
+    // some scalar fields omitted
+    fault_log: {
+      type: new GraphQLList(fault_log_type),
+      description: 'netnode\'s fault log information',
+      args: {
+        report_time_from: {
+          type: GraphQLDate,
+          description: 'begin of report time of query(use UTC format:YYYY-MM-DDTHH:MM:SS.SSSZ)'
+        },
+        report_time_to: {
+          type: GraphQLDate,
+          description: 'end of report time of query(use UTC format:YYYY-MM-DDTHH:MM:SS.SSSZ)'
+        }
+      },
+      async resolve(parent, args, { db }) {
+        // in this scope, parent is previous object that has netnode_id
+        // args is full with { report_time_from, report_time_to } if they send by request
+        // context has the db instance
+      }
+    }
+  }
+});
+</code></pre>
+<p>最后我们测试一下这个接口的使用，这个我们使用查询参数和查询片段（Fragment）。假设我们需要查询“中国银行”和“交通银行”的相关netnode数据，我们可以使用查询片段来复用代码。并且，fault_log数据只需要2015年8月1日的数据。</p>
+<p>查询语句是这么写的：</p>
+<pre><code class=language-markdown>query NetNodeInfo{
+  boc: netnode_info(nums: 10, customer_name: &quot;中国银行&quot;){
+    ...BankFragment
+  }
+  bcm: netnode_info(nums: 10, customer_name: &quot;交通银行&quot;){
+    ...BankFragment
+  }
+}
+
+fragment BankFragment on netnode {
+    id
+    net_node_name
+    net_node_address
+    customer_name
+    longitude
+    latitude
+    fault_log (report_time_from: &quot;2015-08-01T00:00:00.000Z&quot;){
+      report_time
+      task_id
+    }  
+}
+</code></pre>
+<p>最后得出的结果如图：</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/0/2a/ee1bc959b48f7260cd5c080408274.jpeg alt=result></p>
+<p>由于我们使用来字段的别名（“boc”和“bcm”），查询的结果以下列的形式返回，这和查询语句的结构是一样的。</p>
+<pre><code class=language-json>{
+  &quot;data&quot;: {
+    &quot;boc&quot;: [...],
+    &quot;bcm&quot;: [...]
+  }
+}
+</code></pre>
+<p>通过具体开发可以看出，GraphQL给前后端交接带来了便捷和查询的灵活性。这些查询在REST API上是不可能出现的。但是这种灵活是把双刃剑。相比简单的CRUD的API，GraphQL会增加API的复杂度。</p>
+<hr>
+<h2 id=references>References：</h2>
+<ol>
+<li>
+<p><a href=http://graphql.org/graphql-js/execution/#execute>graphql-js的execute</a></p>
+</li>
+<li>
+<p><a href=https://github.com/graphql/express-graphql#options>express-graphql的Options</a></p>
+</li>
+<li>
+<p><a href=https://github.com/mugli/learning-graphql/blob/master/3.%20Querying%20with%20Field%20Aliases%20and%20Fragments.md>Graphql的别名和片段</a></p>
+</li>
+</ol>
+</div>
+<div class=my-4>
+<a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
+<a href=/tags/graphql/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#GraphQL</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/posts/user-experience-of-mongodb-query/ class=block>实验室简明mongoDB用户体验指南·续——查询</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/posts/experimental-graphql/ class=block>GraphQL：一种不同于REST的接口风格</a>
+</div>
+</div>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/posts/experimental-graphql/>GraphQL：一种不同于REST的接口风格</a>
+<br>
+<a href=/posts/docker/>在Docker搭建Node.js+mongoDB开发环境</a>
+<br>
+<a href=/posts/beijing-nodeparty/>北京3月26日NodeParty分享会总结（Node.js全栈、探针监控、Docker node）</a>
+<br>
+<a href=/posts/code-to-meanjs/>从MongoDB入门到编写数据库相关API</a>
+<br>
+<a href=/posts/controller-of-async-function/>使用Async进行流程控制</a>
+<br>
+<a href=/posts/mongodb-update-operators-apply/>MongoDB更新操作符的实践</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

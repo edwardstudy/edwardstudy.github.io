@@ -1,0 +1,242 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>Python: 编写面向对象的代码 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="程序应该是非常抽象的，就像“下载网页、计算频率、打印费波拉悉数列”一样易懂。本文通过要给简单的例子从面向过程转换到面向对象。">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"Python: 编写面向对象的代码","item":"/posts/python-beginner/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/python-beginner/"},"headline":"Python: 编写面向对象的代码 | Edwardesire","datePublished":"2016-08-14T03:11:38+00:00","dateModified":"2016-08-14T03:11:38+00:00","wordCount":1478,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"程序应该是非常抽象的，就像“下载网页、计算频率、打印费波拉悉数列”一样易懂。本文通过要给简单的例子从面向过程转换到面向对象。"}</script><meta property="og:title" content="Python: 编写面向对象的代码 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/posts/python-beginner/">
+<meta property="og:description" content="程序应该是非常抽象的，就像“下载网页、计算频率、打印费波拉悉数列”一样易懂。本文通过要给简单的例子从面向过程转换到面向对象。">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2016-08-14T03:11:38+00:00">
+<meta property="article:modified_time" content="2016-08-14T03:11:38+00:00">
+<meta property="article:section" content="posts">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="BMX">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">Python: 编写面向对象的代码</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-08-14</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>3 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/python/ class=hover:text-eureka>Python</a>
+<span>, </span>
+<a href=/categories/bmx/ class=hover:text-eureka>BMX</a>
+</div>
+</div>
+<div class=content>
+<h2 id=面向过程>面向过程</h2>
+<p>程序应该是非常抽象的，就像“下载网页、计算频率、打印费波拉悉数列”一样易懂。</p>
+<p>就拿随手遇到的项目来说。在数据预处理工作中，目标服务器以<code>*.json.gz</code>的形式存放数据，我们需要将数据下载下来。<code>*</code>以时间戳命名无序排列。处理时可以利用用这个值记录任务的完成进度。现在我们把将整个流程能翻译成Python程序：</p>
+<pre><code>def downloadDataFromURL(dest_data, local_dir):
+    # function: use urllib download data file to local
+    try:
+        urllib.urlretrieve(dest_data, local_dir)
+    except:
+        print '\tError retrieving the URL:', dest_data
+# directly running
+if __name__ == '__main__':
+    if os.path.isfile(tsFilePath):
+        print 'read timestamp file: ' + tsFilePath
+        try:
+            tsFile = open(tsFilePath, 'r+')
+            oldTimestamp = int(True and tsFile.read(10) or 0) # use and-or to pass empty file content
+            print oldTimestamp
+        except IOError as (errno, strerror):
+            print &quot;I/O error({0}): {1}&quot;.format(errno, strerror)
+        except:
+            print &quot;Unexpected error:&quot;, sys.exc_info()[0]
+            raise
+    else:
+        print 'No such file or directory: ' + tsFilePath
+        tsFile = open(tsFilePath, 'w+')    
+    # start 4 worker processes
+    pool = Pool(POOLNUMBER)
+    html = requests.get(serverUrl).text
+    dirSoup = BeautifulSoup(html, 'html.parser')
+    # get tag array
+    aTags = dirSoup.find_all('a', href=re.compile(&quot;20&quot;))
+    for aTag in aTags:
+        dataDirUrl =  aTag['href']
+        html = requests.get(serverUrl + dataDirUrl).text
+        secDirSoup = BeautifulSoup(html, 'html.parser')
+        # filter gz file source
+        srcTags= secDirSoup.find_all('a', href=re.compile(&quot;gz&quot;))
+        for srcTag in srcTags:
+            # ! need to papare timestamp 
+            dataFile = srcTag['href']
+            # compare timestamp
+            if int(dataFile[0:10]) &gt; oldTimestamp:
+                # run async function on Pool
+                pool.apply_async(downloadDataFromURL, args=(serverUrl + dataDirUrl + dataFile, winLocalPath))
+    # finish and store timestamp
+    pool.close() # close after wait process finish
+    pool.join()  # wait process finish
+    # save new timestamp
+    tsFile.seek(0, 0);
+    tsFile.write(str(newTimestamp));
+    print 'Scraping finish'
+</code></pre>
+<p>可以看到，除了把下载过程单独抽象出来，其他部分都是直接写下来。一开始只是当作脚本写，这种方法会导致流程中的各部分耦合度高，而耦合太高在开发中会增加修改成本和重复代码。但是这样子的程序是无法在别的模块复用的。当需要时，外部模块只能把这个功能模块当作一条命令调用。而这种方法唯一的优点也只是开始时的开发速度快，能够快速完成基本功能。</p>
+<h2 id=面向对象>面向对象</h2>
+<p>上面的写法太丑，没有什么可读性，应该更加抽象化成对象。下面就用面向对象的风格重构代码。首先将任务流程重新理清楚。在服务器去获取下载文件的地址后，遍历这个地址表下载文件。在完成每个文件下载时,记录时间戳文件名以保证下次使用和错误恢复。</p>
+<p>我们以<code>FileDownloadTask</code>来命名这个类,在Python中是使用<code>__init__()</code>方法来初始化对的。在这个类中我们需要初始化服务器的地址、存放文件的本地路径和存放时间戳的文件等信息。</p>
+<pre><code>def __init__(self, server_url, target_folder='./', last_run_time_file='last_run_time'):
+    self.server_url = server_url
+    self.target_folder = target_folder
+    self.last_run_time_file = target_folder + last_run_time_file
+    self.last_run_time = 0
+    self.__load_last_run_time()
+    self.lock = threading.Lock()
+</code></pre>
+<p>通过文件路径获得最后运行成功的时间戳，我们又可以把读取时间文件封装成一个函数。在这里我使用较安全的方式(try-except-finally)来打开和读取文件.</p>
+<pre><code>def __load_last_run_time(self):
+    try:
+        f = open(self.last_run_time_file)
+    except:
+        logging.info('Last run time file not found, set 0 as default')
+        self.last_run_time = 0
+        return self.last_run_time
+    try:
+        self.last_run_time = int(f.read())
+    except:
+        logging.info('Read last run time failed, set 0 as default')
+        self.last_run_time = 0
+    finally:
+        f.close()
+    return self.last_run_time
+</code></pre>
+<p>而下载任务我们通过调用<code>.download_source_file()</code>来实现。这里的多线程我们是可以控制的，默认为cpu的核数。我们只需重新下载上次成功下载之后的文件。</p>
+<pre><code>def download_source_file(self, thread_num=None):
+    if thread_num is None:
+        pool = ThreadPool()  # default thread_num is cpu number
+    else:
+        pool = ThreadPool(thread_num)  # default thread_num is cpu number
+
+    source_urls = map(lambda i: self.server_url + i,
+                      filter(lambda i: re.match(r'^\d\d\d\d\.\d\d\.\d\d-\d\d\.\d\d\.\d\d', i) and
+                             self.__parse_timestamp_from_url(i) &gt; self.last_run_time,
+                             self.__all_href_from_remote(self.server_url)))
+
+    def _download_one(source_url):
+        # show later
+    pool.map(_download_one, source_urls)
+    pool.close()
+</code></pre>
+<p>这里面有几个类私用方法，<code>.__parse_timestamp_from_url()</code>是解析时间戳，<code>.__all_href_from_remote()</code>是获得文件下载地址，<code>._download_one()</code>是下载单个文件的方法。注意参数source_url是相对路径下的文件地址。通过方法第一步的map()，file_name_urls存放的是(file_name, file_url)，file_url是绝对路径。在遍历这个元祖中，进行最多3次的文件下载。在文件下载时添加'.download&rsquo;后缀名，只有成功下载才重命名回原来的文件名。这样的原因时为了防止下载到一般的文件导致下一步的处理出差错。</p>
+<pre><code>def _download_one(source_url):
+    file_name_urls = map(lambda i: (i, source_url + i),
+                            filter(lambda i: re.search(r'json\.gz$', i),
+                                self.__all_href_from_remote(source_url)))
+    for file_name, file_url in file_name_urls:
+        logging.info('Downloading %s from %s...' % (file_name, file_url))
+        # try download for most 3 times
+        for x in range(3):
+            try:
+                urllib.urlretrieve(file_url, self.target_folder + file_name + '.download')
+                tmp = self.__parse_timestamp_from_url(file_url)
+                with self.lock:
+                    self.last_run_time = max(self.last_run_time, tmp)
+                    os.rename(self.target_folder + file_name + '.download', self.target_folder + file_name)
+                    self.__write_last_run_time()
+                return
+            except Exception, e:
+                continue
+        logging.error('Download from %s failed: %s' % (file_url, format(e)))
+</code></pre>
+<p>其实这个部分是老大也参与到了修改，所以才能写得非常优美。在项目的后续工作中，这种思路应该一直伴随。只有开始的不怕麻烦，才能达到最终的懒惰。而这篇文章也当作我的Python入门吧。</p>
+</div>
+<div class=my-4>
+<a href=/tags/python/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Python</a>
+<a href=/tags/bmx/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#BMX</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/posts/peewee-practice/ class=block>ORM: Peewee 实践</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/posts/hadoop-101-install-hadoop/ class=block>Hadoop实验环境的搭建：standalone&pesudo cluster</a>
+</div>
+</div>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

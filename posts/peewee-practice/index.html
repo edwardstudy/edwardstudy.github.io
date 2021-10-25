@@ -1,0 +1,421 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>ORM: Peewee 实践 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="Peewee是Python的RDBMS ORM库。与node的mongoose之于MongoDB一样，在数据库上面封装一层来抽象数据库操作。在编写业务逻">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"ORM: Peewee 实践","item":"/posts/peewee-practice/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/peewee-practice/"},"headline":"ORM: Peewee 实践 | Edwardesire","datePublished":"2016-08-24T15:21:53+00:00","dateModified":"2016-08-24T15:21:53+00:00","wordCount":2781,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"Peewee是Python的RDBMS ORM库。与node的mongoose之于MongoDB一样，在数据库上面封装一层来抽象数据库操作。在编写业务逻"}</script><meta property="og:title" content="ORM: Peewee 实践 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/posts/peewee-practice/">
+<meta property="og:description" content="Peewee是Python的RDBMS ORM库。与node的mongoose之于MongoDB一样，在数据库上面封装一层来抽象数据库操作。在编写业务逻">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2016-08-24T15:21:53+00:00">
+<meta property="article:modified_time" content="2016-08-24T15:21:53+00:00">
+<meta property="article:section" content="posts">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Peewee">
+<meta property="article:tag" content="ORM">
+<meta property="og:see_also" content="/posts/python-beginner/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">ORM: Peewee 实践</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-08-24</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>6 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/python/ class=hover:text-eureka>Python</a>
+<span>, </span>
+<a href=/categories/peewee/ class=hover:text-eureka>Peewee</a>
+<span>, </span>
+<a href=/categories/orm/ class=hover:text-eureka>ORM</a>
+</div>
+</div>
+<div class=content>
+<p>Peewee是Python的RDBMS ORM库。与node的mongoose之于MongoDB一样，在数据库上面封装一层来抽象数据库操作。在编写业务逻辑代码时，利用Peewee可以采取OO的风格，避免编写复杂的SQL语句代码来提高写代码的效率。</p>
+<p>Peewee与其他ORM相比，有着更简洁轻量的功能模块，在5000多行代码内完成基本功能，这包括了数据库的连接和操作、映射模型、类型定义、查询操作符等。在学习成本方面，比功能强大的sqlalchemy要简单易用得多。在兼容方面，peewee直接调用pysqlite2、psycopg2、MySQLdb库来操作SQLite、Postgresql、MySQL这三类数据库（支持扩展更多的数据库类型），并且还实现了一层连接池。</p>
+<p>在我们的项目中，本地数据库只需存储处理结果并提供给API和二级缓存(一级缓存使用memcache)实用，使用Peewee这种小锤子就可以满足。下面，我先介绍Peewee的使用流程，再将其应用在项目上。</p>
+<h1 id=基本概念>基本概念</h1>
+<p>使用方法还是和其他ORM一致，首先时定义数据模型Model。Model等相关概念与RDB概念的对应关系如下表。数据模型除了定义表的schema外还可以定义模型的方法。我们在模型内部嵌套一个meta类来指定Mode连接的数据库、约束条件等信息。</p>
+<pre><code class=language-html>| ORM            | RDB                     |
+|:--------------:|:-----------------------:|
+| Model class    | Database table          |
+| Field instance | Column on a table       |
+| Model instance | Row in a database table |
+</code></pre>
+<p>连接数据库后，如果Model的表没有创建的话，还需要先使用db.create_tables([Model])创建表。</p>
+<p>Peewee提供多种方法来操作数据库的CRUD。而Model的方法有继承自Peewee Model类的方法，这些方法时Peewee预定义的常用操作，比如.insert_many()、.get_or_create()等常用方法。也可以自定义与业务自身相关的方法。在下一节中我将介绍与项目相关的自定义方法。</p>
+<h1 id=实践>实践</h1>
+<p>这里我用的例子是项目中Bottle框架来与Peewee组合完成基本的API。在获得相关资源的HTTP请求时可以将数据处理交给Peewee的Model来完成。</p>
+<p>首先我们创建两个表来存储应用数据。一个是Schema存储数据仓库中的表名和字段名。另一个是MetaColumn，存储数据字段的组合。首先我们要定义一个Model基类，其除了继承Model的通用方法并且拥有自定义的方法：<code>.models_to_array()</code>方法是将查询结果转换为数组。另一个<code>.models_to_object_array()</code>方法是将结果转换为对象数组。</p>
+<pre><code class=language-python># *-./models/base.py -*
+from peewee import *
+from common.db import db_client
+import logging
+
+class BaseModel(Model):
+
+    @staticmethod
+    def models_to_array(models, field):
+        result = []
+        for model in models:
+            # hurry code need reduce the object
+            result.append(model._data[field])
+        logging.info('query %d record.' % len(result))
+        return result
+
+    @staticmethod
+    def models_to_object_array(models, fields):
+        result = []
+        for model in models:
+            result.append({ field: model._data[field] for field in fields})
+        logging.info('query %d record.' % len(result))
+        return result
+
+    class Meta:
+        database = db_client  # should be set by user
+
+</code></pre>
+<p>这样，接下来的两个表就可以直接继承并调用这两个方法，而不必重复定义。</p>
+<p>Schema用来储存平台的存储数据表的信息，起结构比较简单，包括表名和字段名。</p>
+<pre><code class=language-python># *-./models/schema.py -*
+from peewee import *
+from base import BaseModel
+
+class Schema(BaseModel):
+    columns = CharField()
+    category = CharField()
+            
+    class Meta:
+        db_table = 'schemas'
+
+</code></pre>
+<p>这样，直接调用<code>Schema.select().where(Schema.category == 'alerts').get()</code>就能获得alerts表的结构信息。</p>
+<p>而MetaColumn类处理的事情相对复杂，既需要完成数据导入，也需要对数据进行查询。</p>
+<p>数据导入分为初始导入和增量导入，初始导入就是无脑的分批次调用<code>.insert_many()</code>。而增量导入对于已存在数据则不进行处理（&lsquo;IGNORE&rsquo;）。</p>
+<p>而查询则是通过自定义的<code>.query_by_option()</code>方法。<code>.query_by_option()</code>可以通过option参数选择查询的字段，而对于条件的选择是通过category、customer、env、componen、item这五个字段来确定，再调用私用函数<code>.__generate_clauses()</code>可以将条件字段转换为满足Peewee查询的参数格式（其实就是Field instance）。</p>
+<pre><code class=language-python># *-./models/meta_column.py -*
+from peewee import *
+from base import BaseModel
+from common.db import db_client
+import logging
+import operator
+
+class MetaColumn(BaseModel):
+    category = CharField(null=True)
+    customer = CharField(null=True)
+    env = CharField(null=True)
+    component = CharField(null=True)
+    item = CharField(null=False)
+
+    @staticmethod
+    def query_by_option(option='', category='', customer='', env='', component='', item=''):
+        if option.strip() != '':
+            clauses = MetaColumn.__generate_clauses(category, customer, env, component, item)
+            meta_columns = MetaColumn.select(getattr(MetaColumn, option)) \
+                                     .distinct() \
+                                     .where(clauses) \
+                                     .order_by(getattr(MetaColumn, option))
+            return BaseModel.models_to_array(meta_columns, option)
+        else:
+            return []
+
+    @staticmethod
+    def __generate_clauses(category='', customer='', env='', component='', item=''):
+        clauses = []
+        if category.strip() != '':
+            clauses.append((MetaColumn.category == category))
+        if customer.strip() != '':
+            clauses.append((MetaColumn.customer == customer))
+        if env.strip() != '':
+            clauses.append((MetaColumn.env == env))
+        if component.strip() != '':
+            clauses.append((MetaColumn.component == component))
+        if item.strip() != '':
+            clauses.append((MetaColumn.item == item))
+        if len(clauses) == 0:
+            return None
+        else:
+            return reduce(operator.and_, clauses)
+
+    @staticmethod
+    def insert_one_by_one(data):
+        for one_line in data:
+            obj_inserted = {
+                'category': one_line[0],
+                'customer': one_line[1],
+                'env': one_line[2],
+                'component': one_line[3],
+                'item': one_line[4]
+            }
+
+            try:
+                return MetaColumn.insert(**obj_inserted).on_conflict('IGNORE').execute()  # return model instance
+            except:
+                logging.error('save one meta_column record failed.')
+
+    @staticmethod
+    def insert_from_array(data, bulk_size=256):
+        &quot;&quot;&quot;insert from a 2-d array of strings&quot;&quot;&quot;
+        with db_client.transaction():
+            for idx in range(0, len(data), bulk_size):
+                MetaColumn.insert_many(map(lambda i: {
+                    'category': i[0],
+                    'customer': i[1],
+                    'env': i[2],
+                    'component': i[3],
+                    'item': i[4],
+                }, data[idx:idx + bulk_size])).execute()
+
+    @staticmethod
+    def check_empty():
+        nums = MetaColumn.select().count()
+        return nums == 0
+
+    class Meta:
+        db_table = 'meta_columns'
+        indexes = (
+            # create a unique on category/customer/env/component/item
+            (('category', 'customer', 'env', 'component', 'item'), True),
+        )
+
+</code></pre>
+<p>这样在Bottle server上响应请求的函数内调用对应表的Model的方法就可以对数据进行查询了。具体内容如下。</p>
+<pre><code class=language-Python># *-./server.py -*
+@app.route('/options/&lt;option_type&gt;', method=['GET'])
+@check_params(option_type=str, category=str, customer=int, env=str, component=str, item =str)
+def options(option_type='', category='', customer='', env='', component='', item =''):
+    try:
+        result = MetaColumn.query_by_option(option_type, category, customer, env, component, item)
+        return json.dumps(result)
+    except Exception, e:
+        return error(500, e)
+
+</code></pre>
+<h1 id=迁移>迁移</h1>
+<p>迁移是在工程上的概念。当我们处在开发阶段需要常规性的修改数据表的结构时，必须要保证原始数据库能够平滑地迁移到最新的结构上。这里采用的方法是按日期编写数据库迁移代码，迁移代码放在项目的<code>./migrations</code>目录下，以时间为前缀+_migration命名文件，比如<code>./migrations/20160802_migration.py</code>。</p>
+<pre><code class=language-Python># *-./migrations/20160802_migration.py -*
+import sys
+import os
+import datetime
+from playhouse.migrate import *
+PROJECT_ROOT = os.path.join(os.path.dirname(__file__), '..')
+sys.path.append(PROJECT_ROOT)  # fix directory issue
+from common.db import connect_db_client
+from common.config import load_config
+PROJECT_ROOT = os.path.dirname(__file__) + '/../'
+os.chdir(PROJECT_ROOT)
+
+
+def main():
+    conf = load_config()
+    db_client = connect_db_client(conf['db']['type'], os.path.join(PROJECT_ROOT, conf['db']['url']))
+    migrator = SqliteMigrator(db_client)
+    table_name = 'user_logs'
+    col_name = 'created_on'
+
+    # check column name exist
+    col_exist = False
+    cursor = db_client.execute_sql('PRAGMA table_info(user_logs);')
+    for row in cursor.fetchall():
+        if col_name == row[1]:
+            col_exist = True
+
+    if col_exist:
+        print('Column exist.')
+    else:
+        # modify table schema
+        created_on_field = DateTimeField(default=datetime.datetime.now)
+        try:
+            with db_client.transaction():
+                migrate(
+                    migrator.add_column(table_name, col_name, created_on_field),
+                )
+        except Exception, e:
+            raise e
+        else:
+            print('Add Column to table.')
+    db_client.close()
+    return 0
+
+if __name__ == &quot;__main__&quot;:
+    main()
+
+</code></pre>
+<p>这个脚本向user_logs表添加created_on字段。处于安全的考虑，首先检查字段是否存在。如果存在则不需要在添加字段。当然，这样只是修改数据库的结构，还需要修改原来的Model文件。这么做无疑很麻烦，但是Peewee的反射
+（能够从已有数据库上反射Model的成员变量）功能比较薄弱。</p>
+<p>我在<code>install_local_db.py</code>中创建了一个数据库表结构安装器对象。DbSchemasInstaller主要完成两个功能。第一个是创建表结构，第二个依次运行migration下的文件来更新表结构。</p>
+<pre><code class=language-Python># *-./install_local_db.py -*
+class DbSchemasInstaller:
+    def __init__(self, schemas, migrations_dir='./migrations', error_file='./error_file'):
+        self.schemas = schemas
+        self.migrations_dir = migrations_dir
+        self.error_file = error_file
+
+    def create_tables(self):
+        try:
+            db.create_tables(self.schemas,
+                             safe=True)  # use safe=True to pass table already exists error
+        except Exception, e:  # other error occur
+            logging.fatal(e)
+        else:
+            logging.info('finish create tables')
+
+    def migrate_one_by_one(self):
+        files = self.__get_files_by_date()
+        for f in files:
+            p = subprocess.Popen([sys.executable, f], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            output, error = p.communicate()
+            # try:
+            if p.returncode != 0:
+                logging.error(&quot;migrate %s failed %d %s %s&quot; % (f, p.returncode, output, error))
+                # write error_file
+                self.__write_error_file(f)
+                return  # TODO considering many migration situation
+            else:
+                logging.info(&quot;migrate %s step output: %s&quot; % (f[-21:-3], &quot;&quot;.join(output.strip().split('\n'))))
+            # finally:
+            #     p.terminate()
+            #     p.wait()
+        logging.info('finish migrations')
+
+    def __get_files_by_date(self):
+        error_pyfile_name = self.__read_error_file()
+        files = glob.glob(self.migrations_dir + &quot;/*.py&quot;)
+        files.sort()  # sort by first name date string
+        if error_pyfile_name is None:
+            return files
+        else:
+            os.system('rm ' + self.error_file)
+            return files[files.index(error_pyfile_name):]
+
+    def __read_error_file(self):
+        if os.path.isfile(self.error_file):
+            try:
+                f = open(self.error_file, 'r')
+                error_file = f.readline().strip()
+            except Exception, e:
+                logging.error('read file failed.')
+                f.close()
+                return None
+            else:
+                f.close()
+                return error_file
+        else:
+            return None
+
+    def __write_error_file(self, pyfile):
+        try:
+            with open(self.error_file, 'w') as f:
+                f.write(pyfile)
+        except:
+            logging.error('write file failed.')
+        f.close()
+
+</code></pre>
+<p>在<code>.migrate_one_by_one()</code>首先读取迁移文件，然后再起一个进程来修改数据库结构。当迁移过程中出现错误时，将错误输出并记录错误文件。这样在修复问题后，可以接着执行这个错误的文件的更新内容。</p>
+<h2 id=references>References</h2>
+<ol>
+<li><a href=https://www.fullstackpython.com/object-relational-mappers-orms.html>Python orm</a></li>
+<li><a href=http://docs.peewee-orm.com/>Peewee docs</a></li>
+</ol>
+</div>
+<div class=my-4>
+<a href=/tags/python/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Python</a>
+<a href=/tags/peewee/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Peewee</a>
+<a href=/tags/orm/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#ORM</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/posts/python-use-memcache/ class=block>Memcache的使用</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/posts/python-beginner/ class=block>Python: 编写面向对象的代码</a>
+</div>
+</div>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/posts/python-beginner/>Python: 编写面向对象的代码</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>

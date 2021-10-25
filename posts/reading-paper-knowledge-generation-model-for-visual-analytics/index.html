@@ -1,0 +1,196 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>Paper Reader:Knowledge Generation Model for Visual Analytics | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png>
+<meta name=description content="这篇论文[1]先阐述了知识产生模型，然后在现有系统上的佐证其模型的适用性，最后是总结以及展望下一步工作，中间穿插着很多其他模型、工具、理论。我的阅读侧">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"Paper Reader:Knowledge Generation Model for Visual Analytics","item":"/posts/reading-paper-knowledge-generation-model-for-visual-analytics/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/reading-paper-knowledge-generation-model-for-visual-analytics/"},"headline":"Paper Reader:Knowledge Generation Model for Visual Analytics | Edwardesire","datePublished":"2015-11-03T12:52:49+00:00","dateModified":"2015-11-03T12:52:49+00:00","wordCount":5611,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/icon.png"}},"description":"这篇论文[1]先阐述了知识产生模型，然后在现有系统上的佐证其模型的适用性，最后是总结以及展望下一步工作，中间穿插着很多其他模型、工具、理论。我的阅读侧"}</script><meta property="og:title" content="Paper Reader:Knowledge Generation Model for Visual Analytics | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/icon.png">
+<meta property="og:url" content="/posts/reading-paper-knowledge-generation-model-for-visual-analytics/">
+<meta property="og:description" content="这篇论文[1]先阐述了知识产生模型，然后在现有系统上的佐证其模型的适用性，最后是总结以及展望下一步工作，中间穿插着很多其他模型、工具、理论。我的阅读侧">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2015-11-03T12:52:49+00:00">
+<meta property="article:modified_time" content="2015-11-03T12:52:49+00:00">
+<meta property="article:section" content="posts">
+<meta property="article:tag" content="Visual">
+<meta property="article:tag" content="Paper">
+<meta property="og:see_also" content="/posts/coursera-classgetting-your-research-project-started/">
+<meta property="og:see_also" content="/posts/visual-101/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">Paper Reader:Knowledge Generation Model for Visual Analytics</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2015-11-03</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>12 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/visual/ class=hover:text-eureka>Visual</a>
+<span>, </span>
+<a href=/categories/paper/ class=hover:text-eureka>Paper</a>
+</div>
+</div>
+<div class=content>
+<p>这篇论文<sup><a href=http://www.purdue.edu/discoverypark/vaccine/assets/pdfs/publications/pdf/Building%20and%20Applying%20a%20Human%20Cognition.pdf>[1]</a></sup>先阐述了知识产生模型，然后在现有系统上的佐证其模型的适用性，最后是总结以及展望下一步工作，中间穿插着很多其他模型、工具、理论。我的阅读侧重在模型的建立基础以及内容阐述，其现有系统的应用以及分析方面一览而过。</p>
+<hr>
+<p>####1. 知识产生模型</p>
+<p>可视化分析依赖于人的感知、认知推理以及领域知识以及机器的计算、存储能力的有效组合，最近的研究成果表明在可视化分析中需要将“人在分析过程中作用”转移到“人既是分析过程”的思维，也就是提高人在分析流程中的参与程度。可视化分析过程分为：高级别的领域内专家分析、和低级并的工具交互行为。其他人员关于于人力认知相关的行的研究太多，本模型不会契合所有已知的理论模型，本模型在前人的基础上只进行了第一步：建立生成模型，往后各个分析部分是怎么作用于知识生成过程的，以及整合相关的工作待后人研究。</p>
+<p>接下来的第二部分为知识生成模型的各部分的解释，第三部分为与其他模型的关系，第四部分为模型的应用，第五部分为讨论总结。</p>
+<p>知识生成模型是基于Keim等人（一批欧洲研究可视化分析的专家）研究的，Keim等人总结2年的VisMaster CA项目经验成一小册子《Mastering the Information Age Solving Problems with Visual Analytics》<sup><a href=http://www.vismaster.eu/wp-content/uploads/2010/11/VisMaster-book-lowres.pdf>[2]</a></sup>，本书的内容从可视分析到数据管理、数据挖掘、时域空域数据的分析乃至基础架构等都有所涉及，考虑时间原因，我直接跳到总结章节。文末提出可视化分析的涉及认知相关领域的成果有利于应用系统的设计，而分析的好坏取决于工具的选择、使用以及测试方法。其团队后来所做论文《Visual analytics: Scope and challenges》<sup><a href=http://bib.dbvis.de/uploadedFiles/55.pdf>[3]</a></sup>也提到可视化分析是从信息、科学可视化发展过来，当下可视化分析的范围如图。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/f/93/539db0a6891dc3254469fb22df951.png alt></p>
+<p>其中我觉得重要的一点是：由于有些信息无法自动获取，使得认知相关模型的引入可视分析是很有必要的。我们不能在没有考虑清除是否使用的情况下，就将一些统计学上、KDD中的自动化方法加入到分析中。而可视化就是一种将自动化方法在信息空间中获取失败时有效的探索以及交互方式。知识生成模型的参考对象就是Keim等人提出的可视化分析模型。如下图：S表示数据源(data sources)、V表示可视化(visualizations)、H表示假说(hypotheses)、I表示顿悟(Insight)，箭头表示信息的转变。D<sub>W</sub>表示数据预处理，V<sub>S</sub>、V<sub>H</sub>表示可视化，H<sub>S</sub>、H<sub>V</sub>表示假说生成，U<sub>*</sub>表示不同可视分析过程。相比“可视化分析是通过交互式可视化界面加强分析推理的科学”的定义，更加严格的定义就是： F : S → I。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/7/24/1a2f41e02d769f73c8ed0d066c622.png alt></p>
+<p>Pohl等人在《The User Puzzle—Explaining the Interaction with Visual Anlytics Systems》<sup><a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6327297">[4]</a></sup>中强调人的推理是可视分析中的重要一环，并探讨了人类的推理过程，5个相关的理论有意识构建理论（sensemaking theory）、格式塔理论（gestalt theory）、分布认知（distributed cognition）、图理解理论（graph comprehension theories）、技能-规则-知识模型（skill-rule-knowledge models）。</p>
+<ul>
+<li>意识构建理论：在与可视化分析系统的交互过程中，是一种反复生成假设的推理过程。获取信息、消化并生成新的信息（意识生成的知识）的问题-解决/探索过程。但意识构建强调的是信息在人脑中的表示以及重组这类细节建模过程，其缺乏与感知（perception）、系统交互相关的推理过程。因此无法适用与可视化系统的设计。</li>
+<li>格式塔理论： 在可视化分析中应用格式塔心理的中心思想就是顿悟——是对可视化信息的突然重组。在人脑中对信息的复杂的重组过程中，格式塔理论强调问题解决的表示。在可视分析中，问题的解决通常不是直接的，需要交互的多样性来获取多种方法。这类交互能提供一种信息转换（往往也是突然性的），从而能提供一种获得顿悟的机会。所以，该理论应用到可视化强调的是对信息的重组能力。而顿悟在可视化中充当了评估可视化的角色，这种顿悟的特点是复杂、深度、高质量、意想不到但有密切相关。但需要注意的是复杂的格式塔理论是一种普遍性的理论知识，不是特别容易应用到可视化中的交互当中，因为没有细节上支持的交互很难最终引导系统的提高。</li>
+<li>分布认知：分布认知认为知识是分布在可视化用户、机器内包含的人类知识。该理论的应用关键在于人机之间的知识分布以及交互。认知上的行为可以帮助获取问题相关的信息，而实践操作则能帮助分析人员接近目标。怎么使可视化系统的交互平稳有效是应用分布认知的难点。</li>
+<li>图理解理论：其理论来源于视觉空间推理，其包含两个类别：第一类提高了用户与图表交互的描述，第二类是解释人怎样理解图表。通过该理论可以帮助设计以及优化图表的表达能力。但对于问题解决这种高级抽象的处理过程，应用该理论会缺乏对问题解决的整合能力。</li>
+<li>技能-规则-知识模型：该理论可能可以提供一种处在意识构建以及图理解中间级别的理解模型理论。该理论着重于特定应用环境下，错误类目的形成。但是过于专注于错误的方法在可视化探索这种错误高频发生的过程中也是不可行的。我们只需要利用该理论将可视化探索能更好追踪就行了。</li>
+</ul>
+<p>这篇文章随后将这几种理论横向比较（如图），如何将这五种理论整合利用，可以参考其空白特性的互补。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/e/52/09b2f5598ccf6e0164e5d5bd73cba.png alt></p>
+<p>说了这么多理论基础，回到这篇文章。知识生成模型是基于可视分析过程，并描述了知识在这过程中的产生。也就是将上述两方面的内容以更好理解的方式整合在一起。知识获取模型在前
+人的基础上，定义一些相关的元素提高这种分析的理解。作者将模型分为两部分：计算系统部分以及人类相关的认知部分。人类处理大量数据力不从心，但分析细节上的关联性方面比较厉害。知识获取包含一些思维过程（溯因推理、演绎推理、归纳推理）。其模型的整体构成如图：</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/3/a7/65a6fd1d969e015d6f99c942ea562.png alt></p>
+<p>可以看到计算机与人之间连接的通过人的交互行为来实现。而对于人类认知的过程划分为3个循环，从探索环、证实环乃至知识产生环是一个越来越抽象、精炼的过程。接下来通过文章介绍每个具体的组成要素。</p>
+<p>####2. 模型解析</p>
+<p>计算机这边的基础要素是数据，数据的获取、选取等处理决定了数据的分析质量。原始数据的处理决定着分析的真实性，而元数据提供给分析系统关于数据的数据，这包括数据的结构、特性描述以及数据的概括信息，这些信息通常帮助可视化工作实现数据的展示。由问题的特点决定数据的使用，但通常来说，这两类数据在可视化中不太区别对待，而是直接获取或者展示。在数据之上需要产生模型，模型可以是简单的统计分析描述，也可以通过KDD的一些复杂算法将数据中的模型以及一些复杂的模式找到，这里也包括机器学习方面知识（逻辑回归等）。这些模型在分析过程中提供给简单的计算任务或者顿悟。可视化结果的来源的就是上述的数据或者模型。可视化依赖于数据模型（聚类模型），对于模型的方法依据可视化的当前状态有所不同，比如不同尺寸的缩放级别（zoom level），呈现数据的不同属性。分析人员与系统最直接打交道的地方也在可视化结果这个层级。</p>
+<p>接下来的3个循环就更依赖与分析人员的行为，第一个比较初级层次就是探索环，其分为行为（action）以及发现（finding）。这一层级主要为交互操作产生的新模型或者可视化结果，行为依赖发现或者分析的任务目标。单个行为是能引起到系统原子级别响应的动作，这与用户的目的和可视化结果更相关。一个简单的寻求“how”的行为业余更高级别的“why”
+相关。一般来说源于假说（针对问题的解释或者预测）的行为更加复杂，而源于发现的行为则较简单（上图中’Action‘的入度）。作者也将行为进行了分类（如图）：预备、建模、使用模型、可视化映射、模型可视化映射、操作。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/6/18/845864f1dc56d1d3f59d9cbab19e2.png alt></p>
+<p>发现则是系统操作得出的具体观察。发现能指导下一步操作或者顿悟的产生。发现也可以是一个新模式。这么说，模式除了机器自动识别，也可以通过人力发现，这不局限与数据、可视化结果，也可以仅仅知识分析人员感兴趣的地方。在知识产生模型中，发现是独立于问题域的，虽然解释发现需要分析人员依据问题域的环境。通过模型整体构成图可以看出，发现并并不一定需要指导顿悟的产生，也可以来触发简单的几个操作操作。探索环可以看作使用可视化分析系统来搜索有用的发现内容，探索环的这两个部分与整体紧密相关。分析人员如若理解并能在具体问题上解释发现就能获得顿悟（insights）。</p>
+<p>证实环指引探索环的结果来佐证假说或者形成新的假说。发现能验证一个已有的假说，但随之产生的顿悟可以与假说无关，而是解决不同的分析问题或者产生新的发现问题。假说在可视化分析中扮演来中心角色，验证假说的真实性是为了获取新知识（解决问题）。通过统计测试或者可视化可以验证具体假说，但假说一般是模糊不清的，比如有一个未知的元素影响问题域。这就需要更具体的假说来解决问题，而这一步只能回到原来的探索阶段。</p>
+<p>顿悟在前面有所涉及，其在本模型的定义为：相比认知科学立德顿悟更加高级，能通过已有知识生成新的知识。顿悟与发现的区别在于，顿悟还需要当前的问题域进行一番解释。作者认为顿悟并不直接是知识，需要有比较严格的证据来证实顿悟，顿悟这就成为来了假说。</p>
+<p>知识产生环在可视分析过程中产生新的知识给分析人员。无需过多的分析，其组成要素——知识就是来源于上一处理流程的顿悟。当顿悟结果验证并形成新的知识时，也会影响假说的状态。可视分析从数据和分析的问题开始，并存在已有的知识，这些知识也会影响分析的处理过程。</p>
+<p>人类的认知思维参与的3个环节填补了从数据到知识的处理流程，将数据以发现、顿悟以及知识的层次展现，也体现了可视化的目的。文章接下来介绍了相关的模型以及应用。</p>
+<p>####3. 相关模型以及应用</p>
+<p>相关的模型如下图</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/8/45/bffb9cba494148b37756941e80a16.png alt></p>
+<p>系统层级上，信息可视化管道（InfoVis Pipeline）包含了主要的数据类型：未加工的数据、数据表、可视化结构以及视图。而KDD使用数据挖掘的技术获取模式。而前面提到的Keim一批人所提出的可视化分析模型包含的两部分：可视化数据探索部分（从可视化结果到知识）以及自动化数据分析部分（从模型到知识）。总之，在系统这一层，数据转变成了可视化结果。</p>
+<p>在交互层级上，作者参考了Norman提出的7层行为，其中值得注意的是执行行为以及评估行为。执行隔阂（The Gulf of Execution）表示分析人员不知道怎么行动，而评估隔阂（The Guld of Evaluation）则表示分析人员无法评估行为的结果。这两类问题会在系统使用中发生，而目标（Goal）的引入则有效的评估行为以及结果，在作者提出的模型中，以假说作为目标，执行则是从假说到分析系统的过程，而评估则依据模型中分析人员七种的操作行为（也就是图中的右侧的七个箭头）。而行为的不同交互类型依据针对的方面、字段、领域不同分为：大多数操作针对一至两个字段，比如可视化、推理、数据处理等。而操作类型依据目的的部分也可分为Why、How、What，Why属于高级的操作目标，而how和what则是相对比较初级的操作目标。高级的操作来自于证实环的假说和顿悟，而低级的操作来自行为和发现。</p>
+<p>在认知推理层级上，人类可以观察可视化结果和模型的改变来进行知识的生成。作者提出的模型将意识构建循环化分为上述的3个循环。推理和决策都依赖与心理模型的构建。而根据Legrenzi指出，决策构建的关键组成为信息获取、形成假说、产生推断、衡量利弊以及应用决策准则。人类认知模型（The Human Cognition Model，HCM）也应用到了知识产生模型中，信息探索和知识构建是HCM的核心。信息探索在知识生成模型中以直接与数据打交道的方式实现，而相关模式的产生源自证实环的顿悟，而最后知识的产生则是知识产生模型的中心角色。总之，探索包含整个知识产生过程。</p>
+<p>作者描述模型在现有工具的体现主要目的有：第一，模型的交互可以得到检验；第二，可以检查是否一个系统支持3个循环；第三，可以使用该模型进行不同应用工具的横向比较。但由于我只接触过Tableau。我就只看工具的横向比较，具体可看下图。不同的颜色深浅表示相应理论的支持程度。由图可知，目前的成熟工具主要都是满足于可视化探索的需求，其知识产生方面比较薄弱。</p>
+<p><img src=http://edwardsblog.qiniudn.com/image/2/a2/611fc93b22a862cbaacfbe67423d4.png alt></p>
+<p>####4. 总结、讨论及展望</p>
+<p>作者提出的整个知识产生模型将人机两个融合到了一个系统，不仅仅在全局上提供了完备的论述，在细节上也提出了几个新方面，主要是将人类的认知思维融入整个系统当中，体现了分析人员对于可视化分析的重要性。文章中的模型目前还只是阐述了一个独立的分析过程，当涉及协作分析的要素，知识的分享就需要在分布认知理论上考虑。而一个带有他人评论的可视化结果可能可以揭示数据之间有意思的方面，这就涉及到发现或者顿悟在同行之间的分享了。知识生成的自动化方面依据不同的层级有不同的发展潜力。在探索环中，系统应该能够提供机器计算的前后状态切换，使得分析人员在交互中学到更多。自动检查意想不到的结果是复杂的，因为这需要分析人员定义什么是他所期望的。而在交互中给分析人员提供下一步操作的建议则是比较有意义的事情，也就是以行为驱动的推荐系统。在证实环中，系统可以针对分析后的发现数据，自动地生成假说也是一个比较合理的改进，当然一般是针对数据之间简单的关键产生的假说。在知识产生环中，自动地从顿悟转换为知识或者从知识转换成假说是不可能实现的，因为这需要分析人员的参与。</p>
+<p>对于可视化分析系统未来的发展，作者认为数据趋于越来越复杂以及动态，人与模型之间的交互将会处在更加重要的地步。可视化分析的关键是交互方式，所以我们需要考虑交互的代价前提下充分利用人与系统之间的交互来提高分析的效率。而当今分析系统的单向操作应该也能改进成能返回先前的分析结果的功能。总之作者提出的模型将3个循环框架融入进模型，并阐述了人机组合作为可视分析的基础的可能性。</p>
+<hr>
+<p>####参考：</p>
+<ol>
+<li>
+<p><a href=http://www.purdue.edu/discoverypark/vaccine/assets/pdfs/publications/pdf/Building%20and%20Applying%20a%20Human%20Cognition.pdf>Knowledge Generation Model for Visual Analytics</a></p>
+</li>
+<li>
+<p><a href=http://www.vismaster.eu/wp-content/uploads/2010/11/VisMaster-book-lowres.pdf>Mastering the Information Age Solving Problems with Visual Analytics</a></p>
+</li>
+<li>
+<p><a href=http://bib.dbvis.de/uploadedFiles/55.pdf>Visual analytics: Scope and challenges</a></p>
+</li>
+<li>
+<p><a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6327297">The User Puzzle—Explaining the Interaction with Visual Anlytics Systems</a></p>
+</li>
+<li>
+<p><a href=http://vis.pku.edu.cn/blog/%E5%8F%AF%E8%A7%86%E5%88%86%E6%9E%90%E4%B8%AD%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BA%A7%E7%94%9F%E6%A8%A1%E5%9E%8B-knowledge-generation-model-for-visual-analytics/>北大可视化小组关于本论文的报告</a></p>
+</li>
+</ol>
+</div>
+<div class=my-4>
+<a href=/tags/visual/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Visual</a>
+<a href=/tags/paper/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Paper</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+<span class="block font-bold">Previous</span>
+<a href=/posts/try-to-display-mathematical-equations-in-ghost/ class=block>在Ghost Blog上尝试输出数学公式</a>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/posts/full-text-search-of-mongodb-with-solr/ class=block>MongoBD+Solr全文搜索的历程</a>
+</div>
+</div>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/posts/coursera-classgetting-your-research-project-started/>Coursera Data-analysis001:Getting Your Research Project Started</a>
+<br>
+<a href=/posts/visual-101/>可视化之旅</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>
