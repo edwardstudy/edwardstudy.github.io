@@ -38,7 +38,6 @@
 </button>
 <div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
 <div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-<a href=/#about class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 border-transparent mr-4">About</a>
 <a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 border-transparent mr-4">Posts</a>
 </div>
 <div class=flex>
@@ -63,39 +62,56 @@
 </div>
 </header>
 <main class="flex-grow pt-16">
-<div class="bg-secondary-bg pl-scrollbar">
+<div class="pl-scrollbar bg-secondary-bg">
 <div class="max-w-screen-xl mx-auto">
-<div class="grid grid-cols-9 grid-rows-5 h-(screen-16)">
-<div class="col-start-3 col-span-5 row-start-2 row-span-3 z-20">
-<div class="flex flex-col items-center justify-center min-h-full">
-<div class="bg-white bg-opacity-75 shadow-2xl -m-12 p-12">
-<span class="font-bold text-black text-opacity-75 text-2xl md:text-3xl"></span>
+<div id=about class="lg:w-3/4 mx-auto px-6 md:px-8 xl:px-12 py-12">
+<div class="flex flex-col md:flex-row items-center justify-center mb-12">
+<div class="flex-none w-48 mx-auto md:ml-0 md:mr-8 md:pr-8 md:border-r">
+<img src="https://avatars.githubusercontent.com/u/3296433?s=400&u=05babbf166ca2b0c6fd2c41d97c7b033738d2ee1&v=4" class=rounded-full alt=Avatar>
+</div>
+<div class="flex-grow mt-4 md:mt-0">
+<div class="text-3xl py-4">About</div>
+<div class="w-3/12 xl:w-2/12 border-b"></div>
+<div class="flex items-center pt-4">
+<i class="fas fa-user"></i>
+<div class="flex flex-wrap">
+<span class=pl-4>Dev</span>
+<a href class=pl-4></a>
+</div>
+</div>
+<div class="py-8 text-lg leading-normal">
+born and raised in Changsha; engineer👨‍💻; gamer🎮; ex-IBMer; still at ☁️
+</div>
+</div>
+<div class="flex md:flex-col justify-center items-end ml-8">
+<div class="pb-2 pr-4 md:pr-0 pt-4 md:pt-0">
+<a href=mailto:shawzida@gmail.com><i class="fas fa-envelope"></i></a>
+</div>
+<div class="pb-2 pr-4 md:pr-0 pt-4 md:pt-0">
+<a href=https://github.com/edwardstudy><i class="fab fa-github"></i></a>
+</div>
+</div>
+</div>
+<div class=content>
 </div>
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class=pl-scrollbar>
+<div class="pl-scrollbar bg-primary-bg">
 <div class="max-w-screen-xl mx-auto">
-<div class="pt-12 md:px-4 xl:px-8">
-<div class="mx-4 xl:mx-16">
-<div class="flex flex-row items-center justify-between">
-<h2 class="font-bold text-3xl my-4">Recent</h2>
+<div id=pages class="lg:w-3/4 mx-auto px-6 md:px-8 xl:px-12 py-12">
+<h2 class="font-bold text-3xl my-4">Pages</h2>
+<div class=overflow-hidden>
+<div class=mb-6>
+<div class="bg-secondary-bg rounded border hover:shadow-lg transition ease-in-out duration-200 px-6 pt-6 pb-4">
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/load-scheduling-brief/ class="font-bold text-xl hover:text-eureka">集群内负载调度方案调研</a>
 </div>
-<div class="masonry grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-<div class=item>
-<div class=grid-content>
-<div class="bg-secondary-bg rounded overflow-hidden border hover:shadow-lg transition ease-in-out duration-200">
-<div class="px-6 pt-6">
-<div class="font-bold text-xl text-primary-text mb-2">
-<a href=/posts/load-scheduling-brief/ class=hover:text-eureka>集群内负载调度方案调研</a>
-</div>
-<div>
+<div class=content>
 背景 资源调度是容器云平台中最核心的功能之一。为了满足各业务线的资源需求，调度系统需要选择合适的集群分配计算资源，支撑业务服务的运行。 Kubernete
 </div>
-</div>
-<div class="px-6 pb-2">
 <div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
 <div class="mr-6 my-2">
 <i class="fas fa-calendar mr-1"></i>
@@ -110,18 +126,16 @@
 </div>
 </div>
 </div>
-<div class=item>
-<div class=grid-content>
-<div class="bg-secondary-bg rounded overflow-hidden border hover:shadow-lg transition ease-in-out duration-200">
-<div class="px-6 pt-6">
-<div class="font-bold text-xl text-primary-text mb-2">
-<a href=/posts/jie-jue-kubernetes-admission-webhook-timeout-error/ class=hover:text-eureka>解决Kubernetes admission webhook timeout error</a>
+<div class=mb-6>
+<div class="bg-secondary-bg rounded border hover:shadow-lg transition ease-in-out duration-200 px-6 pt-6 pb-4">
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/jie-jue-kubernetes-admission-webhook-timeout-error/ class="font-bold text-xl hover:text-eureka">解决Kubernetes admission webhook timeout error</a>
 </div>
-<div>
+<div class=content>
 最近在做cluster chaos test，我们的功能组件出现不可用的情况。原因是Kubernetes admission webhook在执行中出现连接拒绝访问和timeout的
 </div>
-</div>
-<div class="px-6 pb-2">
 <div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
 <div class="mr-6 my-2">
 <i class="fas fa-calendar mr-1"></i>
@@ -140,18 +154,16 @@
 </div>
 </div>
 </div>
-<div class=item>
-<div class=grid-content>
-<div class="bg-secondary-bg rounded overflow-hidden border hover:shadow-lg transition ease-in-out duration-200">
-<div class="px-6 pt-6">
-<div class="font-bold text-xl text-primary-text mb-2">
-<a href=/posts/how-to-easily-deploy-cloud-foundry-applications-on-a-kubernetes-cluster/ class=hover:text-eureka>[转载]How to easily deploy Cloud Foundry applications on a Kubernetes cluster</a>
+<div class=mb-6>
+<div class="bg-secondary-bg rounded border hover:shadow-lg transition ease-in-out duration-200 px-6 pt-6 pb-4">
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/how-to-easily-deploy-cloud-foundry-applications-on-a-kubernetes-cluster/ class="font-bold text-xl hover:text-eureka">[转载]How to easily deploy Cloud Foundry applications on a Kubernetes cluster</a>
 </div>
-<div>
+<div class=content>
 本人在IBM Developer发表了一篇关于cf-operator的介绍。相比原文，内容更加简单易懂。这里也提一嘴cf-o当前的状态。首先，第一个GA
 </div>
-</div>
-<div class="px-6 pb-2">
 <div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
 <div class="mr-6 my-2">
 <i class="fas fa-calendar mr-1"></i>
@@ -166,18 +178,16 @@
 </div>
 </div>
 </div>
-<div class=item>
-<div class=grid-content>
-<div class="bg-secondary-bg rounded overflow-hidden border hover:shadow-lg transition ease-in-out duration-200">
-<div class="px-6 pt-6">
-<div class="font-bold text-xl text-primary-text mb-2">
-<a href=/posts/intro-of-cf-operator/ class=hover:text-eureka>cf-operator的介绍</a>
+<div class=mb-6>
+<div class="bg-secondary-bg rounded border hover:shadow-lg transition ease-in-out duration-200 px-6 pt-6 pb-4">
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/intro-of-cf-operator/ class="font-bold text-xl hover:text-eureka">cf-operator的介绍</a>
 </div>
-<div>
+<div class=content>
 cf-operator马上就要在近期宣布beta release。beta版会实现在Kuberntes上部署Cloud Foundry或者BOSH rele
 </div>
-</div>
-<div class="px-6 pb-2">
 <div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
 <div class="mr-6 my-2">
 <i class="fas fa-calendar mr-1"></i>
@@ -198,18 +208,16 @@ cf-operator马上就要在近期宣布beta release。beta版会实现在Kubernte
 </div>
 </div>
 </div>
-<div class=item>
-<div class=grid-content>
-<div class="bg-secondary-bg rounded overflow-hidden border hover:shadow-lg transition ease-in-out duration-200">
-<div class="px-6 pt-6">
-<div class="font-bold text-xl text-primary-text mb-2">
-<a href=/posts/kubernetesbian-controller-pattern/ class=hover:text-eureka>Kubernetes编程范式——Controller pattern</a>
+<div class=mb-6>
+<div class="bg-secondary-bg rounded border hover:shadow-lg transition ease-in-out duration-200 px-6 pt-6 pb-4">
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/kubernetesbian-controller-pattern/ class="font-bold text-xl hover:text-eureka">Kubernetes编程范式——Controller pattern</a>
 </div>
-<div>
+<div class=content>
 引子 Kubernetes的定位是非常明确和简单的，就是容器的编排与调度管理的系统。Kubernetes所关注的核心就是容器（Container）。Ku
 </div>
-</div>
-<div class="px-6 pb-2">
 <div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
 <div class="mr-6 my-2">
 <i class="fas fa-calendar mr-1"></i>
@@ -230,169 +238,11 @@ cf-operator马上就要在近期宣布beta release。beta版会实现在Kubernte
 </div>
 </div>
 </div>
-<div class=item>
-<div class=grid-content>
-<div class="bg-secondary-bg rounded overflow-hidden border hover:shadow-lg transition ease-in-out duration-200">
-<div class="px-6 pt-6">
-<div class="font-bold text-xl text-primary-text mb-2">
-<a href=/posts/intro-operator/ class=hover:text-eureka>Intro Operator</a>
-</div>
-<div>
-What is Operator 我们知道容器技术的发展带来了开发流程的简化：开发者不再需要费尽心力地将应用部署到不同环境下，真正所要做的只需完成核心业务的开发然后构建应用的镜像
+<div class="px-8 pt-2 hover:text-eureka">
+<a href=/posts/ class=font-semibold>Read More</a>
+<i class="fas fa-caret-right ml-1"></i>
 </div>
 </div>
-<div class="px-6 pb-2">
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2019-01-07</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>5 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
-<span>, </span>
-<a href=/categories/operator/ class=hover:text-eureka>Operator</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class=item>
-<div class=grid-content>
-<div class="bg-secondary-bg rounded overflow-hidden border hover:shadow-lg transition ease-in-out duration-200">
-<div class="px-6 pt-6">
-<div class="font-bold text-xl text-primary-text mb-2">
-<a href=/posts/golang-test-coverage/ class=hover:text-eureka>Golang的Test coverage配置</a>
-</div>
-<div>
-Test coverage是作为发现未被测试覆盖的代码的手段。 传统的代码测试覆盖方法有：函数覆盖、语句覆盖、决策覆盖和条件覆盖。函数覆盖和语句覆盖都是指函数或
-</div>
-</div>
-<div class="px-6 pb-2">
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2017-08-27</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>2 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/test/ class=hover:text-eureka>Test</a>
-<span>, </span>
-<a href=/categories/coverage/ class=hover:text-eureka>Coverage</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class=item>
-<div class=grid-content>
-<div class="bg-secondary-bg rounded overflow-hidden border hover:shadow-lg transition ease-in-out duration-200">
-<div class="px-6 pt-6">
-<div class="font-bold text-xl text-primary-text mb-2">
-<a href=/posts/deploy-kubernetes-by-kubeadm/ class=hover:text-eureka>双机环境部署Kubernetes</a>
-</div>
-<div>
-本文使用kubeadm在虚机上部署一master一node的Kubernetes（k8s）集群。 0x01 环境 首先是创建环境，笔者使用的是两台8核8G内存的虚
-</div>
-</div>
-<div class="px-6 pb-2">
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2017-08-27</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>2 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class=item>
-<div class=grid-content>
-<div class="bg-secondary-bg rounded overflow-hidden border hover:shadow-lg transition ease-in-out duration-200">
-<div class="px-6 pt-6">
-<div class="font-bold text-xl text-primary-text mb-2">
-<a href=/posts/os-x-run-sudo-go-commad/ class=hover:text-eureka>OS X下运行sudo go command</a>
-</div>
-<div>
-写code的时候遇到需要修改/etc/hosts的情况，这个文件需要root权限才能修改。在container上能够成功运行，而在Mac本地调试时遇到
-</div>
-</div>
-<div class="px-6 pb-2">
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2017-08-22</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>1 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/osx/ class=hover:text-eureka>OSX</a>
-<span>, </span>
-<a href=/categories/bash/ class=hover:text-eureka>Bash</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class=item>
-<div class=grid-content>
-<div class="bg-secondary-bg rounded overflow-hidden border hover:shadow-lg transition ease-in-out duration-200">
-<div class="px-6 pt-6">
-<div class="font-bold text-xl text-primary-text mb-2">
-<a href=/posts/dive-into-bosh-cli-workflow/ class=hover:text-eureka>BOSH CLI 部署流程</a>
-</div>
-<div>
-0x00 Intro 本文档翻译的内容来自官方文档 描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。 0x01. 验证配置文件ma
-</div>
-</div>
-<div class="px-6 pb-2">
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2017-08-19</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>6 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/bosh/ class=hover:text-eureka>BOSH</a>
-<span>, </span>
-<a href=/categories/orchestration/ class=hover:text-eureka>Orchestration</a>
-<span>, </span>
-<a href=/categories/cloud/ class=hover:text-eureka>Cloud</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<script>document.addEventListener('DOMContentLoaded',()=>{enableMasonry()})</script>
 </div>
 </div>
 </div>
