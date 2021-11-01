@@ -101,7 +101,7 @@
 </ul>
 <p>可以调整5分钟、1小时的均值和峰值的预选阈值
 可以配置5分钟、1小时、1天的均值和峰值的优选权重</p>
-<p><img src=http://edwardsblog.edwardesire.com/image/2021/05/FvO8X4Y6F6FwKDW8NI114BxXhURt.jpg alt="example 1"></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2021/05/FvO8X4Y6F6FwKDW8NI114BxXhURt.jpg alt="example 1"></p>
 <p>举例来说，当一个新pod被调度时，kube scheduler能够将pod调度到真实利用率低的节点上。</p>
 <h4 id=22-k8s社区ibm-paypal---load-watcher>2.2 k8s社区(IBM, Paypal) - load watcher</h4>
 <p>指标收集load watcher: 将节点资源使用指标缓存到本地：</p>
@@ -111,7 +111,7 @@
 <li>并服务于调度器插件查询
 调度扩展scheduler plugin：基于Scheduler Framework Plugin实现优选阶段的Score插件，依据资源利用率对工作节点打分，选出资源利用率最低的节点。</li>
 </ul>
-<p><img src=http://edwardsblog.edwardesire.com/image/2021/05/FskIu368BD_oWOd3d4M_Mvx1xwIk.jpg alt=example2></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2021/05/FskIu368BD_oWOd3d4M_Mvx1xwIk.jpg alt=example2></p>
 <p>这套方案期望的调度结果是：在总资源请求量和平均资源使用量之外，这个方案还会考虑历史周期内出现高峰值的情况，并倾向于将新pod调度到节点1上。</p>
 <h4 id=23-intel---schedule-on-metric>2.3 Intel - Schedule on metric</h4>
 <p>两个核心组件部署到同一个pod内协同工作：
@@ -160,9 +160,9 @@ spec:
 <ol start=3>
 <li>最终extender会将Pod A调度到可用内存量最高的Node A上。在优选阶段，调度器会依据extender返回节点列表选择优先级最高的节点。</li>
 </ol>
-<p><img src=http://edwardsblog.edwardesire.com/image/2021/05/Fv4hkGoF9wlREDKmPNfZyJ7Fn2_o.png alt=example3></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2021/05/Fv4hkGoF9wlREDKmPNfZyJ7Fn2_o.png alt=example3></p>
 <h4 id=24-负载调度扩展方案比较>2.4 负载调度扩展方案比较</h4>
-<p><img src=http://edwardsblog.edwardesire.com/image/2021/05/FioLBntXsgNUKMVBV2U3jGzGCPPA.jpg alt="table of cases"></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2021/05/FioLBntXsgNUKMVBV2U3jGzGCPPA.jpg alt="table of cases"></p>
 <h3 id=k8s扩展调度方式>k8s扩展调度方式</h3>
 <p>由上述方案可以看出，业界针对动态负载调度主要基于两类方式扩展默认调度器：scheduler extender，scheduler framework plugin。两者都属于非侵入式的方案，无需修改scheduler核心代码。</p>
 <pre><code>|     方式.    |  scheduler    |   extender    |

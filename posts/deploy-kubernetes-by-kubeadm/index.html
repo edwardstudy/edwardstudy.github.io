@@ -138,31 +138,31 @@ apt-get install -y kubelet kubeadm
 <pre><code class=language-bash>kubeadm init --pod-network-cidr=192.168.0.0/16 --skip-preflight-checkskubeadm init --pod-network-cidr=192.168.0.0/16
 </code></pre>
 <p>如果成功启动，可以看到如何加入cluster的方法：<code>kubeadm join --token &lt;token> &lt;master-ip>:&lt;master-port></code>。</p>
-<p><img src=http://edwardsblog.edwardesire.com/image/2017/08/FiSvkdJNIEQEUJb2STaNfuyqlBi0.png alt="kubeadm init"></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2017/08/FiSvkdJNIEQEUJb2STaNfuyqlBi0.png alt="kubeadm init"></p>
 <p>接着部署网络，我选择的network add-on是Calico。直接部署pods即可：</p>
 <pre><code class=language-bash>kubectl apply -f http://docs.projectcalico.org/v2.4/getting-started/kubernetes/installation/hosted/kubeadm/1.6/calico.yaml
 </code></pre>
-<p><img src=http://edwardsblog.edwardesire.com/image/2017/08/FkLtfVRxN0rcDHpr6QYU7PnVpn8u.png alt=apply_network_add_on></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2017/08/FkLtfVRxN0rcDHpr6QYU7PnVpn8u.png alt=apply_network_add_on></p>
 <p>等待新加入的pod和kube-dns状态转换为<code>Running</code>时，就表明网络配置成功。<br>
 这个时候切换到node1机器上，使用<code>kubeadm</code>将node1节点加入到cluster中。</p>
 <pre><code class=language-bash>kubeadm join --token d8fb64.052e0bf570346675 169.50.70.124:6443
 </code></pre>
-<p><img src=http://edwardsblog.edwardesire.com/image/2017/08/FiSvkdJNIEQEUJb2STaNfuyqlBi0.png alt=join_cluster></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2017/08/FiSvkdJNIEQEUJb2STaNfuyqlBi0.png alt=join_cluster></p>
 <p>当成功执行后，再切换回master查看node情况。</p>
 <pre><code>kubectl get nodes
 </code></pre>
-<p><img src=http://edwardsblog.edwardesire.com/image/2017/08/FniNl-grGZIFSgL2aMhJw7h9mGo_.png alt=nodes_status></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2017/08/FniNl-grGZIFSgL2aMhJw7h9mGo_.png alt=nodes_status></p>
 <p>可以看到，node1已经成功加入到cluster当中。</p>
 <p>0x05 Test</p>
 <pre><code>kubectl create namespace sock-shop
 kubectl apply -n sock-shop -f &quot;https://github.com/microservices-demo/microservices-demo/blob/master/deploy/kubernetes/complete-demo.yaml?raw=true&quot;
 </code></pre>
 <p>等待相关的pod成功创建，可以看到这个pod都部署在了node1机器上。
-<img src=http://edwardsblog.edwardesire.com/image/2017/08/FgtWZqysTNwTMuhoCej4g7r38OrX.png alt=pods_status></p>
+<img src=https://edwardsblog.edwardesire.com/image/2017/08/FgtWZqysTNwTMuhoCej4g7r38OrX.png alt=pods_status></p>
 <p>我们使用 <code>kubectl -n sock-shop get svc front-end</code> 查看前端的端口。</p>
-<p><img src=http://edwardsblog.edwardesire.com/image/2017/08/FoGhxS7VuuIr3gLMapY5t86H3ou7.png alt=services></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2017/08/FoGhxS7VuuIr3gLMapY5t86H3ou7.png alt=services></p>
 <p>然后测试一下结果。</p>
-<p><img src=http://edwardsblog.edwardesire.com/image/2017/08/Fgyie-K1ub48SZ7j-pzw3RZyyLQ8.png alt=curl_result></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2017/08/Fgyie-K1ub48SZ7j-pzw3RZyyLQ8.png alt=curl_result></p>
 <p>整个部署的过程十分简单和顺利。</p>
 </div>
 <div class=my-4>

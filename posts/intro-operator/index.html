@@ -113,7 +113,7 @@
 <p>CRD允许你定义自己的资源类型，而Operator通过controller-runtime来观察CR（custom resource）对象，并且依据input(spec)来更新这个对象；最后更新必要的ouput(status)。K8s API会向外暴露CRD的接口并且存储CR的状态。</p>
 <p>因为Operator是扩张了k8s的资源对象类型，所以用户可以通过使用kubect或者k8s API更新CR来更新和管理应用（比如我们常需的安装，升级和扩展）。并且Operator还支持使用k8s的工具在k8s集群中安装/管理Operator。所以理论上， operator能给在不同的k8s集群上完成同样的功能（Easy for hybrid cloud）。</p>
 <p>如果我们用一张图来展示Operator的工作流程图。
-<img src=http://edwardsblog.edwardesire.com/image/2019/04/FitGEK6jN5I7ibVAjEfmEqM18f3s.png alt></p>
+<img src=https://edwardsblog.edwardesire.com/image/2019/04/FitGEK6jN5I7ibVAjEfmEqM18f3s.png alt></p>
 <p>那么左边是应用的定义（manifest）：定义了我们的应用基本属性，这里有个例子：<code>https://github.com/edwardstudy/memcached-operator/blob/v0.0.1/deploy/crds/cache_v1alpha1_memcached_cr.yaml</code></p>
 <pre><code class=language-yaml>apiVersion: cache.example.com/v1alpha1
 kind: Memcached

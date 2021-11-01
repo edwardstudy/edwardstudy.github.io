@@ -100,7 +100,7 @@
 </ul>
 <h3 id=cloud-foundry-containerization>Cloud Foundry Containerization</h3>
 <p>cf-operator就是替换CF Containerization中部署的一环。我们先看看现有的部署方式有什么不足。通过<a href=https://github.com/SUSE/scf>scf</a>的源码可以看出，现有的cf on kube是通过make target完成不同的任务：</p>
-<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/FmP9NVXEj16_QBlR56_h85PCswqo.png alt="scf statu quo"></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2019/09/FmP9NVXEj16_QBlR56_h85PCswqo.png alt="scf statu quo"></p>
 <ol>
 <li><code>make bosh-images uaa-images</code>：构建CF组件的Docker images，构建过程中需要指定stemcell、release和fissile定义的release manifest来配置的image参数</li>
 <li><code>make helm</code>：当有个应用所需的image之后就可以生成Helm Charts</li>
@@ -122,7 +122,7 @@
 <li>cf-operator要做的是：1. 接收cf-deployment manifest并且将BOSH instance group转化成Kubernetes的资源定义 2.将configgin的render BOSH ERB templates步骤放在了每个pod的Init Containers中 3. 移除monit，并使用BOSH Process Manager（BPM）来管理应用进程, 通过BPM和Bosh link的信息来限制process的启动 4. 每个容器只运行一个Job的进程，并且通过 BPM来提供entrypoint所需信息</li>
 </ul>
 <p>那么CF Containerization的流程就变成了这样：</p>
-<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/FmR7_VajHMBK64wIXdtlm79SHj6I.png alt="cf-o flow"></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2019/09/FmR7_VajHMBK64wIXdtlm79SHj6I.png alt="cf-o flow"></p>
 <p>cf-operator将读取BOSH相兼容的<a href=https://github.com/cloudfoundry/cf-deployment>cf-deployment manifest</a>的配置信息并使用fissile构建的release image来部署CF。更进一步说，只要用户提供来包含BOSH release的image和相应的BOSH deployment manifest，cf-operator就能够将这个应用部署在Kubernetes上。</p>
 <p>为了实现上述功能，cf-operator需要扩展Kube原有的资源类型并且自定义一个总体控制部署的资源类型。</p>
 <h3 id=extended-resources-definitions>Extended-resources definitions</h3>
@@ -135,7 +135,7 @@
 <li>存储卷的管理：当更新时，能够重用旧版本的PVC</li>
 <li>可用区域（AZ）的支持：AZ是BOSH的概念，controller会在每个zone里创建一个StatefulSet并通过node affinity来控制编排</li>
 </ul>
-<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/Fss4KcRyWRzmgHIBDVZ0ZZTOr_sE.png alt="ests controller"></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2019/09/Fss4KcRyWRzmgHIBDVZ0ZZTOr_sE.png alt="ests controller"></p>
 <p>为了实现如上功能，cf-operator会启动两个controller来管理ExtendedStatefulSet。一个ExtendedStatefulSet controller会监控ExtendedStatefulSet的定义和其引用的ConfigMap或者Secret（volume或者env value）。当监控的资源发送变化时，这个controller会依据新的spec创建新版本的StatefulSet。而另一个cleanup controller则会监控新StatefulSet的创建，并且当新版本的Pod准备就绪之后尝试删除旧版本的StatefulSet。</p>
 <h4 id=2-extendedjob>2. ExtendedJob</h4>
 <p>和ExtendedStatefulSet类型，ExtendedJob负责实现Errand的Instance group。一个Errand会创建一个Kube Job来完成任务。并且依据spec不同，ExtendedJob支持如下功能：</p>
@@ -145,7 +145,7 @@
 <li>存储job container执行结果：能够将执行之后的结果存储到Kube Secret中并且删除Kube Job。</li>
 <li>带版本的Secret存储：当ExtendedJob选择将结果存储到"Versioned Secrets"时，controller会控制输出存储到比已有Secret的版本加"1"的新Secret中</li>
 </ul>
-<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/Fn74oehaN1z_cbEhbPda6Bj4K3zK.png alt="ejob controller"></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2019/09/Fn74oehaN1z_cbEhbPda6Bj4K3zK.png alt="ejob controller"></p>
 <p>对于ExtendedJob，cf-operator也注册两个controller来协调。erran-controller和ExtendedStatefulSet controller类似，监控ExtendedJob对象和所引用的配置资源的变化，并创建Kube Job来执行任务。如果你想要trigger errand job需要将 <code>spec.trigger.strategy: manual</code>修改成<code>spec.trigger.strategy: now</code>。而job-controller则会依据<code>spec.output</code>的信息，将运行结果存储到指定的secret中。</p>
 <h4 id=3-extendedsecret>3. ExtendedSecret</h4>
 <p>ExtendedSecret的主要功能是配置和生成BOSH Variables。依据<code>spec.type</code>的不同，ExtendedSecret支持下列敏感数据的生成：</p>
@@ -158,7 +158,7 @@
 <li><code>cluster-signed certificate</code></li>
 </ul>
 <p>和其他类型不同，<code>cluster-signed certificate</code>的证书是被Kubernetes API Server签发的，这个证书至少是在集群范围内所认可的证书。</p>
-<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/FisLlt16rBBuIkIIbqFbETk0AUCL.png alt=esec-controller></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2019/09/FisLlt16rBBuIkIIbqFbETk0AUCL.png alt=esec-controller></p>
 <p>ExtendedSecret的两个controller中，一个ExtendedSecret controller负责监控ExtendedSecret的对象，然后依据类型和参数生成相应的敏感数据。如果需要生成集群签发的证书，ExtendedSecret controller会生成CertificateSigningRequest对象。CertificateSigningRequest controller会监控ExtendedSecret controller生成的CertificateSigningRequest对象并且自动批准该对象。当API Server签发该证书之后，ExtendedSecret controller再继续将certificate和相应的private key存储到指定的secret中。</p>
 <h3 id=boshdeployment-definition>BoshDeployment definition</h3>
 <p>BoshDeployment的资源定义是一种专门为BOSH Deployment在Kubernetes实现的类型。这个资源的Controller集主要实现三大部分的功能（这里涉及了很多BOSH的概念，需要自己探索）：</p>
@@ -174,7 +174,7 @@
 </li>
 <li>部署Instance group在Kubernetes上的实现</li>
 </ul>
-<p><img src=http://edwardsblog.edwardesire.com/image/2019/09/FujIEQMw7b5Xl6z8D2fJyCeyumDq.png alt=bdpl-workflow></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2019/09/FujIEQMw7b5Xl6z8D2fJyCeyumDq.png alt=bdpl-workflow></p>
 <p>BoshDeployment的controller集的工作十分复杂，我们先屏蔽一些细节。对于BoshDeployment CRD，Deployment controller会监控这类资源以及所引用的其他配置资源。当BoshDeployment需要更新时，Deployment controller首先会解析base manifest，并且插入spec所引用的ops configMap/secret。处理之后的manifest包含我们期望的应用配置信息和所需的变量信息，所以我们称之为<code>with-ops manifest</code>。并且Deployment controller还会创建三个重要的ExtendedJob：desired manifest eJob（简称<code>dm-ejob</code>），instance group eJob（简称<code>ig-ejob</code>），和bpm config eJob（简称<code>bpm-ejob</code>）。<code>dm-ejob</code>依赖variable secrets，<code>ig-ejob</code>和<code>bpm-ejob</code>依赖<code>dm-ejob</code>的结果Secret（例如<code>desired manifest-v1</code>）。<code>ig-ejob</code>和<code>bpm-ejob</code>为每个instance group创建相应的secret:</p>
 <ul>
 <li>Instance Group解析后的属性(properties)(例如ig-resolved.nats-v1)</li>

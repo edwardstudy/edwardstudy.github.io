@@ -110,7 +110,7 @@ metadata:
 ...
 </code></pre>
 <p>在这个YAML文件中，Job就是这个API对象的资源类型（Kind），<code>batch</code>就是它的组（Group），v2alpha1 就是它的版本（Version）。通过这样的结果就能够在整个Kubernetes的所有API对象中找到资源。</p>
-<p><img src=http://edwardsblog.edwardesire.com/image/2019/05/FsDycgUbLZKBRLu_h7nGkbJBZvsF.png alt></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2019/05/FsDycgUbLZKBRLu_h7nGkbJBZvsF.png alt></p>
 <p>首先是匹配对象的组<code>Batch</code>，然后找到API对象的版本<code>v1</code>，最后匹配API的资源类型<code>Job</code>。更准确的说，<code>Job</code>的实际路径是<code>/apis/batch/v1/namespaces/$NAMESPACE/jobs</code>。因为<code>Job</code>不是cluster范围的资源，所以它需要指定具体的namespace。</p>
 <p>回到我们的题目上来，Kubernetes面向API Object的编程模型有两个操作：</p>
 <ol>
@@ -159,7 +159,7 @@ metadata:
 <li>分析：确定当前状态和期望状态的不同</li>
 <li>执行：执行能够驱动对象当前状态变化的操作</li>
 </ul>
-<p><img src=http://edwardsblog.edwardesire.com/image/2019/05/FllpeVuHJ8O2FieM3DCSP9skJg61.png alt="observe-analyze-act cycle"></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2019/05/FllpeVuHJ8O2FieM3DCSP9skJg61.png alt="observe-analyze-act cycle"></p>
 <p>例如，ReplicaSet controller会监控ReplicaSet对象的变化，并分析目标状态需要多少Pods运行，然后在向API Server请求创建缺少的Pods。Kubernetes的后端（准确的说是是Master上的kube-scheduler）负责在节点上启动新的Pod。</p>
 <p>Controllers属于Kuberrnetes控制平面（control plane）的组件，成为了扩展平台管理复杂应用的标准机制。并且，一类名为Operator的框架基于Controller pattern实现了更加成熟的管理应用机制。从发展关系和复杂度来说，我们可以把这两类方法总结如下：</p>
 <ul>

@@ -93,7 +93,7 @@
 <h3 id=问题描述>问题描述</h3>
 <h4 id=error-injection>Error Injection</h4>
 <p>chaos test进行的error injection是：禁止一批（一个zone内）Kube nodes的 网络20分钟，并且持续地产生admission webhook workloads（创建相应的CR）。我们的webhook拥有3个replicas分布在3个不同的zone。从injection开始，其中一个webhook pod会受到影响，Kube无法判断pod状态，直接抛弃创建新的pod来满足replicas。我们发现Service确实及时地把这个pod的endpoint(172.30.82.17:8443)踢出，并且在健康的node上创建新的pod。我们从LogDNA的控制面板上也观察到几乎所有的请求成功达到各个pod。</p>
-<p><img src=http://edwardsblog.edwardesire.com/image/2020/06/FuIXTgsOHpDqm-5HbekAFbzJknPM.png alt=logdna-dashboard></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2020/06/FuIXTgsOHpDqm-5HbekAFbzJknPM.png alt=logdna-dashboard></p>
 <p>但是workloads执行中间出现了失败的错误，错误信息显示原因是admission mutating webook响应超时：</p>
 <pre><code>Error from server (InternalError): error when creating &quot;/tmp/mycr930288778.yml&quot;: Internal error occurred: failed calling webhook &quot;mutate-mycrd.apigroup.com&quot;: Post https://mycrd-webhook.control-plane.svc:443/mutate-jobrun?timeout=30s: context deadline exceeded (Client.Timeout exceeded while awaiting headers)
 Error from server (InternalError): error when creating &quot;/tmp/mycr930288778.yml&quot;: Internal error occurred: failed calling webhook &quot;mutate-mycrd.coligo.cloud.ibm.com&quot;: Post https://mycrd-webhook.control-plane.svc:443/mutate-jobrun?timeout=30s: context deadline exceeded
@@ -134,7 +134,7 @@ GODEBUG=http2debug=2 # &mldr; even more verbose, with frame dumps</p>
 <li>同时推cr创建的workload来验证，观察执行情况和webhook的接受请求情况。</li>
 </ul>
 <h3 id=结果>结果</h3>
-<p><img src=http://edwardsblog.edwardesire.com/image/2020/06/FogXkMUz0d6WmRPaSdBiyE-mEC6W.png alt></p>
+<p><img src=https://edwardsblog.edwardesire.com/image/2020/06/FogXkMUz0d6WmRPaSdBiyE-mEC6W.png alt></p>
 <p>经过测试，前面那些错误已经不再出现，cr的创建也成功执行。通过观察webhook的pods在执行中也没有丢request。</p>
 </div>
 <div class=my-4>
