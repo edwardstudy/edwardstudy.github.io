@@ -175,20 +175,20 @@ REST(Representational State Transfer)是一种软件设计架构风格，它定�
 <p>对于PUT操作，以前我写过__v为versionKey，可以充当数据库文档的版本控制flag，但mongoose的.update()方法有些许bug，执行操作后并没有修改__v的值，暂时的解决方法是通过$inc: {key: value}来手动设置。</p>
 <pre><code> //execute route PUT /dtree/:dtree_id
  exports.updateDTree = function (req, res) {
-     //存储到mongoDB前的预处理
+ 	//存储到mongoDB前的预处理
      //..
-     Dtree.update({&quot;_id&quot;: id},  {
-          modifiedKey: modifiedData,
+ 	Dtree.update({&quot;_id&quot;: id},  {
+ 	     modifiedKey: modifiedData,
           $inc: {__v: 1}
-     }, function(err){
-         if(err){
-             console.log('Error: updateDTree: DB failed to update due to ', err);
+ 	}, function(err){
+ 		if(err){
+ 			console.log('Error: updateDTree: DB failed to update due to ', err);
              res.send({'success':false, 'err':err});
-         }else{
+ 		}else{
              console.log('Info: updateDTree: DB updated successully dtree');
              res.send({'success':true});
-         }
-     });
+ 		}
+ 	});
  };  
 </code></pre>
 <p>DELETE操作相对就比较简单了。</p>
@@ -247,20 +247,20 @@ REST(Representational State Transfer)是一种软件设计架构风格，它定�
  }
  //读取数据
  $scope.readDtreeData = function (){
-     dtreeCrudService.get({dtree_id: '54a4c0947752adcc1764f0d4'}, function(res) {
+ 	dtreeCrudService.get({dtree_id: '54a4c0947752adcc1764f0d4'}, function(res) {
          if(res.success){
              console.log(&quot;Info: readDtreeData: Back-end successfully read dtree = &quot;, res.dtree);
          }else{
              console.log('Error: readDtreeData: Back-end failed to read dtree due to ', res.err);
          }
-     }, function(error){
+ 	}, function(error){
          console.log(&quot;Error: readDtreeData: Fail to read due to &quot;, error);
      });
  }
  //更新数据
-     $scope.updateDtreeData = function () {
-         //数据规整成json对象。
-         var data = someChange(data);
+ 	$scope.updateDtreeData = function () {
+     	//数据规整成json对象。
+ 		var data = someChange(data);
          console.log('Info: updateDtreeData: data = ', data);
          dtreeCrudService.update({dtree_id: data._id},data, function(res){
              if(res.success){
@@ -271,7 +271,7 @@ REST(Representational State Transfer)是一种软件设计架构风格，它定�
          }, function(error){
              console.log(&quot;Error: updateDtreeData: Fail to update due to &quot;, error);
          });
-     }
+ 	}
  //删除某个ID的决策树
  $scope.deleteDtreeData = function () {
      dtreeCrudService.delete({dtree_id: $scope.operate_dtreeId}, function(res){

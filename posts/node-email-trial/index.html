@@ -107,37 +107,37 @@
 <pre><code>    var POP3Client = require('poplib');
     //首先建立连接
     var client = new POP3Client(port, host, {
-        tlserrs: false, //是否忽略tls errors
-        enabletls: true, //传输层安全协议ssl
-        debug: true //是否在console输出命令和响应信息
+      	tlserrs: false, //是否忽略tls errors
+      	enabletls: true, //传输层安全协议ssl
+      	debug: true //是否在console输出命令和响应信息
     });
 </code></pre>
 <p>当然我们需要捕获异常来响应服务器发出的错误码，比如111就是服务器拒绝链接。以及一些程序运行过程的控制。通过这些预警措施能有效控制程序的状态。</p>
 <pre><code>    //network error handler
     client.on('error', function(err){
-        if(err.errno === 111){
-                console.log('Unable to connect to server.');
-        }else{
-                console.log('Server error occurred.');
-        }
+      	if(err.errno === 111){
+    		    console.log('Unable to connect to server.');
+      	}else{
+        		console.log('Server error occurred.');
+      	}
           //console错误
-          console.log(err);
+    	  console.log(err);
     });
     //state invalid handler 处理状态与命令不一致的情况
     client.on('invalid-state', function(cmd){
-          console.log('Invalid state. You tried calling ', cmd);
+    	  console.log('Invalid state. You tried calling ', cmd);
     });
     //locked handler 处理多命令同时进行的问题
     client.on('locked', function(cmd){
-          console.log('Current conmand has not finished yet. You tried calling ', cmd);
+    	  console.log('Current conmand has not finished yet. You tried calling ', cmd);
     });
 </code></pre>
 <p>按照开始所述的POP3服务流程，我们需要先建立与服务器的连接，并进行身份认证才能进行邮件的获取操作。首先获取邮件列表，再获取第一封邮件的内容。这些操作都成功后就发出QUIT命令来退出服务。</p>
 <pre><code>    //connect to the remote server
     client.on('connect', function(){
-        console.log('CONNECT success');
+      	console.log('CONNECT success');
       //成功建立连接后进入AUTHORIZATION状态，进行身份认证
-        client.login(username, password);
+      	client.login(username, password);
     });
     /**
      * Successfully login
@@ -145,48 +145,48 @@
     //login handler status Boolean
     client.on('login', function(status, rawdata){
           if(status){
-                console.log('LOGIN/PASS success.');
-              //获取邮件列表
-                client.list();
-          }else{
-                console.log('ERR: LOGIN/PASS failed');
-                client.quit();
-        }
+        		console.log('LOGIN/PASS success.');
+      		  //获取邮件列表
+    		    client.list();
+    	  }else{
+        		console.log('ERR: LOGIN/PASS failed');
+        		client.quit();
+      	}
     });
     //LIST handler
     client.on('list', function(status, msgcount, msgnumber, data, rawdata){
-        if(status === false){
-                console.log('LIST failed');
-                //获取失败，退出服务
-                client.quit();
-          }else{
-                console.log('LIST success with', msgcount, ' element(s).');
-                if(msgcount &gt; 0){
+      	if(status === false){
+	            console.log('LIST failed');
+	            //获取失败，退出服务
+    		    client.quit();
+    	  }else{
+	            console.log('LIST success with', msgcount, ' element(s).');
+	            if(msgcount &gt; 0){
           //获取第一封邮件
-                    client.retr(1);
-                }
-        }
+      			    client.retr(1);
+    		    }
+      	}
     });
     //RETR handler
     client.on('retr', function(status, msgnumber, data, rawdata){
-          if(status === true){
-                console.log('RETR success', msgnumber);
+    	  if(status === true){
+    		    console.log('RETR success', msgnumber);
         //获得后，输出data数据
         console.log('data is ', data);
-                client.quit();
-        }else{
-                console.log('ERR: RETR failed for msgnumber', msgnumber);
+        		client.quit();
+      	}else{
+	            console.log('ERR: RETR failed for msgnumber', msgnumber);
           }
     });
     //QUIT handler
     client.on('quit', function(status, rawdata){
-        if(status === true){
-                console.log('QUIT success');
-                process.exit(0);
-          }else{
+      	if(status === true){
+    		    console.log('QUIT success');
+        		process.exit(0);
+    	  }else{
         console.log('ERR: QUIT failed.');
-                process.exit(0);
-          }
+        		process.exit(0);
+    	  }
     });
 </code></pre>
 <p>这个lib的使用非常简单，但对于结果解析的支持基本没有。不能很好满足我们的需求。所以需要替换为另一个比较复杂但功能更多的邮件协议——IMAP。</p>

@@ -158,8 +158,8 @@
 # mongo-connector -m localhost:27001 -t http://localhost:8983/solr/core0 -n gossip.mails -d solr_doc_manager --auto-commit-interval=1
 </code></pre>
 <p>这样就行了吗？这样会报错的，还必须在Solr的Schema中存储metadata的定义以及开启LukeRequestHandler开启。在schema.xml中添加如下片段。</p>
-<p><field name=_ts type=long indexed=true stored=true required multivalued=false>
-<field name=ns type=string indexed=true stored=true required multivalued=false></p>
+<field name=_ts type=long indexed=true stored=true required multivalued=false>
+<field name=ns type=string indexed=true stored=true required multivalued=false>
 <p>以及同目录下的solrconfig.xml</p>
 <pre><code>&lt;requestHandler name=&quot;/admin/luke&quot; class=&quot;org.apache.solr.handler.admin.LukeRequestHandler&quot; /&gt;
 </code></pre>

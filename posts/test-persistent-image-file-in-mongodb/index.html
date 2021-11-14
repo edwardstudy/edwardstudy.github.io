@@ -173,10 +173,10 @@
           gridStore.open(function(err, gridStore) {
               gridStore.writeFile(filePath, function(err, doc){
                   if(err){
-                              console.log('\033[31mError: Failed to write file  with error: ', err, '\033[39m');
-                      }
-                      //成功存储，触发计数事件
-                      process.emit('COUNT_MSG', db);
+ 		                     console.log('\033[31mError: Failed to write file  with error: ', err, '\033[39m');
+ 	                 }
+ 	                 //成功存储，触发计数事件
+ 	                 process.emit('COUNT_MSG', db);
               });
           });
       };

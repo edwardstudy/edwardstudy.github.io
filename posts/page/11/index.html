@@ -18,14 +18,14 @@
 <link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
 <link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
 <meta name=description content="Eureka is a elegant and powerful theme for Hugo.">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Book Reader:你不知道的JavaScript(Part Two)：this和对象原型","description":"书接上回，在了解作用域和闭包的内容后，我们继续学习JS两个重要的部分：this关键字和对象原型。我们首先看个例子。如下代码，我们想通过this获得ob","url":"/posts/book-reader-you-dont-konw-js-part-two/"},{"@type":"ListItem","position":2,"name":"HTML5:web语义化与SEO","description":"标签的语义认知是HTML5中的一个内容，下图就算HTML5中的元素。 按照元素的默认表现形式还可以分为：块、行内（内联）、内联块3类元素。 块元素：\u0026lt","url":"/posts/html5-semantic-web-and-seo/"},{"@type":"ListItem","position":3,"name":"Book Reader:你不知道的JavaScript(Part One)：作用域和闭包","description":"这本书是翻译的Kyle Simpson的《You Don\u0026rsquo;t Know JS》上半部分。主要包括：作用域和闭包、this和对象原型。 #第一部分 作用域和闭包 编译型语言在编译过","url":"/posts/book-reader-you-dont-konw-js-part-one/"}]}</script><meta property="og:title" content="Edwardesire">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"mongoDB去重操作性能指标","description":"最近刚完成mongoDB的压力测试，单集合内拥有2亿条数据。2亿多的数据量跑一次聚合操作会是怎么样的结果呢？ 我们的测试环境还是老机器配置（5台分片集群","url":"/posts/mongodb-duplicate-removal-aggregatioin-index/"},{"@type":"ListItem","position":2,"name":"Book Reader:你不知道的JavaScript(Part Two)：this和对象原型","description":"书接上回，在了解作用域和闭包的内容后，我们继续学习JS两个重要的部分：this关键字和对象原型。我们首先看个例子。如下代码，我们想通过this获得ob","url":"/posts/book-reader-you-dont-konw-js-part-two/"},{"@type":"ListItem","position":3,"name":"HTML5:web语义化与SEO","description":"标签的语义认知是HTML5中的一个内容，下图就算HTML5中的元素。 按照元素的默认表现形式还可以分为：块、行内（内联）、内联块3类元素。 块元素：\u0026lt","url":"/posts/html5-semantic-web-and-seo/"}]}</script><meta property="og:title" content="Edwardesire">
 <meta property="og:type" content="website">
 <meta property="og:image" content="/images/favicon-32x32.png">
 <meta property="og:url" content="/posts/">
 <meta property="og:description" content="Eureka is a elegant and powerful theme for Hugo.">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="Edwardesire">
-<meta property="og:updated_time" content="2021-05-24T01:03:36+00:00">
+<meta property="og:updated_time" content="2021-11-14T04:30:48+08:00">
 <meta property="article:section" content="posts">
 <link rel=alternate type=application/rss+xml href=/posts/index.xml title=Edwardesire>
 <body class="flex flex-col min-h-screen">
@@ -69,6 +69,34 @@
 </article>
 <div class="bg-secondary-bg rounded px-6">
 <div class="overflow-hidden divide-y">
+<div class=py-6>
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/mongodb-duplicate-removal-aggregatioin-index/ class="font-bold text-xl hover:text-eureka">mongoDB去重操作性能指标</a>
+</div>
+<div class=content>
+最近刚完成mongoDB的压力测试，单集合内拥有2亿条数据。2亿多的数据量跑一次聚合操作会是怎么样的结果呢？ 我们的测试环境还是老机器配置（5台分片集群
+</div>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-05-18</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>1 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/mongodb/ class=hover:text-eureka>MongoDB</a>
+<span>, </span>
+<a href=/categories/aggregation/ class=hover:text-eureka>Aggregation</a>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class=py-6>
 <div class="flex flex-col-reverse lg:flex-row justify-between">
 <div class=w-full>
@@ -118,34 +146,6 @@
 <div class="mr-6 my-2">
 <i class="fas fa-folder mr-1"></i>
 <a href=/categories/frontend/ class=hover:text-eureka>Frontend</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class=py-6>
-<div class="flex flex-col-reverse lg:flex-row justify-between">
-<div class=w-full>
-<div class=mb-4>
-<a href=/posts/book-reader-you-dont-konw-js-part-one/ class="font-bold text-xl hover:text-eureka">Book Reader:你不知道的JavaScript(Part One)：作用域和闭包</a>
-</div>
-<div class=content>
-这本书是翻译的Kyle Simpson的《You Don’t Know JS》上半部分。主要包括：作用域和闭包、this和对象原型。 #第一部分 作用域和闭包 编译型语言在编译过
-</div>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2016-05-01</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>7 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/javascript/ class=hover:text-eureka>JavaScript</a>
-<span>, </span>
-<a href=/categories/book/ class=hover:text-eureka>Book</a>
 </div>
 </div>
 </div>

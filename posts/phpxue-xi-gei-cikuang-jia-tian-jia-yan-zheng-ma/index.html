@@ -99,10 +99,10 @@
 在空白区域添加函数：</p>
 <pre><code> function captcha()
  {
-     $conf['name']='captcha'; //作为配置参数
-     $this-&gt;load-&gt;library('captcha_code',$conf);
-     $this-&gt;captcha_code-&gt;show();
-     $yzm_session=$this-&gt;session-&gt;userdata('captcha');//将验证码放在了缓存中
+ 	$conf['name']='captcha'; //作为配置参数
+ 	$this-&gt;load-&gt;library('captcha_code',$conf);
+ 	$this-&gt;captcha_code-&gt;show();
+ 	$yzm_session=$this-&gt;session-&gt;userdata('captcha');//将验证码放在了缓存中
  }
 </code></pre>
 </li>
@@ -123,40 +123,40 @@
 照例前端把数据POST到后端去，在原有代码上修改</p>
 <pre><code>  function form_submit(){
     $.ajax({
-     'url' : '/user/check',
-     'type' : 'POST',
-     'data' : 	{'checknum':$.trim($(&quot;#checknum&quot;).val()),'submit':'submit'},
-     'dataType' : 'json',
-     'success' : function(data){
-         console.log(data); 
-         if(data == '1' ){ 
-             $.ajax({
-                 'url' : '/user/login',
-                 'type' : 'POST',
-                 'data' : 		{'number':$.trim($(&quot;#number&quot;).val()),'password':$.trim($('#password').val()),'remember':$(&quot;#remember&quot;).val(),'submit':'submit'},
-                 'dataType':'json',
-                 'success' :function(data){
-                 window.location = window.location.toString();
+    	'url' : '/user/check',
+    	'type' : 'POST',
+    	'data' : 	{'checknum':$.trim($(&quot;#checknum&quot;).val()),'submit':'submit'},
+    	'dataType' : 'json',
+    	'success' : function(data){
+    		console.log(data); 
+    		if(data == '1' ){ 
+    			$.ajax({
+    				'url' : '/user/login',
+    				'type' : 'POST',
+    				'data' : 		{'number':$.trim($(&quot;#number&quot;).val()),'password':$.trim($('#password').val()),'remember':$(&quot;#remember&quot;).val(),'submit':'submit'},
+    				'dataType':'json',
+    				'success' :function(data){
+    				window.location = window.location.toString();
     },
-                 'complete' :function (xhr, textStatus) {
-                     if(xhr.status == '400'){
-                         show_error_tips(&quot;密码或账号名出错&quot;);
-                     }else if(xhr.status == '403'){
-                         show_error_tips(&quot;账号已停用或出错&quot;);
-                     }else if( xhr.status == 200 ){
-                         if( textStatus == 'parsererror'){
-                         var curl = xhr.getResponseHeader('x-req-path');
-                         if( curl &amp;&amp; curl.slice(5) != '/user' ){
-                             window.location.href = curl;
-                         }
-                     }
-                 }
-             }
-         });
-     }
-     else{
-         show_checknum_error_tips(&quot;验证码错误&quot;);
-     } 
+    				'complete' :function (xhr, textStatus) {
+    					if(xhr.status == '400'){
+    						show_error_tips(&quot;密码或账号名出错&quot;);
+    					}else if(xhr.status == '403'){
+    						show_error_tips(&quot;账号已停用或出错&quot;);
+    					}else if( xhr.status == 200 ){
+    						if( textStatus == 'parsererror'){
+    						var curl = xhr.getResponseHeader('x-req-path');
+    						if( curl &amp;&amp; curl.slice(5) != '/user' ){
+    							window.location.href = curl;
+    						}
+    					}
+    				}
+    			}
+    		});
+    	}
+    	else{
+    		show_checknum_error_tips(&quot;验证码错误&quot;);
+    	} 
     }
     });
   }

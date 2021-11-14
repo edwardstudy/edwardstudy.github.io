@@ -117,13 +117,13 @@
 <p>3.1 异步堵塞IO库</p>
 <p>其IO库提供的API有Node自带的Module(比如fs)和数据库驱动API，比如mongoose的.save(doc, callback)就是将繁重的数据库Insert操作以及回调函数交给子线程来操作，主线程只负责任务的调度。当MongoDB返回给Node操作结果后，回调函数才开始执行。</p>
 <pre><code>    Dtree.create(frontData, function (err, dtree) {
-          if (err) {
-                console.log('Error: createDTree: DB failed to create due to ', err);
-                res.send({'success': false, 'err': err});
-          } else {
-                console.log('Info: createDTree: DB created successfully dtree = ', dtree);
-                res.send({'success': true, 'created_id': dtree._id.toHexString()});
-          }
+	      if (err) {
+    			console.log('Error: createDTree: DB failed to create due to ', err);
+		        res.send({'success': false, 'err': err});
+	      } else {
+    			console.log('Info: createDTree: DB created successfully dtree = ', dtree);
+    			res.send({'success': true, 'created_id': dtree._id.toHexString()});
+	      }
     });
 </code></pre>
 <p>比如这段处理Dtree存储的回调函数只有当事件队列中的接收到来自堵塞IO处理线程的执行完毕才会被执行。</p>

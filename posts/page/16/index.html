@@ -18,14 +18,14 @@
 <link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
 <link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
 <meta name=description content="Eureka is a elegant and powerful theme for Hugo.">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Paper Reader:Visual Abstraction and Exploration of Multi-class Scatterplots","description":"接着上一篇文章，探索密集地理数据可视化的优化。这次从论文上下手。以浙大博士陈海东写的《Visual Abstraction and Exploration of Multi-class Scatterplots》入手。这篇文章首","url":"/posts/reading-paper-visual-abstraction-and-exploration-of-multi-class-scatterplots/"},{"@type":"ListItem","position":2,"name":"密集型地理数据可视化方案探索","description":"最近师哥给的任务是地理数据可视化的研究，首先将现有情况说明清除。我们拿到的数据不是很多，但由于数据的特点，在可视化过程中可能会出现下图这种状况，地理标","url":"/posts/search-and-explore-dot-map/"},{"@type":"ListItem","position":3,"name":"在Ghost Blog上尝试输出数学公式","description":"最近在看论文，做笔记的时候就发现公式的记录比较麻烦。模模糊糊知道有个Tex还有LaTex的工具。决定在有必要将公式记录下来是可以使用，然后就进行了工具","url":"/posts/try-to-display-mathematical-equations-in-ghost/"}]}</script><meta property="og:title" content="Edwardesire">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"核密度估计(KDE) 相关知识","description":"这周忙着写论文，技术实践这边就怠慢了，都是些修修补补的工作。比较有意思的就是接触到数据分析中的核密度估计方法。现将相关知识总结如下。(12/23添加密","url":"/posts/intro-kernel-density-estimate/"},{"@type":"ListItem","position":2,"name":"Paper Reader:Visual Abstraction and Exploration of Multi-class Scatterplots","description":"接着上一篇文章，探索密集地理数据可视化的优化。这次从论文上下手。以浙大博士陈海东写的《Visual Abstraction and Exploration of Multi-class Scatterplots》入手。这篇文章首","url":"/posts/reading-paper-visual-abstraction-and-exploration-of-multi-class-scatterplots/"},{"@type":"ListItem","position":3,"name":"密集型地理数据可视化方案探索","description":"最近师哥给的任务是地理数据可视化的研究，首先将现有情况说明清除。我们拿到的数据不是很多，但由于数据的特点，在可视化过程中可能会出现下图这种状况，地理标","url":"/posts/search-and-explore-dot-map/"}]}</script><meta property="og:title" content="Edwardesire">
 <meta property="og:type" content="website">
 <meta property="og:image" content="/images/favicon-32x32.png">
 <meta property="og:url" content="/posts/">
 <meta property="og:description" content="Eureka is a elegant and powerful theme for Hugo.">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="Edwardesire">
-<meta property="og:updated_time" content="2021-05-24T01:03:36+00:00">
+<meta property="og:updated_time" content="2021-11-14T04:30:48+08:00">
 <meta property="article:section" content="posts">
 <link rel=alternate type=application/rss+xml href=/posts/index.xml title=Edwardesire>
 <body class="flex flex-col min-h-screen">
@@ -69,6 +69,34 @@
 </article>
 <div class="bg-secondary-bg rounded px-6">
 <div class="overflow-hidden divide-y">
+<div class=py-6>
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/intro-kernel-density-estimate/ class="font-bold text-xl hover:text-eureka">核密度估计(KDE) 相关知识</a>
+</div>
+<div class=content>
+这周忙着写论文，技术实践这边就怠慢了，都是些修修补补的工作。比较有意思的就是接触到数据分析中的核密度估计方法。现将相关知识总结如下。(12/23添加密
+</div>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2015-11-29</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>4 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/visual/ class=hover:text-eureka>Visual</a>
+<span>, </span>
+<a href=/categories/stat/ class=hover:text-eureka>Stat</a>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class=py-6>
 <div class="flex flex-col-reverse lg:flex-row justify-between">
 <div class=w-full>
@@ -118,32 +146,6 @@
 <div class="mr-6 my-2">
 <i class="fas fa-folder mr-1"></i>
 <a href=/categories/visual/ class=hover:text-eureka>Visual</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class=py-6>
-<div class="flex flex-col-reverse lg:flex-row justify-between">
-<div class=w-full>
-<div class=mb-4>
-<a href=/posts/try-to-display-mathematical-equations-in-ghost/ class="font-bold text-xl hover:text-eureka">在Ghost Blog上尝试输出数学公式</a>
-</div>
-<div class=content>
-最近在看论文，做笔记的时候就发现公式的记录比较麻烦。模模糊糊知道有个Tex还有LaTex的工具。决定在有必要将公式记录下来是可以使用，然后就进行了工具
-</div>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2015-11-08</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>4 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/latex/ class=hover:text-eureka>LaTex</a>
 </div>
 </div>
 </div>

@@ -18,14 +18,14 @@
 <link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
 <link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
 <meta name=description content="Eureka is a elegant and powerful theme for Hugo.">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"GraphQL：一种不同于REST的接口风格","description":"从去年开始，JS算是完全踏入ES6时代。在React相关项目中接触到了一些ES6的语法。这次接着GraphQL这种新型的接口风格，从后端的角度接触ES","url":"/posts/experimental-graphql/"},{"@type":"ListItem","position":2,"name":"Gossip协议","description":"Gossip是一种去中心化、容错并保证最终一致性的协议。 Background：分布式环境 Gossip是为了解决分布式遇到的问题而设计的。由于服务和数据","url":"/posts/the-intro-of-gossip-protocol/"},{"@type":"ListItem","position":3,"name":"TypeError还是ReferenceError——研究生第二学年总结","description":"ReferenceError同作用域判别失败相关，而TypeError则代表作用域判别成功了，但是对结果的操作是非法或不合理的。 这句话是在《你不知道的","url":"/posts/referenceerrorhuan-shi-typeerror/"}]}</script><meta property="og:title" content="Edwardesire">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"GraphQL Resovler的执行与实践","description":"本文首先介绍GraphQL Server对于查询的执行过程，然后结合实际开发使用GraphQL的相关特性。 GraphQL Execution 在执行查询前，GraphQL会先通过类型系","url":"/posts/graphql-resovler-execution-and-practice/"},{"@type":"ListItem","position":2,"name":"GraphQL：一种不同于REST的接口风格","description":"从去年开始，JS算是完全踏入ES6时代。在React相关项目中接触到了一些ES6的语法。这次接着GraphQL这种新型的接口风格，从后端的角度接触ES","url":"/posts/experimental-graphql/"},{"@type":"ListItem","position":3,"name":"Gossip协议","description":"Gossip是一种去中心化、容错并保证最终一致性的协议。 Background：分布式环境 Gossip是为了解决分布式遇到的问题而设计的。由于服务和数据","url":"/posts/the-intro-of-gossip-protocol/"}]}</script><meta property="og:title" content="Edwardesire">
 <meta property="og:type" content="website">
 <meta property="og:image" content="/images/favicon-32x32.png">
 <meta property="og:url" content="/posts/">
 <meta property="og:description" content="Eureka is a elegant and powerful theme for Hugo.">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="Edwardesire">
-<meta property="og:updated_time" content="2021-05-24T01:03:36+00:00">
+<meta property="og:updated_time" content="2021-11-14T04:30:48+08:00">
 <meta property="article:section" content="posts">
 <link rel=alternate type=application/rss+xml href=/posts/index.xml title=Edwardesire>
 <body class="flex flex-col min-h-screen">
@@ -69,6 +69,34 @@
 </article>
 <div class="bg-secondary-bg rounded px-6">
 <div class="overflow-hidden divide-y">
+<div class=py-6>
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/graphql-resovler-execution-and-practice/ class="font-bold text-xl hover:text-eureka">GraphQL Resovler的执行与实践</a>
+</div>
+<div class=content>
+本文首先介绍GraphQL Server对于查询的执行过程，然后结合实际开发使用GraphQL的相关特性。 GraphQL Execution 在执行查询前，GraphQL会先通过类型系
+</div>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-11-30</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>5 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
+<span>, </span>
+<a href=/categories/graphql/ class=hover:text-eureka>GraphQL</a>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class=py-6>
 <div class="flex flex-col-reverse lg:flex-row justify-between">
 <div class=w-full>
@@ -120,34 +148,6 @@ Gossip是一种去中心化、容错并保证最终一致性的协议。 Backgro
 <div class="mr-6 my-2">
 <i class="fas fa-folder mr-1"></i>
 <a href=/categories/distributed-systems/ class=hover:text-eureka>Distributed Systems</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class=py-6>
-<div class="flex flex-col-reverse lg:flex-row justify-between">
-<div class=w-full>
-<div class=mb-4>
-<a href=/posts/referenceerrorhuan-shi-typeerror/ class="font-bold text-xl hover:text-eureka">TypeError还是ReferenceError——研究生第二学年总结</a>
-</div>
-<div class=content>
-ReferenceError同作用域判别失败相关，而TypeError则代表作用域判别成功了，但是对结果的操作是非法或不合理的。 这句话是在《你不知道的
-</div>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2016-11-11</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>4 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/study/ class=hover:text-eureka>Study</a>
-<span>, </span>
-<a href=/categories/summary/ class=hover:text-eureka>Summary</a>
 </div>
 </div>
 </div>

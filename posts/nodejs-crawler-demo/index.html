@@ -208,8 +208,8 @@ cheerio充当服务器端的jQuery功能，我们先使用它的.load()来载入
 </code></pre>
 <p>我们可以通过<code>https://cnodejs.org/user/username</code>抓取积分信息</p>
 <pre><code> $('.reply_author').each(function (idx, element) {
-     var $element = $(element);
-     console.log($element.attr('href'));
+		var $element = $(element);
+ 	console.log($element.attr('href'));
  });
 </code></pre>
 <p>在用户信息页面 <code>$('.big').text().trim()</code>即为积分信息。</p>

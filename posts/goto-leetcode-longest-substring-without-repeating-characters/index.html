@@ -110,7 +110,7 @@ var lengthOfLongestSubstring = function(s) {
         str += s.charAt(i);
         length ++;
         if(str.indexOf(s.charAt(i)) != (length - 1)){
-            //在判断有重复字符串后，截取重复字符第一次出现位置之后的字符为新备选最大字符串。
+        	//在判断有重复字符串后，截取重复字符第一次出现位置之后的字符为新备选最大字符串。
             str = str.substr(str.indexOf(s.charAt(i)) + 1, length - str.indexOf(s.charAt(i)));
             length = str.length;
         }else{

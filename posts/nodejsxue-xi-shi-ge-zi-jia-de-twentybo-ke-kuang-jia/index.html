@@ -99,8 +99,8 @@
 <p>数据库操作
 前面说到了数据库的交互，sails与ghost不同。ghost数据库操作通过在config.js中修改database的client进行选择，基本采用nodejs原生的数据库操作包，而sails只需选择不同的adapter即可选择针对sails的定制包。具体操作如下：以连接mongoDB为例，将.sailsrc文件中models内添加一行<code>"connection": "mongodbServer"</code>。再将config文件夹中的connections.js添加一个单元。</p>
 <pre><code> mongodbServer: {
-     adapter: 'sails-mongo',
-     host: 'localhost',
+ 	adapter: 'sails-mongo',
+ 	host: 'localhost',
      port: 27017,
      // user: 'username',
      // password: 'password',

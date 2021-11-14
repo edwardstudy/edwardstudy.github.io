@@ -128,7 +128,7 @@ Schema是一个文档的数据结构，正如我前面提到的，它在Mongoose
 
   //声明Schema
   var nodeSchema = new Schema({
-      name: String,
+  	name: String,
       age: Number
   });
   //构建model
@@ -137,10 +137,10 @@ Schema是一个文档的数据结构，正如我前面提到的，它在Mongoose
   //创建两个实例
   var node = new Node({name: 'Edward', age: '23'});
   node.save(function(err){
-      if(err){
-          console.log(err);
+  	if(err){
+      	console.log(err);
       }else{
-          console.log('The new node is saved');
+      	console.log('The new node is saved');
       }
   });
 </code></pre>

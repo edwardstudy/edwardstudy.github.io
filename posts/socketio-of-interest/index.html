@@ -132,7 +132,7 @@
  var server = require('http').Server(app); //原生Http服务
  var io = require('socket.io')(server); //Socket.io服务
  io.on('connection', function(socket){
-     /* 具体操作 */
+ 	/* 具体操作 */
  });
  server.listen(3000);
 </code></pre>
@@ -142,37 +142,37 @@
  &lt;script&gt;
     var socket = io();
     socket.on('connect', function() {
-         /* 具体操作 */
+    		/* 具体操作 */
     });
  &lt;/script&gt;
 </code></pre>
 <p>  Socket.IO还要一些系统事件，包括了连接、重连、关闭的事件。我们也可以自定义事件，以及监听方法。</p>
 <pre><code> socket.on('customEvent', function(customEventData) {
-     /* 具体操作 */
+  	/* 具体操作 */
   });
 </code></pre>
 <p>  相应地，在对的时间和地方的调用.emit(&lsquo;customEvent&rsquo;, customEventData); 触发事件就行了。不过，事件是无法在客户端之间发送的。</br>
   同一个服务器可以使用namespaces创造不同的Socket连接。Socket.IO使用of()来指定不同的命名空间。</p>
 <pre><code> io.of('/someNamespace').on('connection', function(socket){
-     socket.on('customEvent', function(customEventData) {
-         /* 具体操作 */
-     });
+ 	socket.on('customEvent', function(customEventData) {
+ 		/* 具体操作 */
+ 	});
  });
  io.of('/someOtherNamespace').on('connection', function(socket){
-     socket.on('customEvent', function(customEventData) {
-     /* 具体操作 */
-     });
+ 	socket.on('customEvent', function(customEventData) {
+ 	/* 具体操作 */
+ 	});
  });
 </code></pre>
 <p>  服务器端则通过在定义Socket对象时传递namespace参数。</p>
 <pre><code> &lt;script&gt;
   var someSocket = io('/someNamespace');
   someSocket.on('customEvent', function(customEventData) {
-     /* 具体操作 */
+  	/* 具体操作 */
   });
   var someOtherSocket = io('/someOtherNamespace');
   someOtherSocket.on('customEvent', function(customEventData) {
-     /* 具体操作 */
+  	/* 具体操作 */
   });
  &lt;/script&gt;
 </code></pre>
@@ -269,7 +269,7 @@
 <p>配置chat控制器
  chat功能的控制器统一监听和触发Socket.IO事件来进行数据通信。通过事件处理的回调函数来控制数据格式的建立和分发。</p>
 <pre><code> module.exports = function(io, socket){
-     //触发chatMessage事件，提示用户已连接
+ 	//触发chatMessage事件，提示用户已连接
      io.emit('chatMessage', {
          type: 'status',
          text: 'connected',
@@ -284,9 +284,9 @@
          //触发事件并发送数据。
          io.emit('chatMessage', message);
      });
-     //监听断开连接事件
+ 	//监听断开连接事件
      socket.on('disconnect', function(message){
-         //触发事件并发送数据。
+     	//触发事件并发送数据。
          io.emit('chatMessage', {
              type: 'status',
              text: 'disconnected',
@@ -308,13 +308,13 @@
  我们先通过建立ng-resource来封装Socket.IO的方法，再中前端的控制器中调用。</br>
  service是懒加载，即只有在请求时才加载。这可以阻止未验证用户调用到service的方法来获得数据，将emit()、on()、removeListenter()一套方法封装成的更相容的服务方法，减少代码的重写。然而ng的数据绑定只有在框架内执行的方法才能实时改变，也就是说第三方事件导致的数据模型的改变是未知的。那么，我们在socket中任何事件被触发时，处理函数对数据的修改可能不会及时地绑定到$scope数据模型上。（这都是抄来的）这里使用$timeout来强制完成数据的绑定。</p>
 <pre><code> angular.module('chat').service('Socket', ['Authentication', '$location', '$timeout', function(Authentication, $location, $timeout){
-     //首先确认用户
+ 	//首先确认用户
      if(Authentication.user){
          this.socket = io();
      }else{
          $location.path('/');
      }
-     //通用监听方法
+ 	//通用监听方法
      this.on = function(eventName, callback){
          if(this.socket){
              this.socket.on(eventName, function(data){
@@ -324,13 +324,13 @@
              });
          }
      };
-     //通用触发方法
+ 	//通用触发方法
      this.emit = function(eventName, data){
          if(this.socket){
              this.socket.emit(eventName, data);
          }
      };
-     //通用删除监听器的方法
+ 	//通用删除监听器的方法
      this.removeListener = function(eventName){
          if(this.socket){
              this.socket.removeListener(eventName);
@@ -348,9 +348,9 @@
      var message = {
          text: this.messageText
      };
-     //监听后端发送的chatMessage事件
+ 	//监听后端发送的chatMessage事件
      Socket.emit('chatMessage', message);
-     //及时清空ng-model
+ 	//及时清空ng-model
      this.messageText = '';
  };
  //监听$destroy，当controller实例被摧毁删除 监听器
