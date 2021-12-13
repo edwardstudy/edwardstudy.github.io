@@ -18,14 +18,14 @@
 <link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
 <link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
 <meta name=description content="Eureka is a elegant and powerful theme for Hugo.">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"[转载]How to easily deploy Cloud Foundry applications on a Kubernetes cluster","description":"本人在IBM Developer发表了一篇关于cf-operator的介绍。相比原文，内容更加简单易懂。这里也提一嘴cf-o当前的状态。首先，第一个GA","url":"/posts/how-to-easily-deploy-cloud-foundry-applications-on-a-kubernetes-cluster/"},{"@type":"ListItem","position":2,"name":"cf-operator的介绍","description":"cf-operator马上就要在近期宣布beta release。beta版会实现在Kuberntes上部署Cloud Foundry或者BOSH rele","url":"/posts/intro-of-cf-operator/"},{"@type":"ListItem","position":3,"name":"Kubernetes编程范式——Controller pattern","description":"引子 Kubernetes的定位是非常明确和简单的，就是容器的编排与调度管理的系统。Kubernetes所关注的核心就是容器（Container）。Ku","url":"/posts/kubernetesbian-controller-pattern/"}]}</script><meta property="og:title" content="Edwardesire">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"解决Kubernetes admission webhook timeout error","description":"最近在做cluster chaos test，我们的功能组件出现不可用的情况。原因是Kubernetes admission webhook在执行中出现连接拒绝访问和timeout的","url":"/posts/jie-jue-kubernetes-admission-webhook-timeout-error/"},{"@type":"ListItem","position":2,"name":"[转载]How to easily deploy Cloud Foundry applications on a Kubernetes cluster","description":"本人在IBM Developer发表了一篇关于cf-operator的介绍。相比原文，内容更加简单易懂。这里也提一嘴cf-o当前的状态。首先，第一个GA","url":"/posts/how-to-easily-deploy-cloud-foundry-applications-on-a-kubernetes-cluster/"},{"@type":"ListItem","position":3,"name":"cf-operator的介绍","description":"cf-operator马上就要在近期宣布beta release。beta版会实现在Kuberntes上部署Cloud Foundry或者BOSH rele","url":"/posts/intro-of-cf-operator/"}]}</script><meta property="og:title" content="Edwardesire">
 <meta property="og:type" content="website">
 <meta property="og:image" content="/images/favicon-32x32.png">
 <meta property="og:url" content="/posts/">
 <meta property="og:description" content="Eureka is a elegant and powerful theme for Hugo.">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="Edwardesire">
-<meta property="og:updated_time" content="2021-11-14T04:30:48+08:00">
+<meta property="og:updated_time" content="2021-12-13T16:00:48+08:00">
 <meta property="article:section" content="posts">
 <link rel=alternate type=application/rss+xml href=/posts/index.xml title=Edwardesire>
 <body class="flex flex-col min-h-screen">
@@ -69,6 +69,32 @@
 </article>
 <div class="bg-secondary-bg rounded px-6">
 <div class="overflow-hidden divide-y">
+<div class=py-6>
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/jie-jue-kubernetes-admission-webhook-timeout-error/ class="font-bold text-xl hover:text-eureka">解决Kubernetes admission webhook timeout error</a>
+</div>
+<div class=content>
+最近在做cluster chaos test，我们的功能组件出现不可用的情况。原因是Kubernetes admission webhook在执行中出现连接拒绝访问和timeout的
+</div>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2020-06-30</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>4 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class=py-6>
 <div class="flex flex-col-reverse lg:flex-row justify-between">
 <div class=w-full>
@@ -119,34 +145,6 @@ cf-operator马上就要在近期宣布beta release。beta版会实现在Kubernte
 </div>
 </div>
 </div>
-<div class=py-6>
-<div class="flex flex-col-reverse lg:flex-row justify-between">
-<div class=w-full>
-<div class=mb-4>
-<a href=/posts/kubernetesbian-controller-pattern/ class="font-bold text-xl hover:text-eureka">Kubernetes编程范式——Controller pattern</a>
-</div>
-<div class=content>
-引子 Kubernetes的定位是非常明确和简单的，就是容器的编排与调度管理的系统。Kubernetes所关注的核心就是容器（Container）。Ku
-</div>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2019-05-14</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>8 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
-<span>, </span>
-<a href=/categories/operator/ class=hover:text-eureka>Operator</a>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <ul class="pagination pagination-default">
@@ -160,7 +158,7 @@ cf-operator马上就要在近期宣布beta release。beta版会实现在Kubernte
 <a href=/posts/ aria-label="Page 1" class=page-link role=button>1</a>
 </li>
 <li class="page-item active">
-<a href=# aria-current=page aria-label="Page 2" class=page-link role=button>2</a>
+<a aria-current=page aria-label="Page 2" class=page-link role=button>2</a>
 </li>
 <li class=page-item>
 <a href=/posts/page/3/ aria-label="Page 3" class=page-link role=button>3</a>
