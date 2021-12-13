@@ -19,7 +19,7 @@
 <link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
 <meta name=description content="NUMA是什么？k8s topology manager是什么？">
 <script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"k8s资源拓扑感知——资源分配","item":"/posts/k8s-resources-topology-manager/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/k8s-resources-topology-manager/"},"headline":"k8s资源拓扑感知——资源分配 | Edwardesire","datePublished":"2021-12-13T16:00:48+08:00","dateModified":"2021-12-13T16:00:48+08:00","wordCount":9184,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"NUMA是什么？k8s topology manager是什么？"}</script><meta property="og:title" content="k8s资源拓扑感知——资源分配 | Edwardesire">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/k8s-resources-topology-manager/"},"headline":"k8s资源拓扑感知——资源分配 | Edwardesire","datePublished":"2021-12-13T16:00:48+08:00","dateModified":"2021-12-13T16:00:48+08:00","wordCount":9052,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"NUMA是什么？k8s topology manager是什么？"}</script><meta property="og:title" content="k8s资源拓扑感知——资源分配 | Edwardesire">
 <meta property="og:type" content="article">
 <meta property="og:image" content="/images/favicon-32x32.png">
 <meta property="og:url" content="/posts/k8s-resources-topology-manager/">
@@ -305,35 +305,18 @@ gpu: [{01 true} {10 true} {11 false}]
 <li>调度器不是拓扑感知的。有可能一个 Pod 被调度之后，会因为拓扑策略在节点上启动失败。</li>
 <li>memoryManager本身没有涉及内核关于多NUMA node的内存分配，所以只是在应用层限制了内存的分配。</li>
 </ol>
-<p>参考：</p>
+<h3 id=参考>参考</h3>
 <ol>
-<li>
-<p>服务器体系(SMP, NUMA, MPP)与共享存储器架构(UMA和NUMA)：https://www.cnblogs.com/linhaostudy/archive/2018/11/18/9980383.html</p>
-</li>
-<li>
-<p>What is NUMA：https://www.techplayon.com/what-is-numa-non-uniform-memory-access/</p>
-</li>
-<li>
-<p>Linux kernel view of NUMA: <a href=https://www.kernel.org/doc/html/latest/vm/numa.html>https://www.kernel.org/doc/html/latest/vm/numa.html</a></p>
-</li>
-<li>
-<p>what is ACPI slit：https://www.codeblueprint.co.uk/2019/07/12/what-are-slit-tables.html</p>
-</li>
-<li>
-<p>kep- cpu manager : <a href=https://github.com/kubernetes/enhancements/blob/f343d8b94f8b83e8496ae42313f1290c1767bba6/keps/sig-node/375-cpu-manager/README.md>https://github.com/kubernetes/enhancements/blob/f343d8b94f8b83e8496ae42313f1290c1767bba6/keps/sig-node/375-cpu-manager/README.md</a></p>
-</li>
-<li>
-<p>kep memory manager: <a href=https://github.com/kubernetes/enhancements/blob/ea90443458c3832d9770868f95aaf0d2fbc42dc2/keps/sig-node/1769-memory-manager/README.md>https://github.com/kubernetes/enhancements/blob/ea90443458c3832d9770868f95aaf0d2fbc42dc2/keps/sig-node/1769-memory-manager/README.md</a></p>
-</li>
-<li>
-<p>Kubernetes Topology Manager <a href=https://kubernetes.io/blog/2020/04/01/kubernetes-1-18-feature-topoloy-manager-beta/>https://kubernetes.io/blog/2020/04/01/kubernetes-1-18-feature-topoloy-manager-beta/</a></p>
-</li>
-<li>
-<p>Control Topology Management Policies on a node: <a href=https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/>https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/</a></p>
-</li>
-<li>
-<p>Optimized Resource Allocation in Kubernetes? Topology Manager is Here: <a href="https://www.youtube.com/watch?v=KU_EtejzXp0&ab_channel=CNCF%5BCloudNativeComputingFoundation%5D">https://www.youtube.com/watch?v=KU_EtejzXp0&ab_channel=CNCF%5BCloudNativeComputingFoundation%5D</a></p>
-</li>
+<li>服务器体系(SMP, NUMA, MPP)与共享存储器架构(UMA和NUMA): <a href=https://www.cnblogs.com/linhaostudy/archive/2018/11/18/9980383.html>https://www.cnblogs.com/linhaostudy/archive/2018/11/18/9980383.html</a></li>
+<li>What is NUMA: <a href=https://www.techplayon.com/what-is-numa-non-uniform-memory-access/>https://www.techplayon.com/what-is-numa-non-uniform-memory-access/</a></li>
+<li>Linux kernel view of NUMA: <a href=https://www.kernel.org/doc/html/latest/vm/numa.html>https://www.kernel.org/doc/html/latest/vm/numa.html</a></li>
+<li>what is ACPI slit：https://www.codeblueprint.co.uk/2019/07/12/what-are-slit-tables.html</li>
+<li>[kep] cpu manager: <a href=https://github.com/kubernetes/enhancements/blob/f343d8b94f8b83e8496ae42313f1290c1767bba6/keps/sig-node/375-cpu-manager/README.md>https://github.com/kubernetes/enhancements/blob/f343d8b94f8b83e8496ae42313f1290c1767bba6/keps/sig-node/375-cpu-manager/README.md</a></li>
+<li>[kep] topology manager: <a href=https://github.com/kubernetes/enhancements/blob/7eef794bb549a50c6b08c457556ff0eac98a4c6b/keps/sig-node/1029-ephemeral-storage-quotas/README.md>https://github.com/kubernetes/enhancements/blob/7eef794bb549a50c6b08c457556ff0eac98a4c6b/keps/sig-node/1029-ephemeral-storage-quotas/README.md</a></li>
+<li>[kep] memory manager: <a href=https://github.com/kubernetes/enhancements/blob/ea90443458c3832d9770868f95aaf0d2fbc42dc2/keps/sig-node/1769-memory-manager/README.md>https://github.com/kubernetes/enhancements/blob/ea90443458c3832d9770868f95aaf0d2fbc42dc2/keps/sig-node/1769-memory-manager/README.md</a></li>
+<li>Kubernetes Topology Manager: <a href=https://kubernetes.io/blog/2020/04/01/kubernetes-1-18-feature-topoloy-manager-beta/>https://kubernetes.io/blog/2020/04/01/kubernetes-1-18-feature-topoloy-manager-beta/</a></li>
+<li>Control Topology Management Policies on a node: <a href=https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/>https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/</a></li>
+<li>[video] Optimized Resource Allocation in Kubernetes? Topology Manager is Here: <a href="https://www.youtube.com/watch?v=KU_EtejzXp0&ab_channel=CNCF%5BCloudNativeComputingFoundation%5D">https://www.youtube.com/watch?v=KU_EtejzXp0&ab_channel=CNCF%5BCloudNativeComputingFoundation%5D</a></li>
 </ol>
 </div>
 <div class=my-4>
