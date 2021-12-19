@@ -18,14 +18,14 @@
 <link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
 <link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
 <meta name=description content="Eureka is a elegant and powerful theme for Hugo.">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"解决Kubernetes admission webhook timeout error","description":"最近在做cluster chaos test，我们的功能组件出现不可用的情况。原因是Kubernetes admission webhook在执行中出现连接拒绝访问和timeout的","url":"/posts/jie-jue-kubernetes-admission-webhook-timeout-error/"},{"@type":"ListItem","position":2,"name":"[转载]How to easily deploy Cloud Foundry applications on a Kubernetes cluster","description":"本人在IBM Developer发表了一篇关于cf-operator的介绍。相比原文，内容更加简单易懂。这里也提一嘴cf-o当前的状态。首先，第一个GA","url":"/posts/how-to-easily-deploy-cloud-foundry-applications-on-a-kubernetes-cluster/"},{"@type":"ListItem","position":3,"name":"cf-operator的介绍","description":"cf-operator马上就要在近期宣布beta release。beta版会实现在Kuberntes上部署Cloud Foundry或者BOSH rele","url":"/posts/intro-of-cf-operator/"}]}</script><meta property="og:title" content="Edwardesire">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"集群内负载调度方案调研","description":"背景 资源调度是容器云平台中最核心的功能之一。为了满足各业务线的资源需求，调度系统需要选择合适的集群分配计算资源，支撑业务服务的运行。 Kubernete","url":"/posts/load-scheduling-brief/"},{"@type":"ListItem","position":2,"name":"解决Kubernetes admission webhook timeout error","description":"最近在做cluster chaos test，我们的功能组件出现不可用的情况。原因是Kubernetes admission webhook在执行中出现连接拒绝访问和timeout的","url":"/posts/jie-jue-kubernetes-admission-webhook-timeout-error/"},{"@type":"ListItem","position":3,"name":"[转载]How to easily deploy Cloud Foundry applications on a Kubernetes cluster","description":"本人在IBM Developer发表了一篇关于cf-operator的介绍。相比原文，内容更加简单易懂。这里也提一嘴cf-o当前的状态。首先，第一个GA","url":"/posts/how-to-easily-deploy-cloud-foundry-applications-on-a-kubernetes-cluster/"}]}</script><meta property="og:title" content="Edwardesire">
 <meta property="og:type" content="website">
 <meta property="og:image" content="/images/favicon-32x32.png">
 <meta property="og:url" content="/posts/">
 <meta property="og:description" content="Eureka is a elegant and powerful theme for Hugo.">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="Edwardesire">
-<meta property="og:updated_time" content="2021-12-13T16:00:48+08:00">
+<meta property="og:updated_time" content="2021-12-19T16:40:48+08:00">
 <meta property="article:section" content="posts">
 <link rel=alternate type=application/rss+xml href=/posts/index.xml title=Edwardesire>
 <body class="flex flex-col min-h-screen">
@@ -69,6 +69,34 @@
 </article>
 <div class="bg-secondary-bg rounded px-6">
 <div class="overflow-hidden divide-y">
+<div class=py-6>
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/load-scheduling-brief/ class="font-bold text-xl hover:text-eureka">集群内负载调度方案调研</a>
+</div>
+<div class=content>
+背景 资源调度是容器云平台中最核心的功能之一。为了满足各业务线的资源需求，调度系统需要选择合适的集群分配计算资源，支撑业务服务的运行。 Kubernete
+</div>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2021-05-24</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>6 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
+<span>, </span>
+<a href=/categories/scheduling/ class=hover:text-eureka>scheduling</a>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class=py-6>
 <div class="flex flex-col-reverse lg:flex-row justify-between">
 <div class=w-full>
@@ -117,34 +145,6 @@
 </div>
 </div>
 </div>
-<div class=py-6>
-<div class="flex flex-col-reverse lg:flex-row justify-between">
-<div class=w-full>
-<div class=mb-4>
-<a href=/posts/intro-of-cf-operator/ class="font-bold text-xl hover:text-eureka">cf-operator的介绍</a>
-</div>
-<div class=content>
-cf-operator马上就要在近期宣布beta release。beta版会实现在Kuberntes上部署Cloud Foundry或者BOSH rele
-</div>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2019-09-06</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>13 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/cf-operator/ class=hover:text-eureka>cf-operator</a>
-<span>, </span>
-<a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <ul class="pagination pagination-default">
@@ -173,7 +173,7 @@ cf-operator马上就要在近期宣布beta release。beta版会实现在Kubernte
 <a href=/posts/page/3/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
 </li>
 <li class=page-item>
-<a href=/posts/page/31/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+<a href=/posts/page/32/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
 </li>
 </ul>
 </div>

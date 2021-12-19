@@ -18,14 +18,14 @@
 <link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
 <link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
 <meta name=description content="Eureka is a elegant and powerful theme for Hugo.">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"MongoDB Aggregation实践","description":"内容为依据实验室项目需求来使用MongoDB聚合操作来将处理的数据存到集合中。 数据聚合 mongoDB的数据聚合使用了聚合管道（Aggregation P","url":"/posts/mongdb-aggregation-example/"},{"@type":"ListItem","position":2,"name":"部署有身份验证的mongoDB","description":"mongoDB默认情况下是不需要身份认证的，但是处于生产环境安全的考虑，还是不能省去这一步的。本文将在这篇文章所述环境下部署带身份认证的mongoDB","url":"/posts/usage-of-basic-authentication-and-authorization-of-mongodb/"},{"@type":"ListItem","position":3,"name":"从MongoDB入门到编写数据库相关API","description":"这篇文章为实验室开会本人讲解mongoDB的讲义，主要讲述两个内容：MongoDB的入门和Nodejs编写相关API入门。内容比较简单，但是实践性比较","url":"/posts/code-to-meanjs/"}]}</script><meta property="og:title" content="Edwardesire">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"MongoDB MapReduce实践","description":"上回说到采用mongoDB自带的Aggregation功能来处理数据，但我们发现当数据量大时（1000w records）执行时间非常长。并且处理数据的","url":"/posts/mongodb-mapreduce-example/"},{"@type":"ListItem","position":2,"name":"MongoDB Aggregation实践","description":"内容为依据实验室项目需求来使用MongoDB聚合操作来将处理的数据存到集合中。 数据聚合 mongoDB的数据聚合使用了聚合管道（Aggregation P","url":"/posts/mongdb-aggregation-example/"},{"@type":"ListItem","position":3,"name":"部署有身份验证的mongoDB","description":"mongoDB默认情况下是不需要身份认证的，但是处于生产环境安全的考虑，还是不能省去这一步的。本文将在这篇文章所述环境下部署带身份认证的mongoDB","url":"/posts/usage-of-basic-authentication-and-authorization-of-mongodb/"}]}</script><meta property="og:title" content="Edwardesire">
 <meta property="og:type" content="website">
 <meta property="og:image" content="/images/favicon-32x32.png">
 <meta property="og:url" content="/posts/">
 <meta property="og:description" content="Eureka is a elegant and powerful theme for Hugo.">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="Edwardesire">
-<meta property="og:updated_time" content="2021-12-13T16:00:48+08:00">
+<meta property="og:updated_time" content="2021-12-19T16:40:48+08:00">
 <meta property="article:section" content="posts">
 <link rel=alternate type=application/rss+xml href=/posts/index.xml title=Edwardesire>
 <body class="flex flex-col min-h-screen">
@@ -69,6 +69,34 @@
 </article>
 <div class="bg-secondary-bg rounded px-6">
 <div class="overflow-hidden divide-y">
+<div class=py-6>
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/mongodb-mapreduce-example/ class="font-bold text-xl hover:text-eureka">MongoDB MapReduce实践</a>
+</div>
+<div class=content>
+上回说到采用mongoDB自带的Aggregation功能来处理数据，但我们发现当数据量大时（1000w records）执行时间非常长。并且处理数据的
+</div>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-03-19</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>5 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/mongodb/ class=hover:text-eureka>MongoDB</a>
+<span>, </span>
+<a href=/categories/mapreduce/ class=hover:text-eureka>MapReduce</a>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class=py-6>
 <div class="flex flex-col-reverse lg:flex-row justify-between">
 <div class=w-full>
@@ -123,36 +151,6 @@ mongoDB默认情况下是不需要身份认证的，但是处于生产环境安�
 </div>
 </div>
 </div>
-<div class=py-6>
-<div class="flex flex-col-reverse lg:flex-row justify-between">
-<div class=w-full>
-<div class=mb-4>
-<a href=/posts/code-to-meanjs/ class="font-bold text-xl hover:text-eureka">从MongoDB入门到编写数据库相关API</a>
-</div>
-<div class=content>
-这篇文章为实验室开会本人讲解mongoDB的讲义，主要讲述两个内容：MongoDB的入门和Nodejs编写相关API入门。内容比较简单，但是实践性比较
-</div>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2015-12-22</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>9 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
-<span>, </span>
-<a href=/categories/mongodb/ class=hover:text-eureka>MongoDB</a>
-<span>, </span>
-<a href=/categories/framework/ class=hover:text-eureka>Framework</a>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <ul class="pagination pagination-default">
@@ -181,7 +179,7 @@ mongoDB默认情况下是不需要身份认证的，但是处于生产环境安�
 <a href=/posts/page/16/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
 </li>
 <li class=page-item>
-<a href=/posts/page/31/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+<a href=/posts/page/32/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
 </li>
 </ul>
 </div>

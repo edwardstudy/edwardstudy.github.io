@@ -18,14 +18,14 @@
 <link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
 <link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
 <meta name=description content="Eureka is a elegant and powerful theme for Hugo.">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"shell环境设置方法纪要","description":"我们从下面这段脚本说起。 #!/usr/bin/env bash set -e -x source bosh-softlayer-tools/ci/tasks/utils.sh check_param deploy_name check_param data_center_name check_param private_vlan_id check_param public_vlan_id deployment_dir=\u0026quot;${PWD}/deployment\u0026quot; mkdir -p $deployment_dir 首先是env和set命令。env命令可以打印环境变量，也可以用env来执行程序。这里就是","url":"/posts/shell-env-setting-beginner/"},{"@type":"ListItem","position":2,"name":"加快DOM加载的时间","description":"2017年4月1日，本博客升级至0.11.7版本的最新Ghost Blog。升级做了很多微小的工作，但是花的时间还是比较多。 升级node环境：v6.10","url":"/posts/speed-up-dom-content-load/"},{"@type":"ListItem","position":3,"name":"从Concourse的一个例子讲述Pipeline的配置","description":"如图上所描述，黑盒就是每个resources，带颜色的盒子就是jobs，不同颜色代表起build的情况。实线代表没有trigger的resource，","url":"/posts/set-concourse-pipeline-from-another-example/"}]}</script><meta property="og:title" content="Edwardesire">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"BOSH CLI 部署流程","description":"0x00 Intro 本文档翻译的内容来自官方文档 描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。 0x01. 验证配置文件ma","url":"/posts/dive-into-bosh-cli-workflow/"},{"@type":"ListItem","position":2,"name":"shell环境设置方法纪要","description":"我们从下面这段脚本说起。 #!/usr/bin/env bash set -e -x source bosh-softlayer-tools/ci/tasks/utils.sh check_param deploy_name check_param data_center_name check_param private_vlan_id check_param public_vlan_id deployment_dir=\u0026quot;${PWD}/deployment\u0026quot; mkdir -p $deployment_dir 首先是env和set命令。env命令可以打印环境变量，也可以用env来执行程序。这里就是","url":"/posts/shell-env-setting-beginner/"},{"@type":"ListItem","position":3,"name":"加快DOM加载的时间","description":"2017年4月1日，本博客升级至0.11.7版本的最新Ghost Blog。升级做了很多微小的工作，但是花的时间还是比较多。 升级node环境：v6.10","url":"/posts/speed-up-dom-content-load/"}]}</script><meta property="og:title" content="Edwardesire">
 <meta property="og:type" content="website">
 <meta property="og:image" content="/images/favicon-32x32.png">
 <meta property="og:url" content="/posts/">
 <meta property="og:description" content="Eureka is a elegant and powerful theme for Hugo.">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="Edwardesire">
-<meta property="og:updated_time" content="2021-12-13T16:00:48+08:00">
+<meta property="og:updated_time" content="2021-12-19T16:40:48+08:00">
 <meta property="article:section" content="posts">
 <link rel=alternate type=application/rss+xml href=/posts/index.xml title=Edwardesire>
 <body class="flex flex-col min-h-screen">
@@ -69,6 +69,36 @@
 </article>
 <div class="bg-secondary-bg rounded px-6">
 <div class="overflow-hidden divide-y">
+<div class=py-6>
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/dive-into-bosh-cli-workflow/ class="font-bold text-xl hover:text-eureka">BOSH CLI 部署流程</a>
+</div>
+<div class=content>
+0x00 Intro 本文档翻译的内容来自官方文档 描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。 0x01. 验证配置文件ma
+</div>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2017-08-19</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>6 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/bosh/ class=hover:text-eureka>BOSH</a>
+<span>, </span>
+<a href=/categories/orchestration/ class=hover:text-eureka>Orchestration</a>
+<span>, </span>
+<a href=/categories/cloud/ class=hover:text-eureka>Cloud</a>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class=py-6>
 <div class="flex flex-col-reverse lg:flex-row justify-between">
 <div class=w-full>
@@ -123,34 +153,6 @@
 </div>
 </div>
 </div>
-<div class=py-6>
-<div class="flex flex-col-reverse lg:flex-row justify-between">
-<div class=w-full>
-<div class=mb-4>
-<a href=/posts/set-concourse-pipeline-from-another-example/ class="font-bold text-xl hover:text-eureka">从Concourse的一个例子讲述Pipeline的配置</a>
-</div>
-<div class=content>
-如图上所描述，黑盒就是每个resources，带颜色的盒子就是jobs，不同颜色代表起build的情况。实线代表没有trigger的resource，
-</div>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2017-03-29</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>4 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/concourse/ class=hover:text-eureka>Concourse</a>
-<span>, </span>
-<a href=/categories/ci/ class=hover:text-eureka>CI</a>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <ul class="pagination pagination-default">
@@ -179,7 +181,7 @@
 <a href=/posts/page/6/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
 </li>
 <li class=page-item>
-<a href=/posts/page/31/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+<a href=/posts/page/32/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
 </li>
 </ul>
 </div>
