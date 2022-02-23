@@ -19,14 +19,14 @@
 <link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
 <meta name=description content="Eureka is a elegant and powerful theme for Hugo.">
 <script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Categories","item":"/categories/"},{"@type":"ListItem","position":2,"name":"Kubernetes","item":"/categories/kubernetes/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Volcano的NUMA感知调度实现","description":"接上篇文章，调研Volcano的NUMA感知调度实现","url":"/posts/numa-aware-scheduling-in-volcano/"},{"@type":"ListItem","position":2,"name":"k8s资源拓扑感知——资源分配","description":"NUMA是什么？k8s topology manager是什么？","url":"/posts/k8s-resources-topology-manager/"},{"@type":"ListItem","position":3,"name":"多集群调度","description":"本文从两个开源项目发现当前多集群调度的场景和存在的问题。","url":"/posts/multi-cluster-scheduling/"}]}</script><meta property="og:title" content="Kubernetes | Edwardesire">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"资源拓扑感知调度方案","description":"介绍一种通过两个组件实现资源拓扑感知调度的方案","url":"/posts/node-resource-topology-aware-scheduling/"},{"@type":"ListItem","position":2,"name":"Volcano的NUMA感知调度实现","description":"接上篇文章，调研Volcano的NUMA感知调度实现","url":"/posts/numa-aware-scheduling-in-volcano/"},{"@type":"ListItem","position":3,"name":"k8s资源拓扑感知——资源分配","description":"NUMA是什么？k8s topology manager是什么？","url":"/posts/k8s-resources-topology-manager/"}]}</script><meta property="og:title" content="Kubernetes | Edwardesire">
 <meta property="og:type" content="website">
 <meta property="og:image" content="/images/favicon-32x32.png">
 <meta property="og:url" content="/categories/kubernetes/">
 <meta property="og:description" content="Eureka is a elegant and powerful theme for Hugo.">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="Edwardesire">
-<meta property="og:updated_time" content="2021-12-19T16:40:48+08:00">
+<meta property="og:updated_time" content="2022-02-23T14:44:54+08:00">
 <meta property="article:section" content="categories">
 <link rel=alternate type=application/rss+xml href=/categories/kubernetes/index.xml title=Edwardesire>
 <body class="flex flex-col min-h-screen">
@@ -70,6 +70,36 @@
 </article>
 <div class="bg-secondary-bg rounded px-6">
 <div class="overflow-hidden divide-y">
+<div class=py-6>
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/node-resource-topology-aware-scheduling/ class="font-bold text-xl hover:text-eureka">资源拓扑感知调度方案</a>
+</div>
+<div class=content>
+介绍一种通过两个组件实现资源拓扑感知调度的方案
+</div>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2022-02-23</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>11 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/numa/ class=hover:text-eureka>numa</a>
+<span>, </span>
+<a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
+<span>, </span>
+<a href=/categories/topology/ class=hover:text-eureka>topology</a>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class=py-6>
 <div class="flex flex-col-reverse lg:flex-row justify-between">
 <div class=w-full>
@@ -130,36 +160,6 @@ NUMA是什么？k8s topology manager是什么？
 </div>
 </div>
 </div>
-<div class=py-6>
-<div class="flex flex-col-reverse lg:flex-row justify-between">
-<div class=w-full>
-<div class=mb-4>
-<a href=/posts/multi-cluster-scheduling/ class="font-bold text-xl hover:text-eureka">多集群调度</a>
-</div>
-<div class=content>
-本文从两个开源项目发现当前多集群调度的场景和存在的问题。
-</div>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2021-11-14</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>18 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
-<span>, </span>
-<a href=/categories/multicluster/ class=hover:text-eureka>multicluster</a>
-<span>, </span>
-<a href=/categories/scheduling/ class=hover:text-eureka>scheduling</a>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <ul class="pagination pagination-default">
@@ -179,10 +179,13 @@ NUMA是什么？k8s topology manager是什么？
 <a href=/categories/kubernetes/page/3/ aria-label="Page 3" class=page-link role=button>3</a>
 </li>
 <li class=page-item>
+<a href=/categories/kubernetes/page/4/ aria-label="Page 4" class=page-link role=button>4</a>
+</li>
+<li class=page-item>
 <a href=/categories/kubernetes/page/2/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
 </li>
 <li class=page-item>
-<a href=/categories/kubernetes/page/3/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+<a href=/categories/kubernetes/page/4/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
 </li>
 </ul>
 </div>

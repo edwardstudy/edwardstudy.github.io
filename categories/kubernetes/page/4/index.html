@@ -1,6 +1,6 @@
 <!doctype html><html lang=en><meta charset=utf-8>
 <meta name=viewport content="width=device-width">
-<title>Edwardesire</title>
+<title>Kubernetes | Edwardesire</title>
 <meta name=generator content="Hugo Eureka 0.8.3">
 <link rel=stylesheet href=/css/eureka.min.css>
 <script defer src=/js/eureka.min.js></script>
@@ -18,16 +18,17 @@
 <link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
 <link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
 <meta name=description content="Eureka is a elegant and powerful theme for Hugo.">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"OS X下运行sudo go command","description":"写code的时候遇到需要修改/etc/hosts的情况，这个文件需要root权限才能修改。在container上能够成功运行，而在Mac本地调试时遇到","url":"/posts/os-x-run-sudo-go-commad/"},{"@type":"ListItem","position":2,"name":"BOSH CLI 部署流程","description":"0x00 Intro 本文档翻译的内容来自官方文档 描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。 0x01. 验证配置文件ma","url":"/posts/dive-into-bosh-cli-workflow/"},{"@type":"ListItem","position":3,"name":"shell环境设置方法纪要","description":"我们从下面这段脚本说起。 #!/usr/bin/env bash set -e -x source bosh-softlayer-tools/ci/tasks/utils.sh check_param deploy_name check_param data_center_name check_param private_vlan_id check_param public_vlan_id deployment_dir=\u0026quot;${PWD}/deployment\u0026quot; mkdir -p $deployment_dir 首先是env和set命令。env命令可以打印环境变量，也可以用env来执行程序。这里就是","url":"/posts/shell-env-setting-beginner/"}]}</script><meta property="og:title" content="Edwardesire">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Categories","item":"/categories/"},{"@type":"ListItem","position":2,"name":"Kubernetes","item":"/categories/kubernetes/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"双机环境部署Kubernetes","description":"本文使用kubeadm在虚机上部署一master一node的Kubernetes（k8s）集群。 0x01 环境 首先是创建环境，笔者使用的是两台8核8G内存的虚","url":"/posts/deploy-kubernetes-by-kubeadm/"}]}</script><meta property="og:title" content="Kubernetes | Edwardesire">
 <meta property="og:type" content="website">
 <meta property="og:image" content="/images/favicon-32x32.png">
-<meta property="og:url" content="/posts/">
+<meta property="og:url" content="/categories/kubernetes/">
 <meta property="og:description" content="Eureka is a elegant and powerful theme for Hugo.">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="Edwardesire">
 <meta property="og:updated_time" content="2022-02-23T14:44:54+08:00">
-<meta property="article:section" content="posts">
-<link rel=alternate type=application/rss+xml href=/posts/index.xml title=Edwardesire>
+<meta property="article:section" content="categories">
+<link rel=alternate type=application/rss+xml href=/categories/kubernetes/index.xml title=Edwardesire>
 <body class="flex flex-col min-h-screen">
 <header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
 <div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
@@ -38,7 +39,7 @@
 </button>
 <div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
 <div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 border-transparent mr-4">Posts</a>
 </div>
 <div class=flex>
 <div class="relative pt-4 md:pt-0">
@@ -65,7 +66,7 @@
 <div class=pl-scrollbar>
 <div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
 <article class="mx-6 my-8">
-<h1 class="font-bold text-3xl text-primary-text">Posts</h1>
+<h1 class="font-bold text-3xl text-primary-text">Kubernetes</h1>
 </article>
 <div class="bg-secondary-bg rounded px-6">
 <div class="overflow-hidden divide-y">
@@ -73,73 +74,15 @@
 <div class="flex flex-col-reverse lg:flex-row justify-between">
 <div class=w-full>
 <div class=mb-4>
-<a href=/posts/os-x-run-sudo-go-commad/ class="font-bold text-xl hover:text-eureka">OS X下运行sudo go command</a>
+<a href=/posts/deploy-kubernetes-by-kubeadm/ class="font-bold text-xl hover:text-eureka">双机环境部署Kubernetes</a>
 </div>
 <div class=content>
-写code的时候遇到需要修改/etc/hosts的情况，这个文件需要root权限才能修改。在container上能够成功运行，而在Mac本地调试时遇到
+本文使用kubeadm在虚机上部署一master一node的Kubernetes（k8s）集群。 0x01 环境 首先是创建环境，笔者使用的是两台8核8G内存的虚
 </div>
 <div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
 <div class="mr-6 my-2">
 <i class="fas fa-calendar mr-1"></i>
-<span>2017-08-22</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>1 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/osx/ class=hover:text-eureka>OSX</a>
-<span>, </span>
-<a href=/categories/bash/ class=hover:text-eureka>Bash</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class=py-6>
-<div class="flex flex-col-reverse lg:flex-row justify-between">
-<div class=w-full>
-<div class=mb-4>
-<a href=/posts/dive-into-bosh-cli-workflow/ class="font-bold text-xl hover:text-eureka">BOSH CLI 部署流程</a>
-</div>
-<div class=content>
-0x00 Intro 本文档翻译的内容来自官方文档 描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。 0x01. 验证配置文件ma
-</div>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2017-08-19</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>6 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/bosh/ class=hover:text-eureka>BOSH</a>
-<span>, </span>
-<a href=/categories/orchestration/ class=hover:text-eureka>Orchestration</a>
-<span>, </span>
-<a href=/categories/cloud/ class=hover:text-eureka>Cloud</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class=py-6>
-<div class="flex flex-col-reverse lg:flex-row justify-between">
-<div class=w-full>
-<div class=mb-4>
-<a href=/posts/shell-env-setting-beginner/ class="font-bold text-xl hover:text-eureka">shell环境设置方法纪要</a>
-</div>
-<div class=content>
-我们从下面这段脚本说起。 #!/usr/bin/env bash set -e -x source bosh-softlayer-tools/ci/tasks/utils.sh check_param deploy_name check_param data_center_name check_param private_vlan_id check_param public_vlan_id deployment_dir="${PWD}/deployment" mkdir -p $deployment_dir 首先是env和set命令。env命令可以打印环境变量，也可以用env来执行程序。这里就是
-</div>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2017-04-05</span>
+<span>2017-08-27</span>
 </div>
 <div class="mr-6 my-2">
 <i class="fas fa-clock mr-1"></i>
@@ -147,7 +90,7 @@
 </div>
 <div class="mr-6 my-2">
 <i class="fas fa-folder mr-1"></i>
-<a href=/categories/bash/ class=hover:text-eureka>Bash</a>
+<a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
 </div>
 </div>
 </div>
@@ -157,31 +100,28 @@
 </div>
 <ul class="pagination pagination-default">
 <li class=page-item>
-<a href=/posts/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a>
+<a href=/categories/kubernetes/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a>
 </li>
 <li class=page-item>
-<a href=/posts/page/4/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a>
+<a href=/categories/kubernetes/page/3/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a>
 </li>
 <li class=page-item>
-<a href=/posts/page/3/ aria-label="Page 3" class=page-link role=button>3</a>
+<a href=/categories/kubernetes/ aria-label="Page 1" class=page-link role=button>1</a>
 </li>
 <li class=page-item>
-<a href=/posts/page/4/ aria-label="Page 4" class=page-link role=button>4</a>
+<a href=/categories/kubernetes/page/2/ aria-label="Page 2" class=page-link role=button>2</a>
+</li>
+<li class=page-item>
+<a href=/categories/kubernetes/page/3/ aria-label="Page 3" class=page-link role=button>3</a>
 </li>
 <li class="page-item active">
-<a aria-current=page aria-label="Page 5" class=page-link role=button>5</a>
+<a aria-current=page aria-label="Page 4" class=page-link role=button>4</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/6/ aria-label="Page 6" class=page-link role=button>6</a>
+<li class="page-item disabled">
+<a aria-disabled=true aria-label=Next class=page-link role=button tabindex=-1><span aria-hidden=true>&#187;</span></a>
 </li>
-<li class=page-item>
-<a href=/posts/page/7/ aria-label="Page 7" class=page-link role=button>7</a>
-</li>
-<li class=page-item>
-<a href=/posts/page/6/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
-</li>
-<li class=page-item>
-<a href=/posts/page/32/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+<li class="page-item disabled">
+<a aria-disabled=true aria-label=Last class=page-link role=button tabindex=-1><span aria-hidden=true>&#187;&#187;</span></a>
 </li>
 </ul>
 </div>

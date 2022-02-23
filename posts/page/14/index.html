@@ -18,14 +18,14 @@
 <link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
 <link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
 <meta name=description content="Eureka is a elegant and powerful theme for Hugo.">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Paper Reader:Analysis of range-based key properties for sharded cluster of MongoDB","description":"前述很多mongoDB集群的使用和性能优化，发现一些还有可以优化因子值得好好研究。本文首先补充一直没有提到但已经使用了好久的分片集群的知识，然后再贴上","url":"/posts/paper-reader-analysis-of-range-based-key-properties-for-sharded-cluster-of-mongodb/"},{"@type":"ListItem","position":2,"name":"北京3月26日NodeParty分享会总结（Node.js全栈、探针监控、Docker node）","description":"上周参加了北京的NodeParty，收获还是有的。先将学到的总结，并补充一些node.js的内容。 #1. 全栈工程师之路 首先ppt奉上。演讲者为moajs的","url":"/posts/beijing-nodeparty/"},{"@type":"ListItem","position":3,"name":"越过大山和mongoDB查询操作的坑","description":"本周在2亿数据集上跑mapreduce（以下简称MR）和aggreation framework（AF）计算，但处理的速度非常慢。本文从索引入手寻找解决","url":"/posts/a-mountain-to-climb-mongodb-index-query/"}]}</script><meta property="og:title" content="Edwardesire">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Paper Reader:Analysis Farm: A Cloud-based Scalable Aggregation and Query Platform for Network Log Analysis","description":"这篇论文的主要内容是实现了要给日志分析的原型系统，其最底层使用OpenStack虚拟，数据存储层使用mongoDB。文中通过几个实验阐述了这一套架构的","url":"/posts/paper-reader-analysis-farm-a-cloud-based-scalable-aggregation-and-query-platform-for-network-log-analysis/"},{"@type":"ListItem","position":2,"name":"Paper Reader:Analysis of range-based key properties for sharded cluster of MongoDB","description":"前述很多mongoDB集群的使用和性能优化，发现一些还有可以优化因子值得好好研究。本文首先补充一直没有提到但已经使用了好久的分片集群的知识，然后再贴上","url":"/posts/paper-reader-analysis-of-range-based-key-properties-for-sharded-cluster-of-mongodb/"},{"@type":"ListItem","position":3,"name":"北京3月26日NodeParty分享会总结（Node.js全栈、探针监控、Docker node）","description":"上周参加了北京的NodeParty，收获还是有的。先将学到的总结，并补充一些node.js的内容。 #1. 全栈工程师之路 首先ppt奉上。演讲者为moajs的","url":"/posts/beijing-nodeparty/"}]}</script><meta property="og:title" content="Edwardesire">
 <meta property="og:type" content="website">
 <meta property="og:image" content="/images/favicon-32x32.png">
 <meta property="og:url" content="/posts/">
 <meta property="og:description" content="Eureka is a elegant and powerful theme for Hugo.">
 <meta property="og:locale" content="en">
 <meta property="og:site_name" content="Edwardesire">
-<meta property="og:updated_time" content="2021-12-19T16:40:48+08:00">
+<meta property="og:updated_time" content="2022-02-23T14:44:54+08:00">
 <meta property="article:section" content="posts">
 <link rel=alternate type=application/rss+xml href=/posts/index.xml title=Edwardesire>
 <body class="flex flex-col min-h-screen">
@@ -69,6 +69,34 @@
 </article>
 <div class="bg-secondary-bg rounded px-6">
 <div class="overflow-hidden divide-y">
+<div class=py-6>
+<div class="flex flex-col-reverse lg:flex-row justify-between">
+<div class=w-full>
+<div class=mb-4>
+<a href=/posts/paper-reader-analysis-farm-a-cloud-based-scalable-aggregation-and-query-platform-for-network-log-analysis/ class="font-bold text-xl hover:text-eureka">Paper Reader:Analysis Farm: A Cloud-based Scalable Aggregation and Query Platform for Network Log Analysis</a>
+</div>
+<div class=content>
+这篇论文的主要内容是实现了要给日志分析的原型系统，其最底层使用OpenStack虚拟，数据存储层使用mongoDB。文中通过几个实验阐述了这一套架构的
+</div>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2016-04-19</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>15 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/mongodb/ class=hover:text-eureka>MongoDB</a>
+<span>, </span>
+<a href=/categories/paper/ class=hover:text-eureka>Paper</a>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class=py-6>
 <div class="flex flex-col-reverse lg:flex-row justify-between">
 <div class=w-full>
@@ -120,32 +148,6 @@
 <a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
 <span>, </span>
 <a href=/categories/event/ class=hover:text-eureka>event</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class=py-6>
-<div class="flex flex-col-reverse lg:flex-row justify-between">
-<div class=w-full>
-<div class=mb-4>
-<a href=/posts/a-mountain-to-climb-mongodb-index-query/ class="font-bold text-xl hover:text-eureka">越过大山和mongoDB查询操作的坑</a>
-</div>
-<div class=content>
-本周在2亿数据集上跑mapreduce（以下简称MR）和aggreation framework（AF）计算，但处理的速度非常慢。本文从索引入手寻找解决
-</div>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2016-03-28</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>10 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
-<a href=/categories/mongodb/ class=hover:text-eureka>MongoDB</a>
 </div>
 </div>
 </div>

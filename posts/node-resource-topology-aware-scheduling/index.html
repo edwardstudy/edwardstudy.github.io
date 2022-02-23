@@ -1,0 +1,361 @@
+<!doctype html><html lang=en><meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>资源拓扑感知调度方案 | Edwardesire</title>
+<meta name=generator content="Hugo Eureka 0.8.3">
+<link rel=stylesheet href=/css/eureka.min.css>
+<script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
+<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
+<link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
+<meta name=description content="介绍一种通过两个组件实现资源拓扑感知调度的方案">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"资源拓扑感知调度方案","item":"/posts/node-resource-topology-aware-scheduling/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/node-resource-topology-aware-scheduling/"},"headline":"资源拓扑感知调度方案 | Edwardesire","datePublished":"2022-02-23T14:44:54+08:00","dateModified":"2022-02-23T14:44:54+08:00","wordCount":5393,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"介绍一种通过两个组件实现资源拓扑感知调度的方案"}</script><meta property="og:title" content="资源拓扑感知调度方案 | Edwardesire">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/images/favicon-32x32.png">
+<meta property="og:url" content="/posts/node-resource-topology-aware-scheduling/">
+<meta property="og:description" content="介绍一种通过两个组件实现资源拓扑感知调度的方案">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Edwardesire">
+<meta property="article:published_time" content="2022-02-23T14:44:54+08:00">
+<meta property="article:modified_time" content="2022-02-23T14:44:54+08:00">
+<meta property="article:section" content="posts">
+<meta property="article:tag" content="numa">
+<meta property="article:tag" content="Kubernetes">
+<meta property="article:tag" content="topology">
+<meta property="og:see_also" content="/posts/numa-aware-scheduling-in-volcano/">
+<meta property="og:see_also" content="/posts/k8s-resources-topology-manager/">
+<meta property="og:see_also" content="/posts/multi-cluster-scheduling/">
+<meta property="og:see_also" content="/posts/load-scheduling-brief/">
+<meta property="og:see_also" content="/posts/jie-jue-kubernetes-admission-webhook-timeout-error/">
+<meta property="og:see_also" content="/posts/intro-of-cf-operator/">
+<body class="flex flex-col min-h-screen">
+<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+<i class="fas fa-bars"></i>
+</button>
+<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
+</div>
+<div class=flex>
+<div class="relative pt-4 md:pt-0">
+<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
+<i class="fas fa-adjust"></i>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
+</div>
+<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
+<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
+</div>
+</nav>
+<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
+</div>
+</header>
+<main class="flex-grow pt-16">
+<div class=pl-scrollbar>
+<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+<h1 class="font-bold text-3xl text-primary-text">资源拓扑感知调度方案</h1>
+<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+<div class="mr-6 my-2">
+<i class="fas fa-calendar mr-1"></i>
+<span>2022-02-23</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-clock mr-1"></i>
+<span>11 min read</span>
+</div>
+<div class="mr-6 my-2">
+<i class="fas fa-folder mr-1"></i>
+<a href=/categories/numa/ class=hover:text-eureka>numa</a>
+<span>, </span>
+<a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
+<span>, </span>
+<a href=/categories/topology/ class=hover:text-eureka>topology</a>
+</div>
+</div>
+<div class=content>
+<p>之前文章分析过Volcano的NUMA拓扑资源调度的设计，这次扒一扒社区scheduling sig设计的一种方案。这个方案由Red Hat主导，通过两个组件实现资源拓扑感知调度。一个是worker node上报拓扑资源状态的agent：这个功能可以由Node feature Discovery (NFD)或者Resource Topology Exporter (RTE) 实现；一个是扩展调度功能的scheduler-plugin，通过扩展调度器的filter/score扩展点来实现资源拓扑感知。</p>
+<p>NFD和RTE都是一个Red Hat的团队实现的。我们先了解下NFD，再重点分析RTE的实现。NFD依赖RTE中的NodeResourceTopology CR上报节点资源信息。但是RTE可以独立工作。</p>
+<p>NFD由两个组件组成：nfd-master 和 nfd-worker。nfd-master 负责将节点的信息标记到节点对象上。对于的节点label上会增加如下信息：</p>
+<pre><code>$ kubectl get node -ojson | jq .items[].metadata.labels
+  {
+    &quot;beta.kubernetes.io/arch&quot;: &quot;amd64&quot;,
+    &quot;beta.kubernetes.io/os&quot;: &quot;linux&quot;,
+    &quot;feature.node.kubernetes.io/cpu-cpuid.ADX&quot;: &quot;true&quot;,
+    &quot;feature.node.kubernetes.io/cpu-cpuid.AESNI&quot;: &quot;true&quot;,
+...
+</code></pre>
+<p>nfd-worker负责在节点上将节点拓扑信息通过grpc上报给nfd-master。nfd-worker会上报机器的内核信息、cpu信息等。当需要上报节点的<strong>资源拓扑信息</strong>时，nfd会在节点以daemonSet的形式部署topologyUpdater模块，该模块负责机器资源的拓扑信息（比如numa node上的cpu分配状态）。</p>
+<p>NFD和RTE两者对于节点的资源拓扑信息上报的差别在于：</p>
+<ul>
+<li>
+<p>NFD通过topologyUpdater上报给nfd-master，topologyUpdater只负责机器资源的拓扑信息。</p>
+</li>
+<li>
+<p>RTE通过Resource Topology Exporter直接更新节点的NodeResourceTopology数据。</p>
+</li>
+</ul>
+<p>我们重点看看Resource Topology Exporter的设计思想。</p>
+<h2 id=资源拓扑上报>资源拓扑上报</h2>
+<p>RTE负责上报节点的资源，以daemonSet的形式在每个节点上执行。该组件收集节点上的pod的分配资源和资源拓扑信息（NUMA nodes），并通过NodeResourceTopology CRD更新节点拓扑数据，调度器kube-scheduler依据每个节点的NodeResourceTopology数据来感知节点侧的拓扑策略和资源拓扑状态。</p>
+<p>首先，RTE通过节点上kubelet的<a href=https://github.com/kubernetes/enhancements/blob/45714755f159b31a305eb3934567be60d0592a93/keps/sig-node/2043-pod-resource-concrete-assigments/README.md>podresources</a>接口（通过 <code>/var/lib/kubelet/pod-resources/kubelet.sock</code> 获取kubelet的相关数据）获取pod的资源分配信息获取pod的资源分配信息，包括设备的拓扑信息。这部分暴露podresources的功能需要在k8s版本v1.20+上正式GA。</p>
+<p>此外，RTE有个与podresources相关的reference-container参数。因为接口返回的数据没有区分绑核信息。当前pod resources的List接口返回的容器分配的cpu #，不区分共享池和独占池的cpu分配情况。所以对于请求值不为整数的Guaranteed pod，List会返回共享池的cpu #。但在资源充足的情况下，非独占池的cpu都是可以分配给有绑核需求的实例。</p>
+<ul>
+<li>相应的社区修复pr：接口剔除共享池的分配信息：https://github.com/kubernetes/kubernetes/pull/97415</li>
+</ul>
+<p>RTE在现有接口的条件下，通过创建一个pause container来获得共享池的cpu ids。在统计时，再将reference-container的cpu #（共享池）信息来过滤接口返回的数据，这样得到的结果就只包含独占的cpu #。</p>
+<p>RTE有resourceObserver和NRTUpdater模块负责生成和上传NodeResourceTopology。</p>
+<h3 id=resourceobserver>resourceObserver</h3>
+<p>resourceObserver通过resourceMonitor获取节点的资源拓扑信息并发送到channel。resourceMonitor监听本地容器CRI的资源分配和kubelet变化。当监听文件变化时，resourceMonitor扫描机器上的容器资源分配情况。</p>
+<p>首先，通过/sys/devices目录下的信息，更新节点numa node的容量和可分配量：</p>
+<ul>
+<li>
+<p>cpu资源通过ghw包来发现（https://github.com/jaypipes/ghw）。（/sys/devices/system/node/nodeX/cpuX ），这里的cpuX是逻辑id。core_id在/sys/devices/system/node/node0/cpu10/topology/core_id</p>
+</li>
+<li>
+<p>内存资源则是nte扩展。比如hugepages会读取numa node信息（/sys/devices/system/node/node0/hugepages），比如下图展示node0的数据。通过获取nr_hugepages的值（0表示HugePages 未启用，其他值表示HP总数）。内存量则读取numa node的meminfo文件（/sys/devices/system/node/node0/meminfo）的MemTotal值。</p>
+</li>
+</ul>
+<p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/image-20220125202346539.png alt=hugepages-example></p>
+<p>然后通过kubelet的podresources接口，获取分配给pod的容器的资源量。如下例所示，接口会返回每个容器的cpu、设备分配信息。</p>
+<pre><code class=language-go>&amp;v1.ListPodResourcesResponse{
+	PodResources: []*v1.PodResources{
+		{
+			Name:      &quot;test-pod-0&quot;,
+			Namespace: &quot;default&quot;,
+			Containers: []*v1.ContainerResources{
+				{
+					Name:   &quot;test-cnt-0&quot;,
+					CpuIds: []int64{5, 7},
+					Devices: []*v1.ContainerDevices{
+						{
+							ResourceName: &quot;fake.io/net&quot;,
+							DeviceIds:    []string{&quot;netBBB&quot;},
+							Topology: &amp;v1.TopologyInfo{
+								Nodes: []*v1.NUMANode{
+									{
+										ID: 1,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	},
+}
+</code></pre>
+<p>最后将这两部分数据聚合到Zone结构里。resourceMonitor将每个NUMA node封装成一个Zone，Zone未来也会支持socket，die，core等拓扑信息。</p>
+<p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/image-20220221172610897.png alt=zone-struct></p>
+<p>对于numa node，type为"Node"。costs数组包含node之间的访问成本。resources字段记录每个numa node各资源的容量（capacity），可分配量（allocatable），可用量（available=allocatable-从pod resources接口获得的绑核独占资源）。其他字段目前没有实际含义。</p>
+<p>最后resourceMonitor将所有的numa node资源信息通过事件发送消费者NRT Updater模块。</p>
+<h3 id=nrt-updater>NRT Updater</h3>
+<p>NRTUpdater通过resourceObserver传递的channel拿的更新的资源拓扑数据，主要工作也就是将数据更新到对应的NodeResourceTopology CRD。</p>
+<p>CRD API的定义： <a href=https://github.com/k8stopologyawareschedwg/noderesourcetopology-api>https://github.com/k8stopologyawareschedwg/noderesourcetopology-api</a></p>
+<pre><code class=language-go>// NodeResourceTopology is a specification for a NodeResourceTopology resource
+type NodeResourceTopology struct {
+	metav1.TypeMeta   `json:&quot;,inline&quot;`
+	metav1.ObjectMeta `json:&quot;metadata,omitempty&quot;`
+
+	TopologyPolicies []string `json:&quot;topologyPolicies&quot;`
+	Zones            ZoneList `json:&quot;zones&quot;`
+}
+
+// Zone is the spec for a NodeResourceTopology resource
+type Zone struct {
+	Name       string           `json:&quot;name&quot;`
+	Type       string           `json:&quot;type&quot;`
+	Parent     string           `json:&quot;parent,omitempty&quot;`
+	Costs      CostList         `json:&quot;costs,omitempty&quot;`
+	Attributes AttributeList    `json:&quot;attributes,omitempty&quot;`
+	Resources  ResourceInfoList `json:&quot;resources,omitempty&quot;`
+}
+
+type ZoneList []Zone
+
+type ResourceInfo struct {
+	Name        string             `json:&quot;name&quot;`
+	Allocatable intstr.IntOrString `json:&quot;allocatable&quot;`
+	Capacity    intstr.IntOrString `json:&quot;capacity&quot;`
+}
+type ResourceInfoList []ResourceInfo
+
+type CostInfo struct {
+	Name  string `json:&quot;name&quot;`
+	Value int    `json:&quot;value&quot;`
+}
+type CostList []CostInfo
+
+type AttributeInfo struct {
+	Name  string `json:&quot;name&quot;`
+	Value string `json:&quot;value&quot;`
+}
+type AttributeList []AttributeInfo
+</code></pre>
+<p>CRD的关键数据结构有TopologyPolicies反映节点的拓扑策略和Zones反映节点资源拓扑单位，其他字段目前对调度无实义。</p>
+<ol>
+<li>TopologyPolicies：拓扑策略，可选值: None, BestEffort, Restricted, SingleNUMANodePodLevel，SingleNUMANodeContainerLevel。</li>
+</ol>
+<p>​ 依据kubelet的2个参数：topologyManagerPolicy，topologyManagerScope的两个参数组合来判断。RTE的同名参数优先级高于kubelet的优先级。两个参数的可选值为：</p>
+<ul>
+<li>topologyManagerPolicy：</li>
+</ul>
+<pre><code>// - `restricted`: kubelet only allows pods with optimal NUMA node alignment for
+//   requested resources;
+// - `best-effort`: kubelet will favor pods with NUMA alignment of CPU and device
+//   resources;
+// - `none`: kublet has no knowledge of NUMA alignment of a pod's CPU and device resources.
+// - `single-numa-node`: kubelet only allows pods with a single NUMA alignment
+//   of CPU and device resources.
+</code></pre>
+<ul>
+<li>topologyManagerScope：</li>
+</ul>
+<pre><code>	// - `container`: topology policy is applied on a per-container basis.
+	// - `pod`: topology policy is applied on a per-pod basis.
+</code></pre>
+<p>​ RTE依据topologyManagerPolicy判断TopologyPolicies为None, BestEffort, Restricted, SingleNUMANode类型，特殊的在single-numa-node的情况下会结合topologyManagerScope映射成对应的分配策略：</p>
+<ul>
+<li>SingleNUMANodeContainerLevel：表示{topologyManagerPolicy: single-numa-node, topologyManagerScope: container}</li>
+<li>SingleNUMANodePodLevel：表示{topologyManagerPolicy: single-numa-node, topologyManagerScope: pod}</li>
+<li>Restricted：表示{topologyManagerPolicy: restricted}</li>
+<li>BestEffort：表示{topologyManagerPolicy: best-effort}</li>
+<li>None：表示{topologyManagerPolicy: none}</li>
+</ul>
+<ol start=2>
+<li>Zones：list，等于resourceObserver构造的zones，代表一个资源的拓扑空间信息，例如socket, node, die or core（这里的node就是NUMA node）。</li>
+</ol>
+<ul>
+<li>Name：名称，numa node为node id加上node-前缀</li>
+<li>Type：类型，numa node为“Node”</li>
+<li>Resources：资料类型、capacity（总量）、allocatable（可分配量）、available（可使用量）等值。</li>
+</ul>
+<p>通过在集群创建包含节点拓扑策略和资源拓扑信息的NodeResourceTopology，使得集群内组件能够感知节点侧的资源拓扑情况。调度器通过节点资源拓扑数据来选择。</p>
+<h2 id=调度感知>调度感知</h2>
+<p>依据依据topologyPolicies的值，计算不同范围的资源拓扑状态，调度决策。目前只支持下面两个single-numa-node策略下的container级别或者pod级别的。</p>
+<ul>
+<li>
+<p>SingleNUMANodeContainerLevel：以pod的单个容器为单位计算。</p>
+</li>
+<li>
+<p>SingleNUMANodePodLevel：会将pod的所有容器（init/normal）加在一起计算。</p>
+</li>
+</ul>
+<ol>
+<li>Filter</li>
+</ol>
+<p>SingleNUMANodePodLevel是需要pod的<strong>所有容器</strong>都适配拓扑策略，SingleNUMANodeContainerLevel是确保每个容器单独适配拓扑策略。所以第一步是依据这个逻辑计算检验pod资源需求。</p>
+<p>遍历节点上的每个numa node，如果Resources没有调度pod的请求的资源类型，则忽略numa node（节点的可用资源满足的前提下）。</p>
+<p>然后判断下列4种条件只要一个为真则表示numa node可以分配给实例：</p>
+<ul>
+<li>pod的资源类型是内存/hugepages，因为当前方案还未支持memory manager</li>
+<li>pod的资源类型为cpu，并且pod不为guaranteed。因为非guaranteed的pod的cpu的分配会变化。</li>
+<li>pod的资源请求量为0</li>
+<li>numa node的资源量满足pod的请求量</li>
+</ul>
+<p>如果可用则添加到资源位掩码bitmask中，bitmask上的每一位代表一个numa node。bit置1则表示numa node上的资源满足需求。最后取每个资源类型的numa结果的与集为节点最终结果。如果结果为空则表示节点没有numa node满足container/pod的需要。</p>
+<p>特殊情况下，节点会直接返回可调度的结构：pod的QoS为BestEffort，节点没有NodeResourceTopology crd数据。</p>
+<ol start=2>
+<li>Score</li>
+</ol>
+<p>依据score算法（MostAllocated/BalancedAllocation/LeastAllocated）决定权开启NUMA 亲和的节点优先级。三种策略依据单numa node上的单资源类型评分，依据全局配置的资源权重算出单numa node对于容器（或pod）的评分：</p>
+<ul>
+<li>MostAllocated：请求量/剩余可分配量（available），即分配率约高，分数越高。依权重计算总和。</li>
+<li>BalancedAllocation：首先计算每个资源的请求量/剩余可分配量（available），依据(1-分配率方差)计算numa node的分数。各资源类型分配率的离散程度越低，分数越高。</li>
+<li>LeastAllocated：（剩余可分配量-请求量）/剩余可分配量，即分配率约低，分数越高。依权重计算总和</li>
+</ul>
+<p>第一步和filter类似，也会依据scope计算pod的所需资源量。pod scope会计算pod的容器资源综合，container scope会计算各容器评分的均值。</p>
+<p>然后计算节点侧的资源状态，获得每个numa node的剩余可分配资源。</p>
+<p>特殊情况下，节点会直接返回表示最低优先级零分：节点没有NodeResourceTopology crd，或者节点的TopologyPolicies为空。</p>
+<h2 id=总结>总结</h2>
+<p>这套方案依据节点拓扑状态调度，补足了原生调度器的缺陷。对比volcano的方案，也更加清晰简洁。调度器感知的节点资源状态，尽量与节点侧一致。但是通过分析发现还有如下不足：</p>
+<ol>
+<li>
+<p>没有区分需要拓扑亲和的pod和普通的pod，容易造成开启拓扑功能的节点高优资源浪费。在调度拓扑敏感性的应用时，重新分配已被低QoS实例的拓扑资源。已运行的实例从单numa node退化成跨numa node，造成性能抖动。</p>
+</li>
+<li>
+<p>调度器没有资源预留，同一份numa node的资源存在被多个实例竞争的风险。在调度侧确认候选节点到节点侧实际分配资源以及更新到CRD之间，已经分配的numa node在调度侧应该可以被重新计算。方案通过选择评分最小的numa node来规避这个问题，但是没有本质上解决这个问题。</p>
+</li>
+<li>
+<p>没有精细化处理pod QoS类型。对于QoS为burstable，节点侧的资源分配是依据资源Limits。这个方案容易造成机器资源的竞争。</p>
+</li>
+</ol>
+<h3 id=参考>参考</h3>
+<ul>
+<li>社区资源拓扑kep: <a href=https://github.com/kubernetes-sigs/scheduler-plugins/blob/v0.22.6/pkg/noderesourcetopology/README.md>https://github.com/kubernetes-sigs/scheduler-plugins/blob/v0.22.6/pkg/noderesourcetopology/README.md</a></li>
+<li>RTE repo: <a href=https://github.com/k8stopologyawareschedwg/resource-topology-exporter>https://github.com/k8stopologyawareschedwg/resource-topology-exporter</a></li>
+<li>NFD repo: <a href=https://github.com/kubernetes-sigs/node-feature-discovery>https://github.com/kubernetes-sigs/node-feature-discovery</a></li>
+<li>pod resources rep: <a href=https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/2043-pod-resource-concrete-assigments/README.md>https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/2043-pod-resource-concrete-assigments/README.md</a></li>
+</ul>
+</div>
+<div class=my-4>
+<a href=/tags/numa/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#numa</a>
+<a href=/tags/kubernetes/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Kubernetes</a>
+<a href=/tags/topology/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#topology</a>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+<div>
+</div>
+<div class="md:text-right mt-4 md:mt-0">
+<span class="block font-bold">Next</span>
+<a href=/posts/numa-aware-scheduling-in-volcano/ class=block>Volcano的NUMA感知调度实现</a>
+</div>
+</div>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
+</div>
+<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
+<h2 class="text-lg font-semibold mb-4">See Also</h2>
+<div class=content>
+<a href=/posts/numa-aware-scheduling-in-volcano/>Volcano的NUMA感知调度实现</a>
+<br>
+<a href=/posts/k8s-resources-topology-manager/>k8s资源拓扑感知——资源分配</a>
+<br>
+<a href=/posts/multi-cluster-scheduling/>多集群调度</a>
+<br>
+<a href=/posts/load-scheduling-brief/>集群内负载调度方案调研</a>
+<br>
+<a href=/posts/jie-jue-kubernetes-admission-webhook-timeout-error/>解决Kubernetes admission webhook timeout error</a>
+<br>
+<a href=/posts/intro-of-cf-operator/>cf-operator的介绍</a>
+<br>
+</div>
+</div>
+</div>
+<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
+</div>
+</div>
+</main>
+<footer class=pl-scrollbar>
+<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
+</div></div>
+</footer>
+</body>
+</html>
