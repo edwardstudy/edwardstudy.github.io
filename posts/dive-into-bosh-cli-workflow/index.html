@@ -1,212 +1,25 @@
-<!doctype html><html lang=en><meta charset=utf-8>
-<meta name=viewport content="width=device-width">
-<title>BOSH CLI 部署流程 | Edwardesire</title>
-<meta name=generator content="Hugo Eureka 0.8.3">
-<link rel=stylesheet href=/css/eureka.min.css>
-<script defer src=/js/eureka.min.js></script>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
-<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width"><title>BOSH CLI 部署流程 | Edwardesire</title><meta name=generator content="Hugo Eureka 0.8.3"><link rel=stylesheet href=/css/eureka.min.css><script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload='this.onload=null,this.rel="stylesheet"'><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
-<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
-<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
-<link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
-<meta name=description content="0x00 Intro 本文档翻译的内容来自官方文档 描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。 0x01. 验证配置文件ma">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"BOSH CLI 部署流程","item":"/posts/dive-into-bosh-cli-workflow/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/dive-into-bosh-cli-workflow/"},"headline":"BOSH CLI 部署流程 | Edwardesire","datePublished":"2017-08-19T16:46:48+00:00","dateModified":"2017-08-19T16:46:48+00:00","wordCount":2589,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"0x00 Intro 本文档翻译的内容来自官方文档 描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。 0x01. 验证配置文件ma"}</script><meta property="og:title" content="BOSH CLI 部署流程 | Edwardesire">
-<meta property="og:type" content="article">
-<meta property="og:image" content="/images/favicon-32x32.png">
-<meta property="og:url" content="/posts/dive-into-bosh-cli-workflow/">
-<meta property="og:description" content="0x00 Intro 本文档翻译的内容来自官方文档 描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。 0x01. 验证配置文件ma">
-<meta property="og:locale" content="en">
-<meta property="og:site_name" content="Edwardesire">
-<meta property="article:published_time" content="2017-08-19T16:46:48+00:00">
-<meta property="article:modified_time" content="2017-08-19T16:46:48+00:00">
-<meta property="article:section" content="posts">
-<meta property="article:tag" content="BOSH">
-<meta property="article:tag" content="Orchestration">
-<meta property="article:tag" content="Cloud">
-<meta property="og:see_also" content="/posts/cloud-foundry-components-intro/">
-<body class="flex flex-col min-h-screen">
-<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png><meta name=description content="0x00 Intro 本文档翻译的内容来自官方文档 描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。 0x01. 验证配置文件ma"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"BOSH CLI 部署流程","item":"/posts/dive-into-bosh-cli-workflow/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/dive-into-bosh-cli-workflow/"},"headline":"BOSH CLI 部署流程 | Edwardesire","datePublished":"2017-08-19T16:46:48+00:00","dateModified":"2017-08-19T16:46:48+00:00","wordCount":2589,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"0x00 Intro 本文档翻译的内容来自官方文档 描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。 0x01. 验证配置文件ma"}</script><meta property="og:title" content="BOSH CLI 部署流程 | Edwardesire"><meta property="og:type" content="article"><meta property="og:image" content="/images/favicon-32x32.png"><meta property="og:url" content="/posts/dive-into-bosh-cli-workflow/"><meta property="og:description" content="0x00 Intro 本文档翻译的内容来自官方文档 描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。 0x01. 验证配置文件ma"><meta property="og:locale" content="en"><meta property="og:site_name" content="Edwardesire"><meta property="article:published_time" content="2017-08-19T16:46:48+00:00"><meta property="article:modified_time" content="2017-08-19T16:46:48+00:00"><meta property="article:section" content="posts"><meta property="article:tag" content="BOSH"><meta property="article:tag" content="Orchestration"><meta property="article:tag" content="Cloud"><meta property="og:see_also" content="/posts/cloud-foundry-components-intro/"><body class="flex flex-col min-h-screen"><header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm"><div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=="Auto"||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName("html")[0].classList.add("dark")</script><nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0"><a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
 <button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-<i class="fas fa-bars"></i>
-</button>
-<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
-</div>
-<div class=flex>
-<div class="relative pt-4 md:pt-0">
-<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
-<i class="fas fa-adjust"></i>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
-</div>
-<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
-<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<i class="fas fa-bars"></i></button><div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20"><div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0"><a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a></div><div class=flex><div class="relative pt-4 md:pt-0"><div class="cursor-pointer hover:text-eureka" id=lightDarkMode><i class="fas fa-adjust"></i></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open></div><div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions><span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
 <span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
-<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
-</div>
-</div>
-</div>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
-</div>
-</nav>
-<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
-</div>
-</header>
-<main class="flex-grow pt-16">
-<div class=pl-scrollbar>
-<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-<h1 class="font-bold text-3xl text-primary-text">BOSH CLI 部署流程</h1>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2017-08-19</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>6 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span></div></div></div></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile></div></nav><script>let element=document.getElementById("lightDarkMode");storageColorScheme==null||storageColorScheme=="Auto"?document.addEventListener("DOMContentLoaded",()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","sun"),element.firstElementChild.classList.add("fa-sun")):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","moon"),element.firstElementChild.classList.add("fa-moon")),document.addEventListener("DOMContentLoaded",()=>{getcolorscheme(),switchBurger()})</script></div></header><main class="flex-grow pt-16"><div class=pl-scrollbar><div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto"><div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12"><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8"><h1 class="font-bold text-3xl text-primary-text">BOSH CLI 部署流程</h1><div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text"><div class="mr-6 my-2"><i class="fas fa-calendar mr-1"></i>
+<span>2017-08-19</span></div><div class="mr-6 my-2"><i class="fas fa-clock mr-1"></i>
+<span>6 min read</span></div><div class="mr-6 my-2"><i class="fas fa-folder mr-1"></i>
 <a href=/categories/bosh/ class=hover:text-eureka>BOSH</a>
-<span>, </span>
+<span>,</span>
 <a href=/categories/orchestration/ class=hover:text-eureka>Orchestration</a>
-<span>, </span>
-<a href=/categories/cloud/ class=hover:text-eureka>Cloud</a>
-</div>
-</div>
-<div class=content>
-<h2 id=0x00-intro>0x00 Intro</h2>
-<p>本文档翻译的内容来自<a href=https://github.com/cloudfoundry/bosh-cli/blob/master/docs/cli_workflow.md>官方文档</a>
-描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。</p>
-<ul>
-<li>
-<p>0x01. 验证配置文件<code>manifest</code>、版本发布<code>release</code>和镜像<code>stemcell</code><br>
-部署流程的第一步就是验证。CLI首先将检查<code>manifest</code>、<code>release</code>和<code>stemcell</code>是否有变化。如果文件没有变化，CLI检查之后即会退出并发出<code>Skipping deploy</code>消息。<br>
-随后，CLI会验证<code>manifest</code>中的属性(properties)并解析部署的配置信息。CLI会将配置文件解析成两部分：部署配置信息(deployment manifest)和CPI配置信息(CPI config)。<br>
-部署配置信息被用在一个单独的VM中的任意<a href=https://bosh.io/docs/release.html>releases</a>上。一个release是一个版本集合，包括配置属性、模板、启动脚本、源码和其他一切能够保证可以以可重复(reproducible)的方式构建(build)和部署(deploy)上层应用的内容。由于面前CLI只创建了一个VM，上面只能指定一个release job。<br>
-CPI配置信息被用来本地安装和配置CPI。在<code>manifest</code>中的<code>cloud_provider</code>部分来指定。</p>
-<p>在BOSH CLI v2中，部署配置信息<code>manifest</code>被定义如下加个部分：</p>
-<ul>
-<li>Deployment Identification: 包含部署的名称和uuid。</li>
-<li>Releases Block: 部署中每个release的名称和版本。</li>
-<li>Stemcells Block: 部署中每个stemcell的名称和版本。</li>
-<li>Update Block: 定义BOSH更新实例时行为</li>
-<li>Instance Groups Block: 指定jobs和instance groups的映射关系。</li>
-<li>Properties Block: 描述全局属性。</li>
-<li>Variables Block: 变量的配置（比如creds）。</li>
-<li>Tags Block: key-value形式的标签。</li>
-</ul>
-<p>以前IaaS相关的配置信息（比如网络，磁盘类型）被独立称为cloud-config的配置信息。在我们将这些配置信息生成为一个YAML文件后就可以使用<code>bosh deploy</code>命令来部署应用。验证配置文件步骤就在这里进行。BOSH CLI会显性将配置更新的部分提示给用户（如下图）。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/2017/08/FqMOKwtLb25i664IllMuSfgLDzRG.jpeg alt=bosh_deploy></p>
-</li>
-<li>
-<p>0x02. 安装<code>CPI Release</code><br>
-CPI Release直接在BOSH CLI的机器上编译，因为BOSH CLI需要在本地运行CPI命令与IaS层交互。<br>
-CPI release必须包含<code>cloud_provider.template.job</code>。在CPI安装期间，CPI job相关的packages都将被编译，其templates都会被渲染。CPI job templates获取相关的属性值，这些属性值在manifest的<code>cloud_provider -> properties</code>部分。<br>
-这些packages和templates存放在<code>~/.bosh/&lt;installation_id></code>目录下。</p>
-</li>
-<li>
-<p>0x03. 上传<code>Stemcell</code><br>
-在CPI本地安装后，CLI会调用CPI方法<code>create_stemcell</code>。<code>stemcell</code>在<code>manifest</code>指定。</p>
-</li>
-<li>
-<p>0x04. 启动<code>Registry</code><br>
-在创建VM前，CLI会先启动<code>Registry</code>。<code>Registry</code>被CPI用来存储易变数据，这些数据之后会被运行在VM上的<code>Agent</code>使用。所以<code>Registry</code>是用来存储可变数据的服务，而基础架构元数据服务（infrastructure&rsquo;s metadata service）存储不变的数据。直到CPI创建完VM，这些数据是预先不可知的。例如，在BOSH VM创建之后，<code>Agent</code>需要从<code>Registry</code>获得挂载持久化硬盘的信息数据。<br>
-CPI会在基础架构元数据服务存储<code>Registry</code>的URL。部署在VM上的<code>Agent</code>会从URL中获取registry配置信息。</p>
-</li>
-<li>
-<p>0x05. 删除已存在的VM<br>
-如果VM已经部署过，CLI会尝试与VM上<code>Agent</code>建立连接。如果。我们可以在<code>create-env</code>通过option:<code>--state director-state.json</code>获得相关状态信息。如果其上的<code>Agent</code>有响应，CLI会停止VM上的服务，并卸载硬盘。最终，CLI会删除VM并更新部署的状态信息（删除VM CID）。</p>
-</li>
-<li>
-<p>0x06. 创建新VM<br>
-接下来，CLI会发送<code>create_vm</code>的命令给CPI。此外，VM CID被记录在状态信息文件。</p>
-</li>
-<li>
-<p>0x07. 启动SSH tunnel<br>
-CLI创建一个与VM反向SSH tunnel。tunnel的信息也由manifest提供。Tunnel帮助VM上的<code>Agent</code>获取<code>Registry</code>。</p>
-</li>
-<li>
-<p>0x08. 等待<code>Agent</code><br>
-一旦SSH tunnel启动，CLI会使用提供的mbus URL向VM上的<code>Agent</code>发出<code>ping</code>请求。一旦<code>Agent</code>准备好，就会响应<code>ping</code>请求。</p>
-</li>
-<li>
-<p>0x09. 创建硬盘<br>
-CLIL接着给VM创建和挂载硬盘。这些信息也由manifest文件提供。这里有两种方法指定硬盘。一种是添加<code>persistent_disk_pool </code>属性，一种是添加<code>persistent_disk </code>属性。如果manifest上有这些信息，CLI会向CPI调用<code>create_disk</code>方法。成功后，disk CID会记录在状态文件中。</p>
-</li>
-<li>
-<p>0x10. 挂载硬盘<br>
-成功创建硬盘后，CLI会调用CPI<code>attach_disk</code>方法。当硬盘成功挂载后，CLI会向<code>Agent</code>发出<code>mount_disk</code>请求。</p>
-</li>
-<li>
-<p>0x11. 发送<code>stop</code>信息<br>
-一旦<code>Agent</code>成功监听mbus URL，CLI会向<code>Agent</code>发送<code>stop</code>信息。<code>Agent</code>会使用<code>monit</code>命令来管理VM上的<code>jobs</code>。暂停的目的是为了更新<code>jobs</code>数据。</p>
-</li>
-<li>
-<p>0x12. 发送<code>apply</code>信息<br>
-接着CLI会发送<code>apply</code>信息，并随之发送需要安装到VM上的<code>packages</code>和<code>jobs</code>。<code>Agent</code>会在<code>&lt;mbus URL>/blobs</code>端点(endpoint)提供二进制文件（blobstore）。<br>
-由每个job模板（templates）所指定，CLI从blobstore下载相应的job模板，并从manifest中获得响应的属性并渲染模板。一旦所有的模板都被渲染，CLI会将所有模板的archive上传到blobstore。<code>apply</code>信息包含这些packages，release job中spec文件（指定模板属性），manifest指定的网络配置信息和作为job模板文件摘要（digest）的hash值。</p>
-</li>
-<li>
-<p>0x13. 发送<code>start</code>信息<br>
-一旦<code>apply</code>任务(task)完成，CLI会向<code>Agent</code>发送<code>start</code>信息。<code>Agent</code>收到后会开始执行安装好的<code>jobs</code>。</p>
-</li>
-</ul>
-<p>本文简介BOSH部署的工作流程，接下来会依据BOSH log和CPI的log进一步介绍部署的交互流程。</p>
-</div>
-<div class=my-4>
-<a href=/tags/bosh/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#BOSH</a>
+<span>,</span>
+<a href=/categories/cloud/ class=hover:text-eureka>Cloud</a></div></div><div class=content><h2 id=0x00-intro>0x00 Intro</h2><p>本文档翻译的内容来自<a href=https://github.com/cloudfoundry/bosh-cli/blob/master/docs/cli_workflow.md>官方文档</a>
+描述BOSH Client部署环境的流程，包括安装CPI、创建VM、创建disk、挂载disk等操作。</p><ul><li><p>0x01. 验证配置文件<code>manifest</code>、版本发布<code>release</code>和镜像<code>stemcell</code><br>部署流程的第一步就是验证。CLI首先将检查<code>manifest</code>、<code>release</code>和<code>stemcell</code>是否有变化。如果文件没有变化，CLI检查之后即会退出并发出<code>Skipping deploy</code>消息。<br>随后，CLI会验证<code>manifest</code>中的属性(properties)并解析部署的配置信息。CLI会将配置文件解析成两部分：部署配置信息(deployment manifest)和CPI配置信息(CPI config)。<br>部署配置信息被用在一个单独的VM中的任意<a href=https://bosh.io/docs/release.html>releases</a>上。一个release是一个版本集合，包括配置属性、模板、启动脚本、源码和其他一切能够保证可以以可重复(reproducible)的方式构建(build)和部署(deploy)上层应用的内容。由于面前CLI只创建了一个VM，上面只能指定一个release job。<br>CPI配置信息被用来本地安装和配置CPI。在<code>manifest</code>中的<code>cloud_provider</code>部分来指定。</p><p>在BOSH CLI v2中，部署配置信息<code>manifest</code>被定义如下加个部分：</p><ul><li>Deployment Identification: 包含部署的名称和uuid。</li><li>Releases Block: 部署中每个release的名称和版本。</li><li>Stemcells Block: 部署中每个stemcell的名称和版本。</li><li>Update Block: 定义BOSH更新实例时行为</li><li>Instance Groups Block: 指定jobs和instance groups的映射关系。</li><li>Properties Block: 描述全局属性。</li><li>Variables Block: 变量的配置（比如creds）。</li><li>Tags Block: key-value形式的标签。</li></ul><p>以前IaaS相关的配置信息（比如网络，磁盘类型）被独立称为cloud-config的配置信息。在我们将这些配置信息生成为一个YAML文件后就可以使用<code>bosh deploy</code>命令来部署应用。验证配置文件步骤就在这里进行。BOSH CLI会显性将配置更新的部分提示给用户（如下图）。</p><p><img src=http://edwardsblog.qiniudn.com/image/2017/08/FqMOKwtLb25i664IllMuSfgLDzRG.jpeg alt=bosh_deploy></p></li><li><p>0x02. 安装<code>CPI Release</code><br>CPI Release直接在BOSH CLI的机器上编译，因为BOSH CLI需要在本地运行CPI命令与IaS层交互。<br>CPI release必须包含<code>cloud_provider.template.job</code>。在CPI安装期间，CPI job相关的packages都将被编译，其templates都会被渲染。CPI job templates获取相关的属性值，这些属性值在manifest的<code>cloud_provider -> properties</code>部分。<br>这些packages和templates存放在<code>~/.bosh/&lt;installation_id></code>目录下。</p></li><li><p>0x03. 上传<code>Stemcell</code><br>在CPI本地安装后，CLI会调用CPI方法<code>create_stemcell</code>。<code>stemcell</code>在<code>manifest</code>指定。</p></li><li><p>0x04. 启动<code>Registry</code><br>在创建VM前，CLI会先启动<code>Registry</code>。<code>Registry</code>被CPI用来存储易变数据，这些数据之后会被运行在VM上的<code>Agent</code>使用。所以<code>Registry</code>是用来存储可变数据的服务，而基础架构元数据服务（infrastructure&rsquo;s metadata service）存储不变的数据。直到CPI创建完VM，这些数据是预先不可知的。例如，在BOSH VM创建之后，<code>Agent</code>需要从<code>Registry</code>获得挂载持久化硬盘的信息数据。<br>CPI会在基础架构元数据服务存储<code>Registry</code>的URL。部署在VM上的<code>Agent</code>会从URL中获取registry配置信息。</p></li><li><p>0x05. 删除已存在的VM<br>如果VM已经部署过，CLI会尝试与VM上<code>Agent</code>建立连接。如果。我们可以在<code>create-env</code>通过option:<code>--state director-state.json</code>获得相关状态信息。如果其上的<code>Agent</code>有响应，CLI会停止VM上的服务，并卸载硬盘。最终，CLI会删除VM并更新部署的状态信息（删除VM CID）。</p></li><li><p>0x06. 创建新VM<br>接下来，CLI会发送<code>create_vm</code>的命令给CPI。此外，VM CID被记录在状态信息文件。</p></li><li><p>0x07. 启动SSH tunnel<br>CLI创建一个与VM反向SSH tunnel。tunnel的信息也由manifest提供。Tunnel帮助VM上的<code>Agent</code>获取<code>Registry</code>。</p></li><li><p>0x08. 等待<code>Agent</code><br>一旦SSH tunnel启动，CLI会使用提供的mbus URL向VM上的<code>Agent</code>发出<code>ping</code>请求。一旦<code>Agent</code>准备好，就会响应<code>ping</code>请求。</p></li><li><p>0x09. 创建硬盘<br>CLIL接着给VM创建和挂载硬盘。这些信息也由manifest文件提供。这里有两种方法指定硬盘。一种是添加<code>persistent_disk_pool </code>属性，一种是添加<code>persistent_disk </code>属性。如果manifest上有这些信息，CLI会向CPI调用<code>create_disk</code>方法。成功后，disk CID会记录在状态文件中。</p></li><li><p>0x10. 挂载硬盘<br>成功创建硬盘后，CLI会调用CPI<code>attach_disk</code>方法。当硬盘成功挂载后，CLI会向<code>Agent</code>发出<code>mount_disk</code>请求。</p></li><li><p>0x11. 发送<code>stop</code>信息<br>一旦<code>Agent</code>成功监听mbus URL，CLI会向<code>Agent</code>发送<code>stop</code>信息。<code>Agent</code>会使用<code>monit</code>命令来管理VM上的<code>jobs</code>。暂停的目的是为了更新<code>jobs</code>数据。</p></li><li><p>0x12. 发送<code>apply</code>信息<br>接着CLI会发送<code>apply</code>信息，并随之发送需要安装到VM上的<code>packages</code>和<code>jobs</code>。<code>Agent</code>会在<code>&lt;mbus URL>/blobs</code>端点(endpoint)提供二进制文件（blobstore）。<br>由每个job模板（templates）所指定，CLI从blobstore下载相应的job模板，并从manifest中获得响应的属性并渲染模板。一旦所有的模板都被渲染，CLI会将所有模板的archive上传到blobstore。<code>apply</code>信息包含这些packages，release job中spec文件（指定模板属性），manifest指定的网络配置信息和作为job模板文件摘要（digest）的hash值。</p></li><li><p>0x13. 发送<code>start</code>信息<br>一旦<code>apply</code>任务(task)完成，CLI会向<code>Agent</code>发送<code>start</code>信息。<code>Agent</code>收到后会开始执行安装好的<code>jobs</code>。</p></li></ul><p>本文简介BOSH部署的工作流程，接下来会依据BOSH log和CPI的log进一步介绍部署的交互流程。</p></div><div class=my-4><a href=/tags/bosh/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#BOSH</a>
 <a href=/tags/orchestration/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Orchestration</a>
-<a href=/tags/cloud/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Cloud</a>
-</div>
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-<div>
-<span class="block font-bold">Previous</span>
-<a href=/posts/os-x-run-sudo-go-commad/ class=block>OS X下运行sudo go command</a>
-</div>
-<div class="md:text-right mt-4 md:mt-0">
-<span class="block font-bold">Next</span>
-<a href=/posts/shell-env-setting-beginner/ class=block>shell环境设置方法纪要</a>
-</div>
-</div>
-<div id=disqus_thread></div>
-<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
-<h2 class="text-lg font-semibold mb-4">See Also</h2>
-<div class=content>
-<a href=/posts/cloud-foundry-components-intro/>Cloud Foundry：主要组件介绍</a>
-<br>
-</div>
-</div>
-</div>
-<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
-</div>
-</div>
-</main>
-<footer class=pl-scrollbar>
-<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
-&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
-</div></div>
-</footer>
-</body>
-</html>
+<a href=/tags/cloud/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Cloud</a></div><div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t"><div><span class="block font-bold">Previous</span>
+<a href=/posts/os-x-run-sudo-go-commad/ class=block>OS X下运行sudo go command</a></div><div class="md:text-right mt-4 md:mt-0"><span class="block font-bold">Next</span>
+<a href=/posts/shell-env-setting-beginner/ class=block>shell环境设置方法纪要</a></div></div><div id=disqus_thread></div><script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//edwardesire.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6"><h2 class="text-lg font-semibold mb-4">See Also</h2><div class=content><a href=/posts/cloud-foundry-components-intro/>Cloud Foundry：主要组件介绍</a><br></div></div></div><script>document.addEventListener("DOMContentLoaded",()=>{hljs.initHighlightingOnLoad()})</script></div></div></main><footer class=pl-scrollbar><div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b"><p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p></div></div></footer></body></html>

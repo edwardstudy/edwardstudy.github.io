@@ -1,155 +1,24 @@
-<!doctype html><html lang=en><meta charset=utf-8>
-<meta name=viewport content="width=device-width">
-<title>博客迁移到ECS | Edwardesire</title>
-<meta name=generator content="Hugo Eureka 0.8.3">
-<link rel=stylesheet href=/css/eureka.min.css>
-<script defer src=/js/eureka.min.js></script>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
-<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width"><title>博客迁移到ECS | Edwardesire</title><meta name=generator content="Hugo Eureka 0.8.3"><link rel=stylesheet href=/css/eureka.min.css><script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload='this.onload=null,this.rel="stylesheet"'><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
-<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
-<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
-<link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
-<meta name=description content="为什么迁移到ECS 作为国内模仿AWS做得最好的阿里云，我是一直很满意的。其ECS在以前的项目中也有用到，自己的个人博客还可以使用ACE，我也写过相关部">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"博客迁移到ECS","item":"/posts/another-blog-at-ecs/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/another-blog-at-ecs/"},"headline":"博客迁移到ECS | Edwardesire","datePublished":"2016-04-30T09:32:20+00:00","dateModified":"2016-04-30T09:32:20+00:00","wordCount":702,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"为什么迁移到ECS 作为国内模仿AWS做得最好的阿里云，我是一直很满意的。其ECS在以前的项目中也有用到，自己的个人博客还可以使用ACE，我也写过相关部"}</script><meta property="og:title" content="博客迁移到ECS | Edwardesire">
-<meta property="og:type" content="article">
-<meta property="og:image" content="/images/favicon-32x32.png">
-<meta property="og:url" content="/posts/another-blog-at-ecs/">
-<meta property="og:description" content="为什么迁移到ECS 作为国内模仿AWS做得最好的阿里云，我是一直很满意的。其ECS在以前的项目中也有用到，自己的个人博客还可以使用ACE，我也写过相关部">
-<meta property="og:locale" content="en">
-<meta property="og:site_name" content="Edwardesire">
-<meta property="article:published_time" content="2016-04-30T09:32:20+00:00">
-<meta property="article:modified_time" content="2016-04-30T09:32:20+00:00">
-<meta property="article:section" content="posts">
-<meta property="article:tag" content="Blog">
-<meta property="article:tag" content="ACE">
-<meta property="article:tag" content="ECS">
-<meta property="og:see_also" content="/posts/bo-ke-qian-yi-dao-aceliao/">
-<meta property="og:see_also" content="/posts/kick-ass-update-ghost/">
-<body class="flex flex-col min-h-screen">
-<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png><meta name=description content="为什么迁移到ECS 作为国内模仿AWS做得最好的阿里云，我是一直很满意的。其ECS在以前的项目中也有用到，自己的个人博客还可以使用ACE，我也写过相关部"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"博客迁移到ECS","item":"/posts/another-blog-at-ecs/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/another-blog-at-ecs/"},"headline":"博客迁移到ECS | Edwardesire","datePublished":"2016-04-30T09:32:20+00:00","dateModified":"2016-04-30T09:32:20+00:00","wordCount":702,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"为什么迁移到ECS 作为国内模仿AWS做得最好的阿里云，我是一直很满意的。其ECS在以前的项目中也有用到，自己的个人博客还可以使用ACE，我也写过相关部"}</script><meta property="og:title" content="博客迁移到ECS | Edwardesire"><meta property="og:type" content="article"><meta property="og:image" content="/images/favicon-32x32.png"><meta property="og:url" content="/posts/another-blog-at-ecs/"><meta property="og:description" content="为什么迁移到ECS 作为国内模仿AWS做得最好的阿里云，我是一直很满意的。其ECS在以前的项目中也有用到，自己的个人博客还可以使用ACE，我也写过相关部"><meta property="og:locale" content="en"><meta property="og:site_name" content="Edwardesire"><meta property="article:published_time" content="2016-04-30T09:32:20+00:00"><meta property="article:modified_time" content="2016-04-30T09:32:20+00:00"><meta property="article:section" content="posts"><meta property="article:tag" content="Blog"><meta property="article:tag" content="ACE"><meta property="article:tag" content="ECS"><meta property="og:see_also" content="/posts/bo-ke-qian-yi-dao-aceliao/"><meta property="og:see_also" content="/posts/kick-ass-update-ghost/"><body class="flex flex-col min-h-screen"><header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm"><div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=="Auto"||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName("html")[0].classList.add("dark")</script><nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0"><a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
 <button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-<i class="fas fa-bars"></i>
-</button>
-<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
-</div>
-<div class=flex>
-<div class="relative pt-4 md:pt-0">
-<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
-<i class="fas fa-adjust"></i>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
-</div>
-<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
-<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<i class="fas fa-bars"></i></button><div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20"><div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0"><a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a></div><div class=flex><div class="relative pt-4 md:pt-0"><div class="cursor-pointer hover:text-eureka" id=lightDarkMode><i class="fas fa-adjust"></i></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open></div><div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions><span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
 <span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
-<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
-</div>
-</div>
-</div>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
-</div>
-</nav>
-<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
-</div>
-</header>
-<main class="flex-grow pt-16">
-<div class=pl-scrollbar>
-<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-<h1 class="font-bold text-3xl text-primary-text">博客迁移到ECS</h1>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2016-04-30</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>2 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span></div></div></div></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile></div></nav><script>let element=document.getElementById("lightDarkMode");storageColorScheme==null||storageColorScheme=="Auto"?document.addEventListener("DOMContentLoaded",()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","sun"),element.firstElementChild.classList.add("fa-sun")):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","moon"),element.firstElementChild.classList.add("fa-moon")),document.addEventListener("DOMContentLoaded",()=>{getcolorscheme(),switchBurger()})</script></div></header><main class="flex-grow pt-16"><div class=pl-scrollbar><div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto"><div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12"><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8"><h1 class="font-bold text-3xl text-primary-text">博客迁移到ECS</h1><div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text"><div class="mr-6 my-2"><i class="fas fa-calendar mr-1"></i>
+<span>2016-04-30</span></div><div class="mr-6 my-2"><i class="fas fa-clock mr-1"></i>
+<span>2 min read</span></div><div class="mr-6 my-2"><i class="fas fa-folder mr-1"></i>
 <a href=/categories/blog/ class=hover:text-eureka>Blog</a>
-<span>, </span>
+<span>,</span>
 <a href=/categories/ace/ class=hover:text-eureka>ACE</a>
-<span>, </span>
-<a href=/categories/ecs/ class=hover:text-eureka>ECS</a>
-</div>
-</div>
-<div class=content>
-<ol>
-<li>为什么迁移到ECS</li>
-</ol>
-<p><img src=http://edwardsblog.qiniudn.com/image/0/c9/da387c99de77de03809631326a34e.jpg alt></p>
-<p>作为国内模仿AWS做得最好的阿里云，我是一直很满意的。其ECS在以前的项目中也有用到，自己的个人博客还可以使用ACE，我也写过<a href=/2014/10/31/bo-ke-qian-yi-dao-aceliao/>相关部署文章</a>。但一个月前，我收到了ACE下线的邮件。官方给出的建议是迁移到ECS，但ECS的月花费大约为40RMB。思前顾后做了两手准备：1. 抢购ECS学生机；2. 迁移到百度云或者腾讯云。就在这周，师妹盟盟（好人一生平安）帮我抢到了每月10RMB的学生机。Ghost运行大概占用220MB不到的内存，而cpu的占用更是少得可怜，每个学生机采用1核1G的配置，已经足够博客使用（15GB的流量应该也是够的）。这就是我为什么迁移到ECS的原因。</p>
-<ol start=2>
-<li>为什么要用Nginx</li>
-</ol>
-<p>流程按照<a href=http://www.ghostchina.com/install-ghost-on-ali-ecs-forth-step-install-ghost/>这篇文章</a>的流程安装node.js、mysql、nginx。</p>
-<p>node ghost将使用nginx获得来自80端口的请求。node本身就是server，为什么还需要使用nginx来转发呢？单应用情况下，反向代理用不着。而静态资源我使用七牛CDN，也无需nginx。但是思考一下如果有多个应用需要通过http 80端口转发的话，nginx的作用就出来了。所以我在服务器端使用nginx的考虑是为了以后的扩展性着想。</p>
-<p>与原文有所不同的地方有如下几点：</p>
-<ol>
-<li>配置完nginx后，需要删除默认的配置文件 &lsquo;rm /etc/nginx/sites-enabled/default&rsquo; 来自<a href=http://www.vpsee.com/2014/03/install-ghost-with-nginx-on-ubuntu/>vpsee</a>，</li>
-<li>使用pm2来来守护进程，这里纯粹是使用习惯。</li>
-<li>&lsquo;npm install &ndash;production&rsquo; 命令目前在ECS环境下也能完成依赖的下载。</li>
-<li>最后通过添加一个用户，并限制这个用户只能在代码目录下工作。 &lsquo;adduser &ndash;shell /bin/bash &ndash;gecos &lsquo;Ghost application&rsquo; ghost&rsquo; ，并修改代码目录的所有权。使用该用户在代码目录下运行 &lsquo;NODE_ENV=production pm2 start index.js &ndash;name blog&rsquo;。</li>
-</ol>
-<p>这样，一个不算崭新但又折腾了一边的博客就搭建好了。</p>
-</div>
-<div class=my-4>
-<a href=/tags/blog/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Blog</a>
+<span>,</span>
+<a href=/categories/ecs/ class=hover:text-eureka>ECS</a></div></div><div class=content><ol><li>为什么迁移到ECS</li></ol><p><img src=http://edwardsblog.qiniudn.com/image/0/c9/da387c99de77de03809631326a34e.jpg alt></p><p>作为国内模仿AWS做得最好的阿里云，我是一直很满意的。其ECS在以前的项目中也有用到，自己的个人博客还可以使用ACE，我也写过<a href=/2014/10/31/bo-ke-qian-yi-dao-aceliao/>相关部署文章</a>。但一个月前，我收到了ACE下线的邮件。官方给出的建议是迁移到ECS，但ECS的月花费大约为40RMB。思前顾后做了两手准备：1. 抢购ECS学生机；2. 迁移到百度云或者腾讯云。就在这周，师妹盟盟（好人一生平安）帮我抢到了每月10RMB的学生机。Ghost运行大概占用220MB不到的内存，而cpu的占用更是少得可怜，每个学生机采用1核1G的配置，已经足够博客使用（15GB的流量应该也是够的）。这就是我为什么迁移到ECS的原因。</p><ol start=2><li>为什么要用Nginx</li></ol><p>流程按照<a href=http://www.ghostchina.com/install-ghost-on-ali-ecs-forth-step-install-ghost/>这篇文章</a>的流程安装node.js、mysql、nginx。</p><p>node ghost将使用nginx获得来自80端口的请求。node本身就是server，为什么还需要使用nginx来转发呢？单应用情况下，反向代理用不着。而静态资源我使用七牛CDN，也无需nginx。但是思考一下如果有多个应用需要通过http 80端口转发的话，nginx的作用就出来了。所以我在服务器端使用nginx的考虑是为了以后的扩展性着想。</p><p>与原文有所不同的地方有如下几点：</p><ol><li>配置完nginx后，需要删除默认的配置文件 &lsquo;rm /etc/nginx/sites-enabled/default&rsquo; 来自<a href=http://www.vpsee.com/2014/03/install-ghost-with-nginx-on-ubuntu/>vpsee</a>，</li><li>使用pm2来来守护进程，这里纯粹是使用习惯。</li><li>&rsquo;npm install &ndash;production&rsquo; 命令目前在ECS环境下也能完成依赖的下载。</li><li>最后通过添加一个用户，并限制这个用户只能在代码目录下工作。 &lsquo;adduser &ndash;shell /bin/bash &ndash;gecos &lsquo;Ghost application&rsquo; ghost&rsquo; ，并修改代码目录的所有权。使用该用户在代码目录下运行 &lsquo;NODE_ENV=production pm2 start index.js &ndash;name blog&rsquo;。</li></ol><p>这样，一个不算崭新但又折腾了一边的博客就搭建好了。</p></div><div class=my-4><a href=/tags/blog/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Blog</a>
 <a href=/tags/ace/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#ACE</a>
-<a href=/tags/ecs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#ECS</a>
-</div>
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-<div>
-<span class="block font-bold">Previous</span>
-<a href=/posts/book-reader-you-dont-konw-js-part-one/ class=block>Book Reader:你不知道的JavaScript(Part One)：作用域和闭包</a>
-</div>
-<div class="md:text-right mt-4 md:mt-0">
-<span class="block font-bold">Next</span>
-<a href=/posts/docker/ class=block>在Docker搭建Node.js+mongoDB开发环境</a>
-</div>
-</div>
-<div id=disqus_thread></div>
-<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
-<h2 class="text-lg font-semibold mb-4">See Also</h2>
-<div class=content>
-<a href=/posts/bo-ke-qian-yi-dao-aceliao/>是时候迁移到ACE了</a>
-<br>
-<a href=/posts/kick-ass-update-ghost/>闲着蛋疼：将Ghost升级到0.6.2</a>
-<br>
-</div>
-</div>
-</div>
-<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
-</div>
-</div>
-</main>
-<footer class=pl-scrollbar>
-<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
-&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
-</div></div>
-</footer>
-</body>
-</html>
+<a href=/tags/ecs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#ECS</a></div><div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t"><div><span class="block font-bold">Previous</span>
+<a href=/posts/book-reader-you-dont-konw-js-part-one/ class=block>Book Reader:你不知道的JavaScript(Part One)：作用域和闭包</a></div><div class="md:text-right mt-4 md:mt-0"><span class="block font-bold">Next</span>
+<a href=/posts/docker/ class=block>在Docker搭建Node.js+mongoDB开发环境</a></div></div><div id=disqus_thread></div><script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//edwardesire.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6"><h2 class="text-lg font-semibold mb-4">See Also</h2><div class=content><a href=/posts/bo-ke-qian-yi-dao-aceliao/>是时候迁移到ACE了</a><br><a href=/posts/kick-ass-update-ghost/>闲着蛋疼：将Ghost升级到0.6.2</a><br></div></div></div><script>document.addEventListener("DOMContentLoaded",()=>{hljs.initHighlightingOnLoad()})</script></div></div></main><footer class=pl-scrollbar><div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b"><p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p></div></div></footer></body></html>

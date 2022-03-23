@@ -1,126 +1,22 @@
-<!doctype html><html lang=en><meta charset=utf-8>
-<meta name=viewport content="width=device-width">
-<title>k8s资源拓扑感知——资源分配 | Edwardesire</title>
-<meta name=generator content="Hugo Eureka 0.8.3">
-<link rel=stylesheet href=/css/eureka.min.css>
-<script defer src=/js/eureka.min.js></script>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
-<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width"><title>k8s资源拓扑感知——资源分配 | Edwardesire</title><meta name=generator content="Hugo Eureka 0.8.3"><link rel=stylesheet href=/css/eureka.min.css><script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload='this.onload=null,this.rel="stylesheet"'><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
-<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
-<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
-<link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
-<meta name=description content="NUMA是什么？k8s topology manager是什么？">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"k8s资源拓扑感知——资源分配","item":"/posts/k8s-resources-topology-manager/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/k8s-resources-topology-manager/"},"headline":"k8s资源拓扑感知——资源分配 | Edwardesire","datePublished":"2021-12-13T16:00:48+08:00","dateModified":"2021-12-13T16:00:48+08:00","wordCount":9052,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"NUMA是什么？k8s topology manager是什么？"}</script><meta property="og:title" content="k8s资源拓扑感知——资源分配 | Edwardesire">
-<meta property="og:type" content="article">
-<meta property="og:image" content="/images/favicon-32x32.png">
-<meta property="og:url" content="/posts/k8s-resources-topology-manager/">
-<meta property="og:description" content="NUMA是什么？k8s topology manager是什么？">
-<meta property="og:locale" content="en">
-<meta property="og:site_name" content="Edwardesire">
-<meta property="article:published_time" content="2021-12-13T16:00:48+08:00">
-<meta property="article:modified_time" content="2021-12-13T16:00:48+08:00">
-<meta property="article:section" content="posts">
-<meta property="article:tag" content="numa">
-<meta property="article:tag" content="Kubernetes">
-<meta property="article:tag" content="topology manager">
-<meta property="og:see_also" content="/posts/multi-cluster-scheduling/">
-<meta property="og:see_also" content="/posts/load-scheduling-brief/">
-<meta property="og:see_also" content="/posts/jie-jue-kubernetes-admission-webhook-timeout-error/">
-<meta property="og:see_also" content="/posts/intro-of-cf-operator/">
-<meta property="og:see_also" content="/posts/kubernetesbian-controller-pattern/">
-<meta property="og:see_also" content="/posts/intro-operator/">
-<body class="flex flex-col min-h-screen">
-<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png><meta name=description content="NUMA是什么？k8s topology manager是什么？"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"k8s资源拓扑感知——资源分配","item":"/posts/k8s-resources-topology-manager/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/k8s-resources-topology-manager/"},"headline":"k8s资源拓扑感知——资源分配 | Edwardesire","datePublished":"2021-12-13T16:00:48+08:00","dateModified":"2021-12-13T16:00:48+08:00","wordCount":9160,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"NUMA是什么？k8s topology manager是什么？"}</script><meta property="og:title" content="k8s资源拓扑感知——资源分配 | Edwardesire"><meta property="og:type" content="article"><meta property="og:image" content="/images/favicon-32x32.png"><meta property="og:url" content="/posts/k8s-resources-topology-manager/"><meta property="og:description" content="NUMA是什么？k8s topology manager是什么？"><meta property="og:locale" content="en"><meta property="og:site_name" content="Edwardesire"><meta property="article:published_time" content="2021-12-13T16:00:48+08:00"><meta property="article:modified_time" content="2021-12-13T16:00:48+08:00"><meta property="article:section" content="posts"><meta property="article:tag" content="numa"><meta property="article:tag" content="Kubernetes"><meta property="article:tag" content="topology manager"><meta property="og:see_also" content="/posts/multi-cluster-scheduling/"><meta property="og:see_also" content="/posts/load-scheduling-brief/"><meta property="og:see_also" content="/posts/jie-jue-kubernetes-admission-webhook-timeout-error/"><meta property="og:see_also" content="/posts/intro-of-cf-operator/"><meta property="og:see_also" content="/posts/kubernetesbian-controller-pattern/"><meta property="og:see_also" content="/posts/intro-operator/"><body class="flex flex-col min-h-screen"><header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm"><div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=="Auto"||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName("html")[0].classList.add("dark")</script><nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0"><a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
 <button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-<i class="fas fa-bars"></i>
-</button>
-<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
-</div>
-<div class=flex>
-<div class="relative pt-4 md:pt-0">
-<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
-<i class="fas fa-adjust"></i>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
-</div>
-<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
-<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<i class="fas fa-bars"></i></button><div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20"><div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0"><a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a></div><div class=flex><div class="relative pt-4 md:pt-0"><div class="cursor-pointer hover:text-eureka" id=lightDarkMode><i class="fas fa-adjust"></i></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open></div><div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions><span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
 <span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
-<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
-</div>
-</div>
-</div>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
-</div>
-</nav>
-<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
-</div>
-</header>
-<main class="flex-grow pt-16">
-<div class=pl-scrollbar>
-<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-<h1 class="font-bold text-3xl text-primary-text">k8s资源拓扑感知——资源分配</h1>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2021-12-13</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>19 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span></div></div></div></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile></div></nav><script>let element=document.getElementById("lightDarkMode");storageColorScheme==null||storageColorScheme=="Auto"?document.addEventListener("DOMContentLoaded",()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","sun"),element.firstElementChild.classList.add("fa-sun")):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","moon"),element.firstElementChild.classList.add("fa-moon")),document.addEventListener("DOMContentLoaded",()=>{getcolorscheme(),switchBurger()})</script></div></header><main class="flex-grow pt-16"><div class=pl-scrollbar><div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto"><div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12"><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8"><h1 class="font-bold text-3xl text-primary-text">k8s资源拓扑感知——资源分配</h1><div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text"><div class="mr-6 my-2"><i class="fas fa-calendar mr-1"></i>
+<span>2021-12-13</span></div><div class="mr-6 my-2"><i class="fas fa-clock mr-1"></i>
+<span>19 min read</span></div><div class="mr-6 my-2"><i class="fas fa-folder mr-1"></i>
 <a href=/categories/numa/ class=hover:text-eureka>numa</a>
-<span>, </span>
+<span>,</span>
 <a href=/categories/kubernetes/ class=hover:text-eureka>Kubernetes</a>
-<span>, </span>
-<a href=/categories/topology-manager/ class=hover:text-eureka>topology manager</a>
-</div>
-</div>
-<div class=content>
-<h1 id=numa是什么>NUMA是什么</h1>
-<p>非统一内存访问架构（NUMA，Non-uniform memory access）是一种共享内存架构。与之相对的是统一内存访问架构（UMA，Uniform memory access），是指多个处理器通过统一总线访问存储器，每个处理器对内存的访问都是一致的。这种方式使得总线上的负载增加。在总线带宽有限的情况下，访问延迟增加。最常见的UMA架构就是 Symmetric Multiprocessor (SMP)，对称多处理器结构，是指服务器中多个CPU无主次或从属关系，各CPU共享相同的物理内存，每个 CPU访问内存中的任何地址所需时间是相同的。UMA除了基于总线共享外，还有其他架构实现方案。下图中（a）就是典型的SMP架构，（b）是由4个SMP相互连通的NUMA架构。</p>
-<p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/basic-shared-memory-architecture.jpg alt=basic-shared-memory-architecture></p>
-<p>而NUMA的特点是每个处理器都有一个本地内存/群内共享内存，并且处理器还能访问其他处理的本地内存。在NUMA架构下，内存划分为不同的处理器。上图（b）的一个SMP内就是一个CPU群（group），一群CPU及其本地内存构成一个NUMA node。这里特别要强调一下，看外文文献的时候一定要看上下文区分NUMA node和k8s worker node。worker node是一台物理机/虚拟机，worker node可以采用NUMA架构。</p>
-<p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/numa-node.png alt=numa-node></p>
-<p>可以看到NUMA的共享内存分成：本地内存，群内共享内存，全局共享内存。内存访问时间取决于内存相对于CPU的距离。同一个node里的CPU访问本地/群内共享内存是要比访问其他node的共享内存要快的。本地和非本地内存的概念也被扩展到外部设备，比如网卡、GPU。为了获得高性能，应该考虑这个差异，分配 CPU 和设备需要考虑NUMA拓扑，以便它们可以访问相同的本地内存。</p>
-<p>对于Linux来说，一个NUMA node包含多个CPU、本地内存和I/O总线。对于每一个node，Linux构造一个独立的内存管理子系统。Linux内核描述node的数据结构为pg_data_t。https://github.com/torvalds/linux/blob/512b7931ad0561ffe14265f9ff554a3c081b476b/include/linux/mmzone.h#L801</p>
-<p>可以通过<code>numactl</code>命令查看机器上的NUMA node配置：这台机器有两个node，node distances是计算出来的node之间的访问时延，这个值是从ACPI SLIT（System Locality Distance Information Table）表里读出来的。node访问本地内存的时延是10，这是个基准值，仅作参考。而node 0和 node 1之间的时延为21，表示相比本地访问，跨节点访问的时延是2.1倍。而这个值是个相对值，具体的性能差异还是需要依据测试来验证。</p>
-<p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/image-20211116183832235.png alt=numactl-exmaple></p>
-<h1 id=k8s的numa亲和性>k8s的NUMA亲和性</h1>
-<p>在k8s管理容器的组件里，与NUMA有关的组件是拓扑管理器（topologyManager） 。它属于是一个kubelet的一部分，旨在协调CPU 隔离、内存和设备局部性等优化的组件。该在v1.18是beta状态。在没有这个组件之前，kubelet的cpuManager、deviceManager都是相互独立地做出资源分配决策。这可能会导致最终的资源分配对应用性能起到副作用。例如，CPU和内存分配到不同的NUMA node上，导致额外的时延。</p>
-<ul>
-<li>containerManager：管理机器上的容器，创建并注册deviceManager，cpuManager，memoryManager，topologyManager。</li>
-<li>deviceManager：管理设备插件，通过gRPC和设备插件通信来获取设备状态。</li>
-<li>cpuManager：管理pod的cpu分配。</li>
-<li>memoryManager：管理pod的c内存分配。该功能在v1.21属于alpha阶段，v1.22提升到beta阶段。</li>
-<li>topologyManager：依据各硬件资源的topology hints，然后分配资源。该功能在v1.16属于alpha， v1.20提升到beta阶段。并且从v1.18开始默认开启。</li>
-<li>Internal Container Lifecycle：响应容器生命周期的调用（比如preStartContainer，postStopContainer），通过调用上述资源manager的AddContainer/RemoveContainer来分配和回收资源。</li>
-</ul>
-<p>我们可以看到kubelet管理pod资源的演变路径是先有cpuManager管理cpu资源的分配，之后引入topologyManager和memoryManager。topologyManager会在admission阶段调用各资源manager的GetTopologyHints()/GetPodTopologyHints()获得资源的NUMA locality。而admission阶段也会调用资源manager的Allocate()方法来分配资源（存在kubelet维护的状态文件里，在之后的容器生命周期种，cri依据状态数据修改cpuset配置）。</p>
-<h2 id=topology-manager>Topology Manager</h2>
-<p>首先理清两个基本概念，NUMA node和k8s worker node。前文所说的NUMA node是逻辑概念，相邻的core（cpu0~3）组成一个NUMA node，同一个node内内存访问开销要比跨node访问要小。k8s worker node是一台服务机/虚拟机，提供容器的硬件资源和运行环境，kubelet作为机器上的第一层管理组件。一个k8s worker node依据处理器架构可以划分多个NUMA node。比如下图是8核cpu/两个NUMA node架构的worker node。</p>
-<p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/image-20211209113524937.png alt=image-20211209113524937></p>
-<p>topologyManager是一个kubelet组件，提供给kubelet做出与拓扑结构相对应的资源分配决定。上述cpuManager/memoryManger等资源管理组件注册为HintProviders接口，提供底层资源的拓扑信息和分配硬件资源功能。topologyManager通过GetTopologyHints()/GetPodTopologyHints()从HintProviders获取资源的拓扑信息TopologyHint，结构包含作为表示可用的 NUMA 节点和首选分配指示的位掩码。</p>
-<pre><code class=language-go>// HintProvider is an interface for components that want to collaborate to
+<span>,</span>
+<a href=/categories/topology-manager/ class=hover:text-eureka>topology manager</a></div></div><div class=content><h1 id=numa是什么>NUMA是什么</h1><p>非统一内存访问架构（NUMA，Non-uniform memory access）是一种共享内存架构。与之相对的是统一内存访问架构（UMA，Uniform memory access），是指多个处理器通过统一总线访问存储器，每个处理器对内存的访问都是一致的。这种方式使得总线上的负载增加。在总线带宽有限的情况下，访问延迟增加。最常见的UMA架构就是 Symmetric Multiprocessor (SMP)，对称多处理器结构，是指服务器中多个CPU无主次或从属关系，各CPU共享相同的物理内存，每个 CPU访问内存中的任何地址所需时间是相同的。UMA除了基于总线共享外，还有其他架构实现方案。下图中（a）就是典型的SMP架构，（b）是由4个SMP相互连通的NUMA架构。</p><p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/basic-shared-memory-architecture.jpg alt=basic-shared-memory-architecture></p><p>而NUMA的特点是每个处理器都有一个本地内存/群内共享内存，并且处理器还能访问其他处理的本地内存。在NUMA架构下，内存划分为不同的处理器。上图（b）的一个SMP内就是一个CPU群（group），一群CPU及其本地内存构成一个NUMA node。这里特别要强调一下，看外文文献的时候一定要看上下文区分NUMA node和k8s worker node。worker node是一台物理机/虚拟机，worker node可以采用NUMA架构。</p><p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/numa-node.png alt=numa-node></p><p>可以看到NUMA的共享内存分成：本地内存，群内共享内存，全局共享内存。内存访问时间取决于内存相对于CPU的距离。同一个node里的CPU访问本地/群内共享内存是要比访问其他node的共享内存要快的。本地和非本地内存的概念也被扩展到外部设备，比如网卡、GPU。为了获得高性能，应该考虑这个差异，分配 CPU 和设备需要考虑NUMA拓扑，以便它们可以访问相同的本地内存。</p><p>对于Linux来说，一个NUMA node包含多个CPU、本地内存和I/O总线。对于每一个node，Linux构造一个独立的内存管理子系统。Linux内核描述node的数据结构为pg_data_t。https://github.com/torvalds/linux/blob/512b7931ad0561ffe14265f9ff554a3c081b476b/include/linux/mmzone.h#L801</p><p>可以通过<code>numactl</code>命令查看机器上的NUMA node配置：这台机器有两个node，node distances是计算出来的node之间的访问时延，这个值是从ACPI SLIT（System Locality Distance Information Table）表里读出来的。node访问本地内存的时延是10，这是个基准值，仅作参考。而node 0和 node 1之间的时延为21，表示相比本地访问，跨节点访问的时延是2.1倍。而这个值是个相对值，具体的性能差异还是需要依据测试来验证。</p><p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/image-20211116183832235.png alt=numactl-exmaple></p><h1 id=k8s的numa亲和性>k8s的NUMA亲和性</h1><p>在k8s管理容器的组件里，与NUMA有关的组件是拓扑管理器（topologyManager） 。它属于是一个kubelet的一部分，旨在协调CPU 隔离、内存和设备局部性等优化的组件。该在v1.18是beta状态。在没有这个组件之前，kubelet的cpuManager、deviceManager都是相互独立地做出资源分配决策。这可能会导致最终的资源分配对应用性能起到副作用。例如，CPU和内存分配到不同的NUMA node上，导致额外的时延。</p><ul><li>containerManager：管理机器上的容器，创建并注册deviceManager，cpuManager，memoryManager，topologyManager。</li><li>deviceManager：管理设备插件，通过gRPC和设备插件通信来获取设备状态。</li><li>cpuManager：管理pod的cpu分配。</li><li>memoryManager：管理pod的c内存分配。该功能在v1.21属于alpha阶段，v1.22提升到beta阶段。</li><li>topologyManager：依据各硬件资源的topology hints，然后分配资源。该功能在v1.16属于alpha， v1.20提升到beta阶段。并且从v1.18开始默认开启。</li><li>Internal Container Lifecycle：响应容器生命周期的调用（比如preStartContainer，postStopContainer），通过调用上述资源manager的AddContainer/RemoveContainer来分配和回收资源。</li></ul><p>我们可以看到kubelet管理pod资源的演变路径是先有cpuManager管理cpu资源的分配，之后引入topologyManager和memoryManager。topologyManager会在admission阶段调用各资源manager的GetTopologyHints()/GetPodTopologyHints()获得资源的NUMA locality。而admission阶段也会调用资源manager的Allocate()方法来分配资源（存在kubelet维护的状态文件里，在之后的容器生命周期种，cri依据状态数据修改cpuset配置）。</p><h2 id=topology-manager>Topology Manager</h2><p>首先理清两个基本概念，NUMA node和k8s worker node。前文所说的NUMA node是逻辑概念，相邻的core（cpu0~3）组成一个NUMA node，同一个node内内存访问开销要比跨node访问要小。k8s worker node是一台服务机/虚拟机，提供容器的硬件资源和运行环境，kubelet作为机器上的第一层管理组件。一个k8s worker node依据处理器架构可以划分多个NUMA node。比如下图是8核cpu/两个NUMA node架构的worker node。</p><p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/image-20211209113524937.png alt=image-20211209113524937></p><p>topologyManager是一个kubelet组件，提供给kubelet做出与拓扑结构相对应的资源分配决定。上述cpuManager/memoryManger等资源管理组件注册为HintProviders接口，提供底层资源的拓扑信息和分配硬件资源功能。topologyManager通过GetTopologyHints()/GetPodTopologyHints()从HintProviders获取资源的拓扑信息TopologyHint，结构包含作为表示可用的 NUMA 节点和首选分配指示的位掩码。</p><pre><code class=language-go>// HintProvider is an interface for components that want to collaborate to
 // achieve globally optimal concrete resource alignment with respect to
 // NUMA locality.
 type HintProvider interface {
@@ -140,43 +36,8 @@ type HintProvider interface {
 	// call to Store.GetAffinity().
 	Allocate(pod *v1.Pod, container *v1.Container) error
 }
-</code></pre>
-<p>TopologyHint包含：</p>
-<ul>
-<li>NUMANodeAffinity：纪录NUMA node满足资源请求的位掩码。</li>
-<li>Preferred：表示亲和性结果是否是首选的。如果hint存储了与预期不符的建议，则该建议的优选字段将被设置为 false。</li>
-</ul>
-<pre><code class=language-go>map[string]topologymanager.TopologyHint{NUMANodeAffinity: newNUMAAffinity(0), Preferred: false}
-</code></pre>
-<h3 id=拓扑作用域>拓扑作用域</h3>
-<p>拓扑作用域<code>scope</code>定义了资源对齐的颗粒度，目前支持下列两种资源对齐的作用域，通过kubelet的启动参数<code>--topology-manager-scope</code>来配置：</p>
-<ul>
-<li><code>container</code>：默认使用的作用域。对于单个容器独立计算资源分配结果，没有针对容器分组，计算NUMA亲和性。topologyManager会将单个容器任意地对齐到NUME node上。</li>
-<li><code>pod</code>：允许把一个 Pod 里的所有容器作为一个分组，分配到一个共同的 NUMA 节点集。即：pod的所有容器可以分配到一个NUMA node，或者可以分配到一个共享的NUMA node集。当<code>pod</code> 作用域与 <code>single-numa-node</code> 拓扑管理器策略一起使用，可以把单个Pod的所有容器都放到一个单个的 NUMA node， 使得该Pod内容器没有跨NUMA 之间的通信开销。</li>
-</ul>
-<h3 id=分配策略>分配策略</h3>
-<blockquote>
-<p>TopologyManager首先计算出 NUMA 节点集，然后使用拓扑管理器策略来测试该集合， 从而决定拒绝或者接受 Pod。</p>
-</blockquote>
-<p>分配策略<code>policy</code>定义了资源分配的具体策略，目前支持四种策略，通过kubelet的启动参数<code>--topology-manager-policy</code>来配置：</p>
-<ul>
-<li><code>none</code> ：默认策略，不执行任何计算。</li>
-<li><code>best-effort</code>：通过Hint Provider返回的结果，优先选择有首选（preferred）亲和性的node。如果亲和性不是首选，则topologyManager依然会接纳pod到这个node。</li>
-<li><code>restricted</code>：同样通过Hint Provider返回的结果，优先选择有首选（preferred）亲和性的node。如果亲和性不是首选，则拓扑管理器拒绝此 Pod 。自此Pod处于<code>Terminated</code> 状态，且 Pod 无法被节点接纳。并且k8s调度器不会重新调度pod之其他节点。</li>
-<li><code>single-numa-node</code>：同样通过Hint Provider返回的结果，判断单 NUMA 节点亲和性是否可能。如果不满足，则拓扑管理器拒绝此 Pod ，并且pod无法被再次调度。</li>
-</ul>
-<h3 id=执行流程>执行流程</h3>
-<ol>
-<li>kubelet调用topologyManager处理新创建的pod，依据topologyManager结果判断pod是否能够在机器上启动。</li>
-<li>topologyManager依据拓扑作用域，调用hintProvider的GetTopologyHints()/GetPodTopologyHints()方法获得资源（例如cpu/memory/device）的NUMA node亲和性。</li>
-<li>topologyManager依据分配策略将hits合并成一个bestHint。依据策略会判断合并结果是否获准。如为否，则topologyManager选择拒绝pod的启动，kubelet将Pod状态phase设置为Failed并将TopologyAffinityError上报到reason。</li>
-<li>topologyManager调用hintProvider的Allocate()方法分配对齐后的资源。</li>
-</ol>
-<p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/image-20211213112850321.png alt=topology-manager-workflow></p>
-<p>如图所示，硬件被分布到2个NUMA node，每个node都有4个cpu、本地内存、和外接设备资源。其中NUMA node 0有2个NIC，NUMA node 1有2个GPU卡。</p>
-<p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/image-20211213104141400.png alt=numa-hints-example></p>
-<p>如果Pod的请求资源如下：</p>
-<pre><code class=language-yaml>kind: Pod
+</code></pre><p>TopologyHint包含：</p><ul><li>NUMANodeAffinity：纪录NUMA node满足资源请求的位掩码。</li><li>Preferred：表示亲和性结果是否是首选的。如果hint存储了与预期不符的建议，则该建议的优选字段将被设置为 false。</li></ul><pre><code class=language-go>map[string]topologymanager.TopologyHint{NUMANodeAffinity: newNUMAAffinity(0), Preferred: false}
+</code></pre><h3 id=拓扑作用域>拓扑作用域</h3><p>拓扑作用域<code>scope</code>定义了资源对齐的颗粒度，目前支持下列两种资源对齐的作用域，通过kubelet的启动参数<code>--topology-manager-scope</code>来配置：</p><ul><li><code>container</code>：默认使用的作用域。对于单个容器独立计算资源分配结果，没有针对容器分组，计算NUMA亲和性。topologyManager会将单个容器任意地对齐到NUME node上。</li><li><code>pod</code>：允许把一个 Pod 里的所有容器作为一个分组，分配到一个共同的 NUMA 节点集。即：pod的所有容器可以分配到一个NUMA node，或者可以分配到一个共享的NUMA node集。当<code>pod</code> 作用域与 <code>single-numa-node</code> 拓扑管理器策略一起使用，可以把单个Pod的所有容器都放到一个单个的 NUMA node， 使得该Pod内容器没有跨NUMA 之间的通信开销。</li></ul><h3 id=分配策略>分配策略</h3><blockquote><p>TopologyManager首先计算出 NUMA 节点集，然后使用拓扑管理器策略来测试该集合， 从而决定拒绝或者接受 Pod。</p></blockquote><p>分配策略<code>policy</code>定义了资源分配的具体策略，目前支持四种策略，通过kubelet的启动参数<code>--topology-manager-policy</code>来配置：</p><ul><li><code>none</code> ：默认策略，不执行任何计算。</li><li><code>best-effort</code>：通过Hint Provider返回的结果，优先选择有首选（preferred）亲和性的node。如果亲和性不是首选，则topologyManager依然会接纳pod到这个node。</li><li><code>restricted</code>：同样通过Hint Provider返回的结果，优先选择有首选（preferred）亲和性的node。如果亲和性不是首选，则拓扑管理器拒绝此 Pod 。自此Pod处于<code>Terminated</code> 状态，且 Pod 无法被节点接纳。并且k8s调度器不会重新调度pod之其他节点。</li><li><code>single-numa-node</code>：同样通过Hint Provider返回的结果，判断单 NUMA 节点亲和性是否可能。如果不满足，则拓扑管理器拒绝此 Pod ，并且pod无法被再次调度。</li></ul><h3 id=执行流程>执行流程</h3><ol><li>kubelet调用topologyManager处理新创建的pod，依据topologyManager结果判断pod是否能够在机器上启动。</li><li>topologyManager依据拓扑作用域，调用hintProvider的GetTopologyHints()/GetPodTopologyHints()方法获得资源（例如cpu/memory/device）的NUMA node亲和性。</li><li>topologyManager依据分配策略将hits合并成一个bestHint。依据策略会判断合并结果是否获准。如为否，则topologyManager选择拒绝pod的启动，kubelet将Pod状态phase设置为Failed并将TopologyAffinityError上报到reason。</li><li>topologyManager调用hintProvider的Allocate()方法分配对齐后的资源。</li></ol><p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/image-20211213112850321.png alt=topology-manager-workflow></p><p>如图所示，硬件被分布到2个NUMA node，每个node都有4个cpu、本地内存、和外接设备资源。其中NUMA node 0有2个NIC，NUMA node 1有2个GPU卡。</p><p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/image-20211213104141400.png alt=numa-hints-example></p><p>如果Pod的请求资源如下：</p><pre><code class=language-yaml>kind: Pod
 spec:
   containers:
     request:
@@ -184,27 +45,10 @@ spec:
       cpu: 1
       nic-vendor.com/nic: 1
       gpu-vendor.com/gpu: 1
-</code></pre>
-<p>TopologyManager首先会依据pod声明的资源请求，调用各资源manager的方法获取TopologyHit。TopologyHit的bitmask的长度是2，分别表示node 0、node 1是否被分配。</p>
-<p>例如CPU资源的结果，hint结果{01 true}、{10 true}表示单独分配NUMA node 0、1，true表示这种分配为首选的。{11 false}表示同时分配NUMA node0、1，因为资源分配跨NUMA node，所以这种分配不是首选的。对于NIC和GPU资源也是[{01 true} {10 true} {11 false}]。依次类推，可以看到图上3种NUMA感知的资源分配情况：</p>
-<pre><code>cpu: [{01 true} {10 true} {11 false}]
+</code></pre><p>TopologyManager首先会依据pod声明的资源请求，调用各资源manager的方法获取TopologyHit。TopologyHit的bitmask的长度是2，分别表示node 0、node 1是否被分配。</p><p>例如CPU资源的结果，hint结果{01 true}、{10 true}表示单独分配NUMA node 0、1，true表示这种分配为首选的。{11 false}表示同时分配NUMA node0、1，因为资源分配跨NUMA node，所以这种分配不是首选的。对于NIC和GPU资源也是[{01 true} {10 true} {11 false}]。依次类推，可以看到图上3种NUMA感知的资源分配情况：</p><pre><code>cpu: [{01 true} {10 true} {11 false}]
 nic: [{01 true} {10 true} {11 false}]
 gpu: [{01 true} {10 true} {11 false}]
-</code></pre>
-<p>第二阶段是TopologyManager合并所有的TopologyHit。首先对NUMANodeAffinity做跨资源做<strong>位与</strong>运算。对于Preferred字段，，只有所有的条目中为true的组合的合并结果才为true。上述case的最终hit为{01 true}。对于<code>best-effort</code>、 <code>restricted</code>、 <code>single-numa-node</code>策略，{01 true}都是获准的。最终的硬件资源都在NUMA node 0上。</p>
-<p>如果NUMA node1上的GPU 1不可用，并且Pod申请2张gpu卡。关于cpu、nic的hints结果不变，而gpu的hits只能得到[{11 false}]，表示GPU分配跨NUMA node，并且不是首选结果。因为首选是分配GPU 1、GPU2，只是GPU 1不可。对于<code>best-effort</code>、 <code>restricted</code>策略来说，最终合并的结果为{01 false}，即分配到NUMA node 1上但是不是首选的结果。所以<code>best-effort</code>策略会批准这个分配，而<code>restricted</code>策略不会批准，因为这个分配结果不是首选的。对于<code>single-numa-node</code>策略的合并结果为{11 false}，由于跨NUMA node，分配也不会批准。</p>
-<p>如果NUMA node1上的GPU 1保持可用，但是Pod申请3张gpu卡。这时gpu的hits变成[{11 true}]，表示GPU分配跨NUMA node，并且是首选结果（只能有这一种跨NUMA node分配GPU的方式）。</p>
-<p>通过这3个例子可以看出，topology策略<code>restricted</code>和<code>single-numa-node</code>的区别。对于<code>restricted</code>策略来说，最终获准的条件是各资源分配的Preferred字段，如果跨NUMA node分配是资源分配的唯一解，那边这种策略是会放行的。而<code>single-numa-node</code>策略更加严格，只要跨NUMA node分配就会被拒绝。</p>
-<h3 id=cpu-manager>CPU Manager</h3>
-<p>介绍完拓扑感知的基本内容，之后详细分析cpuManager和memoryManager的原理。cpuManager提供HintProvider的方法：GetTopologyHints()/GetPodTopologyHints()/Allocate()之外，还提供AddContainer()/RemoveContainer()的接口，分别在preStartContainer/postStopContainer阶段被调用。这两个方法都是幂等的。在方法调用中依据具体的策略，将容器分配到机器的cpu上。</p>
-<p>Cpu manager策略有： none，static，dynamic三种。</p>
-<ul>
-<li>none：默认策略，不做任何事情。不会有cpuset.cpus和cpuset.mems的控制。</li>
-<li>static：依据pod的QoS分配。guaranteed QoS pod是所有的容器（包括containers/initContainers）的cpu和内存资源limits和requests必须显性配置并且资源量相等。对于Guaranteed的pod，并且资源是整数量，会配置cpu的独占，即绑核。这些被分配的cpu不会共享给其他容器使用。</li>
-<li>dynamic：在容器的生命周期内动态分配cpu，cpuset可能会被更新。所以容器内的进程需要感知cpu分配的变化。这个策略目前社区也未实现。</li>
-</ul>
-<p>cpu拓扑结构在kubelet里的结构如下：记录NUMA，socket以及 core IDs信息。socket是一个物理上的概念，指的是主板上的cpu插槽。node是一个逻辑上的概念，是相邻core的一个分组。core一般是一个物理cpu，一个独立的硬件执行单元。thread是逻辑的执行单元，一般对应 cpu 的核数。</p>
-<pre><code class=language-go>&amp;topology.CPUTopology{
+</code></pre><p>第二阶段是TopologyManager合并所有的TopologyHit。首先对NUMANodeAffinity做跨资源做<strong>位与</strong>运算。对于Preferred字段，，只有所有的条目中为true的组合的合并结果才为true。上述case的最终hit为{01 true}。对于<code>best-effort</code>、 <code>restricted</code>、 <code>single-numa-node</code>策略，{01 true}都是获准的。最终的硬件资源都在NUMA node 0上。</p><p>如果NUMA node1上的GPU 1不可用，并且Pod申请2张gpu卡。关于cpu、nic的hints结果不变，而gpu的hits只能得到[{11 false}]，表示GPU分配跨NUMA node，并且不是首选结果。因为首选是分配GPU 1、GPU2，只是GPU 1不可。对于<code>best-effort</code>、 <code>restricted</code>策略来说，最终合并的结果为{01 false}，即分配到NUMA node 1上但是不是首选的结果。所以<code>best-effort</code>策略会批准这个分配，而<code>restricted</code>策略不会批准，因为这个分配结果不是首选的。对于<code>single-numa-node</code>策略的合并结果为{11 false}，由于跨NUMA node，分配也不会批准。</p><p>如果NUMA node1上的GPU 1保持可用，但是Pod申请3张gpu卡。这时gpu的hits变成[{11 true}]，表示GPU分配跨NUMA node，并且是首选结果（只能有这一种跨NUMA node分配GPU的方式）。</p><p>通过这3个例子可以看出，topology策略<code>restricted</code>和<code>single-numa-node</code>的区别。对于<code>restricted</code>策略来说，最终获准的条件是各资源分配的Preferred字段，如果跨NUMA node分配是资源分配的唯一解，那边这种策略是会放行的。而<code>single-numa-node</code>策略更加严格，只要跨NUMA node分配就会被拒绝。</p><p>当前在kubelet中，topologyManager主要完成下列事项：</p><ul><li>调度用多个hint providers，获得各个子管理域的可分配情况</li><li>编排整体的拓扑分配决策</li><li>提供“scopes”和policies参数来影响整体策略</li></ul><h3 id=cpu-manager>CPU Manager</h3><p>介绍完拓扑感知的基本内容，之后详细分析cpuManager和memoryManager的原理。cpuManager提供HintProvider的方法：GetTopologyHints()/GetPodTopologyHints()/Allocate()之外，还提供AddContainer()/RemoveContainer()的接口，分别在preStartContainer/postStopContainer阶段被调用。这两个方法都是幂等的。在方法调用中依据具体的策略，将容器分配到机器的cpu上。</p><p>Cpu manager策略有： none，static，dynamic三种。</p><ul><li>none：默认策略，不做任何事情。不会有cpuset.cpus和cpuset.mems的控制。</li><li>static：依据pod的QoS分配。guaranteed QoS pod是所有的容器（包括containers/initContainers）的cpu和内存资源limits和requests必须显性配置并且资源量相等。对于Guaranteed的pod，并且资源是整数量，会配置cpu的独占，即绑核。这些被分配的cpu不会共享给其他容器使用。</li><li>dynamic：在容器的生命周期内动态分配cpu，cpuset可能会被更新。所以容器内的进程需要感知cpu分配的变化。这个策略目前社区也未实现。</li></ul><p>cpu拓扑结构在kubelet里的结构如下：记录NUMA，socket以及 core IDs信息。socket是一个物理上的概念，指的是主板上的cpu插槽。node是一个逻辑上的概念，是相邻core的一个分组。core一般是一个物理cpu，一个独立的硬件执行单元。thread是逻辑的执行单元，一般对应 cpu 的核数。</p><pre><code class=language-go>&amp;topology.CPUTopology{
 		NumCPUs:    8, // CPU  - logical CPU, cadvisor - thread
 		NumSockets: 1, // Socket - socket, cadvisor - Node
 		NumCores:   4, // Core - physical CPU, cadvisor - Core
@@ -219,34 +63,7 @@ gpu: [{01 true} {10 true} {11 false}]
 			7: {CoreID: 3, SocketID: 0, NUMANodeID: 0},
 		},
 	}
-</code></pre>
-<p>当没开启NUMA时，默认为一个NUMA node包含全部的cpu。这时的cpu分配算法时topology-aware best-fit：依据sockets、物理核、逻辑核的优先级填充。</p>
-<ul>
-<li>1）当需要的cpu数不小于一个socket上的cpu数时，优选分配一个socket上的全部CPU，即独占一个socket。</li>
-<li>2）当剩余所需cpu数未达到一个socket的大小时，并且所需cpu数不小于一个物理核的逻辑核数时，优选分配一个core上的cpus，即独占一个物理核。</li>
-<li>3）最后，则优选填充之前分配导致的部分分配的socket/core上空闲的cpus。</li>
-</ul>
-<p>比如上面这个CPU拓扑的情况下：当容器需要2核时，依据best-fit分配cpu 0出去； 需要分配2核时，分配 cpu 0, 4，因为在一个core上。cpuManager会依据策略的结果，在文件中更新cpuset的状态。之后kubelet调用CRI的接口，更新容器的资源。</p>
-<p>* 注：v1.18之后，policy.AddContainer()重命名为policy.Allocate()，作为HintProvider给topologyManager在admission阶段调用。</p>
-<h3 id=memory-manager>Memory Manager</h3>
-<p>内存是依托于memoryManager（v1.22 beta）这个新组件来分配的。和cpu mananger类似，分配策略有两种： none，static。</p>
-<ul>
-<li>none：默认策略，不做任何事情。</li>
-<li>static：对于Guaranteed的pod，在容器启动前分配内存。</li>
-</ul>
-<p>memoryManager内部维护一个<code>NUMANodeMap</code>对象，该对象记录Guaranteed pod里的容器内存使用量（包括hugepages）。memoryManager通过<code>NUMANodeMap</code>计算出preferred NUMA affinity，并且返回hint给topologyManager。hint指明哪个NUMA node或者哪组NUMA node最合适锁定内存分配给容器。依据topologyManager的范围（container或者pod），有两个不同的hint产生路径：</p>
-<ul>
-<li><code>GetTopologyHints</code> for <code>container</code> scope</li>
-<li><code>GetPodTopologyHints</code> for <code>pod</code> scope</li>
-</ul>
-<p>在admission阶段（通过kubelet调用<code>Admin()</code>），memoryManager使用<code>Allocate()</code>更新<code>NUMANodeMap</code>，记录一个容器所请求的内存和hugepages，起到预分配的作用。 之后kubelet调用<code>AddContainer</code>，记录容器和pod的映射关系。最后，通过CRI接口，更新cgroups（ <code>cpuset.mems</code>）当pod的admission阶段没有容器被拒绝，pod最终会被部署到宿主机上。</p>
-<p>Linux内核本身不支持多NUMA的内存分配（内存锁定，memory pinning）。memoryManager的主要思路是将一组NUMA nodes作为一个独立单元来管理，节点是不相交的，NUMA node不能跨组。Guaranteed的pod的内存分配可以跨多个NUMA nodes。当容器的内存请求超过单NUMA node的容量时，通过NUMA 组的概念允许跨NUMA node的内存分配。分配原则是，最小数量的NUMA nodes来分配内存资源。比如下图NUMA nodes[1, 2]就属于同一组，容器A、C的内存请求都超过了单NUMA node的内存容量，所以分配到一组[1, 2]里。</p>
-<p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/multi_numa.png alt=multi_numa></p>
-<p>当宿主机NUMA未开启时，默认以一个NUMA block。memoryManager会调用topologyManager获取NUMA亲和信息。当kubelet没有开启topologyManager的话，则通过topologyManager提供空hint。此时，memoryManager会自行计算一个NUMA affinty。并且成功分配时会在本地保存machineState保持预留信息和容器内存资源assignments的分配信息。</p>
-<ul>
-<li>machineState：保存每个NUMA node的内存（常规内存和hugepages）信息，包含内存的资源信息和已经分配数，和同组的numa node。numa node组是不相交的。每次Allocate时，memory manager都会获取当前的machineState，并且将容器请求的资源更新为已经部署的容器的资源预留。</li>
-</ul>
-<pre><code class=language-go>state.NUMANodeMap{
+</code></pre><p>当没开启NUMA时，默认为一个NUMA node包含全部的cpu。这时的cpu分配算法时topology-aware best-fit：依据sockets、物理核、逻辑核的优先级填充。</p><ul><li>1）当需要的cpu数不小于一个socket上的cpu数时，优选分配一个socket上的全部CPU，即独占一个socket。</li><li>2）当剩余所需cpu数未达到一个socket的大小时，并且所需cpu数不小于一个物理核的逻辑核数时，优选分配一个core上的cpus，即独占一个物理核。</li><li>3）最后，则优选填充之前分配导致的部分分配的socket/core上空闲的cpus。</li></ul><p>比如上面这个CPU拓扑的情况下：当容器需要2核时，依据best-fit分配cpu 0出去； 需要分配2核时，分配 cpu 0, 4，因为在一个core上。cpuManager会依据策略的结果，在文件中更新cpuset的状态。之后kubelet调用CRI的接口，更新容器的资源。</p><p>* 注：v1.18之后，policy.AddContainer()重命名为policy.Allocate()，作为HintProvider给topologyManager在admission阶段调用。</p><h3 id=memory-manager>Memory Manager</h3><p>内存是依托于memoryManager（v1.22 beta）这个新组件来分配的。和cpu mananger类似，分配策略有两种： none，static。</p><ul><li>none：默认策略，不做任何事情。</li><li>static：对于Guaranteed的pod，在容器启动前分配内存。</li></ul><p>memoryManager内部维护一个<code>NUMANodeMap</code>对象，该对象记录Guaranteed pod里的容器内存使用量（包括hugepages）。memoryManager通过<code>NUMANodeMap</code>计算出preferred NUMA affinity，并且返回hint给topologyManager。hint指明哪个NUMA node或者哪组NUMA node最合适锁定内存分配给容器。依据topologyManager的范围（container或者pod），有两个不同的hint产生路径：</p><ul><li><code>GetTopologyHints</code> for <code>container</code> scope</li><li><code>GetPodTopologyHints</code> for <code>pod</code> scope</li></ul><p>在admission阶段（通过kubelet调用<code>Admin()</code>），memoryManager使用<code>Allocate()</code>更新<code>NUMANodeMap</code>，记录一个容器所请求的内存和hugepages，起到预分配的作用。 之后kubelet调用<code>AddContainer</code>，记录容器和pod的映射关系。最后，通过CRI接口，更新cgroups（ <code>cpuset.mems</code>）当pod的admission阶段没有容器被拒绝，pod最终会被部署到宿主机上。</p><p>Linux内核本身不支持多NUMA的内存分配（内存锁定，memory pinning）。memoryManager的主要思路是将一组NUMA nodes作为一个独立单元来管理，节点是不相交的，NUMA node不能跨组。Guaranteed的pod的内存分配可以跨多个NUMA nodes。当容器的内存请求超过单NUMA node的容量时，通过NUMA 组的概念允许跨NUMA node的内存分配。分配原则是，最小数量的NUMA nodes来分配内存资源。比如下图NUMA nodes[1, 2]就属于同一组，容器A、C的内存请求都超过了单NUMA node的内存容量，所以分配到一组[1, 2]里。</p><p><img src=https://cdn.jsdelivr.net/gh/edwardstudy/static@latest/images/multi_numa.png alt=multi_numa></p><p>当宿主机NUMA未开启时，默认以一个NUMA block。memoryManager会调用topologyManager获取NUMA亲和信息。当kubelet没有开启topologyManager的话，则通过topologyManager提供空hint。此时，memoryManager会自行计算一个NUMA affinty。并且成功分配时会在本地保存machineState保持预留信息和容器内存资源assignments的分配信息。</p><ul><li>machineState：保存每个NUMA node的内存（常规内存和hugepages）信息，包含内存的资源信息和已经分配数，和同组的numa node。numa node组是不相交的。每次Allocate时，memory manager都会获取当前的machineState，并且将容器请求的资源更新为已经部署的容器的资源预留。</li></ul><pre><code class=language-go>state.NUMANodeMap{
     0: &amp;state.NUMANodeState{
         MemoryMap: map[v1.ResourceName]*state.MemoryTable{
             v1.ResourceMemory: {
@@ -267,11 +84,7 @@ gpu: [{01 true} {10 true} {11 false}]
         Cells: []int{0}, // NUMA node id in same group
     },
 }
-</code></pre>
-<ul>
-<li>assignments：保存容器的内存分配结果。每次Allocate时，保持容器的内存块分配结果，包含内存资源大小和NUMA亲和性。</li>
-</ul>
-<pre><code class=language-go>state.ContainerMemoryAssignments{
+</code></pre><ul><li>assignments：保存容器的内存分配结果。每次Allocate时，保持容器的内存块分配结果，包含内存资源大小和NUMA亲和性。</li></ul><pre><code class=language-go>state.ContainerMemoryAssignments{
     &quot;pod1&quot;: map[string][]state.Block{
         &quot;container1&quot;: {
             {
@@ -287,85 +100,9 @@ gpu: [{01 true} {10 true} {11 false}]
         },
     },
 }
-</code></pre>
-<h4 id=计算默认-topologyhint>计算默认 topologyHint</h4>
-<p>当topologyManager未开启或者没有提供NUMA亲和性时，memoryManager会自行计算默认的topologyHint。一个hint表示一个的满足内存资源需求的NUMA nodes集合。例如0100表示，总共有4个 NUMA nodes，编号：0-3。其中3号node有足够的内存资源。二0110表示需要跨1、2号NUMA nodes才能满足内存需要。</p>
-<p>算法的输入是machineState、新建的pod和容器所需内存资源（包括常规内存和hugepages）。输出是拓扑感知提示（TopologyHint）。</p>
-<p>首先依据machineState输入的NUMA nodes，遍历NUMA nodes，每次遍历都累积位掩码：</p>
-<ol>
-<li>统计每个Node上的内存资源总量和空闲量，并确保资源总量能够满足容器请求。</li>
-<li>统计ReusableMemory并算作该NUMA节点的可用资源：同一个pod的initContainers可以作为可回收。确保NUMA node空闲量+ReusableMemory能够满足容器请求</li>
-<li>将资源分布的位掩码存成一个topologyHint，作为分布策略。统计每次遍历时，更新满足资源请求的最小NUMA亲和节点大小<code>minAffinitySize</code>。</li>
-<li>最终遍历所有的topologyHint，设置各hit是否为首选。如果掩码长度等于<code>minAffinitySize</code>，表明hit的分配为NUMA亲和性的首选。</li>
-</ol>
-<h2 id=总结>总结</h2>
-<p>本文简单介绍了kubelet中负责资源拓扑感知和分配的组件。topologyManager负责判断pod的资源拓扑是否满足需求，在其之下的cpuManager/memoryManager/deviceManager提供相应资源的NUMA亲和性。topologyManager依据策略综合各资源的NUMA亲和性计算出pod的容器是否允许运行。这些组件相互合作，保障单机层面上的NUMA拓扑的性能保障。但是对于集群层面的资源发现和调度，社区还处在于<a href=https://github.com/kubernetes/kubernetes/issues/84869>讨论</a> 阶段，主要考虑的点在于是否在调度器重复处理资源亲和性的逻辑。当然，社区中也有初步实现调度感知的软件。</p>
-<p>局限性：</p>
-<ol>
-<li>调度器不是拓扑感知的。有可能一个 Pod 被调度之后，会因为拓扑策略在节点上启动失败。</li>
-<li>memoryManager本身没有涉及内核关于多NUMA node的内存分配，所以只是在应用层限制了内存的分配。</li>
-</ol>
-<h3 id=参考>参考</h3>
-<ol>
-<li>服务器体系(SMP, NUMA, MPP)与共享存储器架构(UMA和NUMA): <a href=https://www.cnblogs.com/linhaostudy/archive/2018/11/18/9980383.html>https://www.cnblogs.com/linhaostudy/archive/2018/11/18/9980383.html</a></li>
-<li>What is NUMA: <a href=https://www.techplayon.com/what-is-numa-non-uniform-memory-access/>https://www.techplayon.com/what-is-numa-non-uniform-memory-access/</a></li>
-<li>Linux kernel view of NUMA: <a href=https://www.kernel.org/doc/html/latest/vm/numa.html>https://www.kernel.org/doc/html/latest/vm/numa.html</a></li>
-<li>what is ACPI slit：https://www.codeblueprint.co.uk/2019/07/12/what-are-slit-tables.html</li>
-<li>[kep] cpu manager: <a href=https://github.com/kubernetes/enhancements/blob/f343d8b94f8b83e8496ae42313f1290c1767bba6/keps/sig-node/375-cpu-manager/README.md>https://github.com/kubernetes/enhancements/blob/f343d8b94f8b83e8496ae42313f1290c1767bba6/keps/sig-node/375-cpu-manager/README.md</a></li>
-<li>[kep] topology manager: <a href=https://github.com/kubernetes/enhancements/blob/7eef794bb549a50c6b08c457556ff0eac98a4c6b/keps/sig-node/1029-ephemeral-storage-quotas/README.md>https://github.com/kubernetes/enhancements/blob/7eef794bb549a50c6b08c457556ff0eac98a4c6b/keps/sig-node/1029-ephemeral-storage-quotas/README.md</a></li>
-<li>[kep] memory manager: <a href=https://github.com/kubernetes/enhancements/blob/ea90443458c3832d9770868f95aaf0d2fbc42dc2/keps/sig-node/1769-memory-manager/README.md>https://github.com/kubernetes/enhancements/blob/ea90443458c3832d9770868f95aaf0d2fbc42dc2/keps/sig-node/1769-memory-manager/README.md</a></li>
-<li>Kubernetes Topology Manager: <a href=https://kubernetes.io/blog/2020/04/01/kubernetes-1-18-feature-topoloy-manager-beta/>https://kubernetes.io/blog/2020/04/01/kubernetes-1-18-feature-topoloy-manager-beta/</a></li>
-<li>Control Topology Management Policies on a node: <a href=https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/>https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/</a></li>
-<li>[video] Optimized Resource Allocation in Kubernetes? Topology Manager is Here: <a href="https://www.youtube.com/watch?v=KU_EtejzXp0&ab_channel=CNCF%5BCloudNativeComputingFoundation%5D">https://www.youtube.com/watch?v=KU_EtejzXp0&ab_channel=CNCF%5BCloudNativeComputingFoundation%5D</a></li>
-</ol>
-</div>
-<div class=my-4>
-<a href=/tags/numa/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#numa</a>
+</code></pre><h4 id=计算默认-topologyhint>计算默认 topologyHint</h4><p>当topologyManager未开启或者没有提供NUMA亲和性时，memoryManager会自行计算默认的topologyHint。一个hint表示一个的满足内存资源需求的NUMA nodes集合。例如0100表示，总共有4个 NUMA nodes，编号：0-3。其中3号node有足够的内存资源。二0110表示需要跨1、2号NUMA nodes才能满足内存需要。</p><p>算法的输入是machineState、新建的pod和容器所需内存资源（包括常规内存和hugepages）。输出是拓扑感知提示（TopologyHint）。</p><p>首先依据machineState输入的NUMA nodes，遍历NUMA nodes，每次遍历都累积位掩码：</p><ol><li>统计每个Node上的内存资源总量和空闲量，并确保资源总量能够满足容器请求。</li><li>统计ReusableMemory并算作该NUMA节点的可用资源：同一个pod的initContainers可以作为可回收。确保NUMA node空闲量+ReusableMemory能够满足容器请求</li><li>将资源分布的位掩码存成一个topologyHint，作为分布策略。统计每次遍历时，更新满足资源请求的最小NUMA亲和节点大小<code>minAffinitySize</code>。</li><li>最终遍历所有的topologyHint，设置各hit是否为首选。如果掩码长度等于<code>minAffinitySize</code>，表明hit的分配为NUMA亲和性的首选。</li></ol><h2 id=总结>总结</h2><p>本文简单介绍了kubelet中负责资源拓扑感知和分配的组件。topologyManager负责判断pod的资源拓扑是否满足需求，在其之下的cpuManager/memoryManager/deviceManager提供相应资源的NUMA亲和性。topologyManager依据策略综合各资源的NUMA亲和性计算出pod的容器是否允许运行。这些组件相互合作，保障单机层面上的NUMA拓扑的性能保障。但是对于集群层面的资源发现和调度，社区还处在于<a href=https://github.com/kubernetes/kubernetes/issues/84869>讨论</a> 阶段，主要考虑的点在于是否在调度器重复处理资源亲和性的逻辑。当然，社区中也有初步实现调度感知的软件。</p><p>局限性：</p><ol><li>调度器不是拓扑感知的。有可能一个 Pod 被调度之后，会因为拓扑策略在节点上启动失败。</li><li>memoryManager本身没有涉及内核关于多NUMA node的内存分配，所以只是在应用层限制了内存的分配。</li></ol><h3 id=参考>参考</h3><ol><li>服务器体系(SMP, NUMA, MPP)与共享存储器架构(UMA和NUMA): <a href=https://www.cnblogs.com/linhaostudy/archive/2018/11/18/9980383.html>https://www.cnblogs.com/linhaostudy/archive/2018/11/18/9980383.html</a></li><li>What is NUMA: <a href=https://www.techplayon.com/what-is-numa-non-uniform-memory-access/>https://www.techplayon.com/what-is-numa-non-uniform-memory-access/</a></li><li>Linux kernel view of NUMA: <a href=https://www.kernel.org/doc/html/latest/vm/numa.html>https://www.kernel.org/doc/html/latest/vm/numa.html</a></li><li>what is ACPI slit：https://www.codeblueprint.co.uk/2019/07/12/what-are-slit-tables.html</li><li>[kep] cpu manager: <a href=https://github.com/kubernetes/enhancements/blob/f343d8b94f8b83e8496ae42313f1290c1767bba6/keps/sig-node/375-cpu-manager/README.md>https://github.com/kubernetes/enhancements/blob/f343d8b94f8b83e8496ae42313f1290c1767bba6/keps/sig-node/375-cpu-manager/README.md</a></li><li>[kep] topology manager: <a href=https://github.com/kubernetes/enhancements/blob/7eef794bb549a50c6b08c457556ff0eac98a4c6b/keps/sig-node/1029-ephemeral-storage-quotas/README.md>https://github.com/kubernetes/enhancements/blob/7eef794bb549a50c6b08c457556ff0eac98a4c6b/keps/sig-node/1029-ephemeral-storage-quotas/README.md</a></li><li>[kep] memory manager: <a href=https://github.com/kubernetes/enhancements/blob/ea90443458c3832d9770868f95aaf0d2fbc42dc2/keps/sig-node/1769-memory-manager/README.md>https://github.com/kubernetes/enhancements/blob/ea90443458c3832d9770868f95aaf0d2fbc42dc2/keps/sig-node/1769-memory-manager/README.md</a></li><li>Kubernetes Topology Manager: <a href=https://kubernetes.io/blog/2020/04/01/kubernetes-1-18-feature-topoloy-manager-beta/>https://kubernetes.io/blog/2020/04/01/kubernetes-1-18-feature-topoloy-manager-beta/</a></li><li>Control Topology Management Policies on a node: <a href=https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/>https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/</a></li><li>[video] Optimized Resource Allocation in Kubernetes? Topology Manager is Here: <a href="https://www.youtube.com/watch?v=KU_EtejzXp0&ab_channel=CNCF%5BCloudNativeComputingFoundation%5D">https://www.youtube.com/watch?v=KU_EtejzXp0&ab_channel=CNCF%5BCloudNativeComputingFoundation%5D</a></li></ol></div><div class=my-4><a href=/tags/numa/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#numa</a>
 <a href=/tags/kubernetes/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Kubernetes</a>
-<a href=/tags/topology-manager/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#topology manager</a>
-</div>
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-<div>
-<span class="block font-bold">Previous</span>
-<a href=/posts/numa-aware-scheduling-in-volcano/ class=block>Volcano的NUMA感知调度实现</a>
-</div>
-<div class="md:text-right mt-4 md:mt-0">
-<span class="block font-bold">Next</span>
-<a href=/posts/multi-cluster-scheduling/ class=block>多集群调度</a>
-</div>
-</div>
-<div id=disqus_thread></div>
-<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
-<h2 class="text-lg font-semibold mb-4">See Also</h2>
-<div class=content>
-<a href=/posts/multi-cluster-scheduling/>多集群调度</a>
-<br>
-<a href=/posts/load-scheduling-brief/>集群内负载调度方案调研</a>
-<br>
-<a href=/posts/jie-jue-kubernetes-admission-webhook-timeout-error/>解决Kubernetes admission webhook timeout error</a>
-<br>
-<a href=/posts/intro-of-cf-operator/>cf-operator的介绍</a>
-<br>
-<a href=/posts/kubernetesbian-controller-pattern/>Kubernetes编程范式——Controller pattern</a>
-<br>
-<a href=/posts/intro-operator/>Intro Operator</a>
-<br>
-</div>
-</div>
-</div>
-<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
-</div>
-</div>
-</main>
-<footer class=pl-scrollbar>
-<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
-&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
-</div></div>
-</footer>
-</body>
-</html>
+<a href=/tags/topology-manager/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#topology manager</a></div><div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t"><div><span class="block font-bold">Previous</span>
+<a href=/posts/numa-aware-scheduling-in-volcano/ class=block>Volcano的NUMA感知调度实现</a></div><div class="md:text-right mt-4 md:mt-0"><span class="block font-bold">Next</span>
+<a href=/posts/multi-cluster-scheduling/ class=block>多集群调度</a></div></div><div id=disqus_thread></div><script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//edwardesire.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6"><h2 class="text-lg font-semibold mb-4">See Also</h2><div class=content><a href=/posts/multi-cluster-scheduling/>多集群调度</a><br><a href=/posts/load-scheduling-brief/>集群内负载调度方案调研</a><br><a href=/posts/jie-jue-kubernetes-admission-webhook-timeout-error/>解决Kubernetes admission webhook timeout error</a><br><a href=/posts/intro-of-cf-operator/>cf-operator的介绍</a><br><a href=/posts/kubernetesbian-controller-pattern/>Kubernetes编程范式——Controller pattern</a><br><a href=/posts/intro-operator/>Intro Operator</a><br></div></div></div><script>document.addEventListener("DOMContentLoaded",()=>{hljs.initHighlightingOnLoad()})</script></div></div></main><footer class=pl-scrollbar><div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b"><p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p></div></div></footer></body></html>

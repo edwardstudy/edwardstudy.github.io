@@ -1,106 +1,20 @@
-<!doctype html><html lang=en><meta charset=utf-8>
-<meta name=viewport content="width=device-width">
-<title>初识Promise | Edwardesire</title>
-<meta name=generator content="Hugo Eureka 0.8.3">
-<link rel=stylesheet href=/css/eureka.min.css>
-<script defer src=/js/eureka.min.js></script>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
-<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width"><title>初识Promise | Edwardesire</title><meta name=generator content="Hugo Eureka 0.8.3"><link rel=stylesheet href=/css/eureka.min.css><script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload='this.onload=null,this.rel="stylesheet"'><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
-<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
-<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
-<link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
-<meta name=description content="主要内容为25号微课堂学习的《Node.js最新技术栈之Promise篇》笔记以及心得。">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"初识Promise","item":"/posts/introduction-of-promise/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/introduction-of-promise/"},"headline":"初识Promise | Edwardesire","datePublished":"2015-09-25T09:49:44+00:00","dateModified":"2015-09-25T09:49:44+00:00","wordCount":3655,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"主要内容为25号微课堂学习的《Node.js最新技术栈之Promise篇》笔记以及心得。"}</script><meta property="og:title" content="初识Promise | Edwardesire">
-<meta property="og:type" content="article">
-<meta property="og:image" content="/images/favicon-32x32.png">
-<meta property="og:url" content="/posts/introduction-of-promise/">
-<meta property="og:description" content="主要内容为25号微课堂学习的《Node.js最新技术栈之Promise篇》笔记以及心得。">
-<meta property="og:locale" content="en">
-<meta property="og:site_name" content="Edwardesire">
-<meta property="article:published_time" content="2015-09-25T09:49:44+00:00">
-<meta property="article:modified_time" content="2015-09-25T09:49:44+00:00">
-<meta property="article:section" content="posts">
-<meta property="article:tag" content="Nodejs">
-<meta property="article:tag" content="Promise">
-<meta property="og:see_also" content="/posts/pagination-with-mongoose/">
-<meta property="og:see_also" content="/posts/node-email-trial/">
-<meta property="og:see_also" content="/posts/test-persistent-image-file-in-mongodb/">
-<meta property="og:see_also" content="/posts/nodejs-event-model/">
-<meta property="og:see_also" content="/posts/tty-web-terminal/">
-<meta property="og:see_also" content="/posts/socketio-of-interest/">
-<body class="flex flex-col min-h-screen">
-<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png><meta name=description content="主要内容为25号微课堂学习的《Node.js最新技术栈之Promise篇》笔记以及心得。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"初识Promise","item":"/posts/introduction-of-promise/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/introduction-of-promise/"},"headline":"初识Promise | Edwardesire","datePublished":"2015-09-25T09:49:44+00:00","dateModified":"2015-09-25T09:49:44+00:00","wordCount":3655,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"主要内容为25号微课堂学习的《Node.js最新技术栈之Promise篇》笔记以及心得。"}</script><meta property="og:title" content="初识Promise | Edwardesire"><meta property="og:type" content="article"><meta property="og:image" content="/images/favicon-32x32.png"><meta property="og:url" content="/posts/introduction-of-promise/"><meta property="og:description" content="主要内容为25号微课堂学习的《Node.js最新技术栈之Promise篇》笔记以及心得。"><meta property="og:locale" content="en"><meta property="og:site_name" content="Edwardesire"><meta property="article:published_time" content="2015-09-25T09:49:44+00:00"><meta property="article:modified_time" content="2015-09-25T09:49:44+00:00"><meta property="article:section" content="posts"><meta property="article:tag" content="Nodejs"><meta property="article:tag" content="Promise"><meta property="og:see_also" content="/posts/pagination-with-mongoose/"><meta property="og:see_also" content="/posts/node-email-trial/"><meta property="og:see_also" content="/posts/test-persistent-image-file-in-mongodb/"><meta property="og:see_also" content="/posts/nodejs-event-model/"><meta property="og:see_also" content="/posts/tty-web-terminal/"><meta property="og:see_also" content="/posts/socketio-of-interest/"><body class="flex flex-col min-h-screen"><header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm"><div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=="Auto"||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName("html")[0].classList.add("dark")</script><nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0"><a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
 <button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-<i class="fas fa-bars"></i>
-</button>
-<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
-</div>
-<div class=flex>
-<div class="relative pt-4 md:pt-0">
-<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
-<i class="fas fa-adjust"></i>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
-</div>
-<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
-<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<i class="fas fa-bars"></i></button><div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20"><div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0"><a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a></div><div class=flex><div class="relative pt-4 md:pt-0"><div class="cursor-pointer hover:text-eureka" id=lightDarkMode><i class="fas fa-adjust"></i></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open></div><div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions><span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
 <span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
-<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
-</div>
-</div>
-</div>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
-</div>
-</nav>
-<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
-</div>
-</header>
-<main class="flex-grow pt-16">
-<div class=pl-scrollbar>
-<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-<h1 class="font-bold text-3xl text-primary-text">初识Promise</h1>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2015-09-25</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>8 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span></div></div></div></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile></div></nav><script>let element=document.getElementById("lightDarkMode");storageColorScheme==null||storageColorScheme=="Auto"?document.addEventListener("DOMContentLoaded",()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","sun"),element.firstElementChild.classList.add("fa-sun")):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","moon"),element.firstElementChild.classList.add("fa-moon")),document.addEventListener("DOMContentLoaded",()=>{getcolorscheme(),switchBurger()})</script></div></header><main class="flex-grow pt-16"><div class=pl-scrollbar><div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto"><div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12"><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8"><h1 class="font-bold text-3xl text-primary-text">初识Promise</h1><div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text"><div class="mr-6 my-2"><i class="fas fa-calendar mr-1"></i>
+<span>2015-09-25</span></div><div class="mr-6 my-2"><i class="fas fa-clock mr-1"></i>
+<span>8 min read</span></div><div class="mr-6 my-2"><i class="fas fa-folder mr-1"></i>
 <a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
-<span>, </span>
-<a href=/categories/promise/ class=hover:text-eureka>Promise</a>
-</div>
-</div>
-<div class=content>
-<p>对于mongoBD的异步控制，在项目实践中使用了async库来控制复杂的异步回调函数处理。很有幸参加<a href=http://>i5ting</a>老师的《Node.js最新技术栈之Promise篇》微课堂。老师主要从promise的起源、实现以及实践和展望几点简述使用Promise的心得。有所收获，现在总结如下，其中例子为老师提供。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/5/5e/5ff954f7b19a34b5b990eabbeee86.png alt=roadmap></p>
-<hr>
-<ol>
-<li>Why</li>
-</ol>
-<p>首先回调和异步在nodejs中十分常见，因为nodejs的最大的优点：高并发，适合适合I/O密集型应用，就是通过异步处理实现。但回调函数的嵌套会导致意大利面条式的代码<a href=https://en.wikipedia.org/wiki/Spaghetti_code><sup>[1]</sup></a>。比如下面这种一个分为4步的任务：每步任务都需要上一步的返回才能继续执行。</p>
-<pre><code>    step1(function (value1) {
+<span>,</span>
+<a href=/categories/promise/ class=hover:text-eureka>Promise</a></div></div><div class=content><p>对于mongoBD的异步控制，在项目实践中使用了async库来控制复杂的异步回调函数处理。很有幸参加<a href=http://>i5ting</a>老师的《Node.js最新技术栈之Promise篇》微课堂。老师主要从promise的起源、实现以及实践和展望几点简述使用Promise的心得。有所收获，现在总结如下，其中例子为老师提供。</p><p><img src=http://edwardsblog.qiniudn.com/image/5/5e/5ff954f7b19a34b5b990eabbeee86.png alt=roadmap></p><hr><ol><li>Why</li></ol><p>首先回调和异步在nodejs中十分常见，因为nodejs的最大的优点：高并发，适合适合I/O密集型应用，就是通过异步处理实现。但回调函数的嵌套会导致意大利面条式的代码<a href=https://en.wikipedia.org/wiki/Spaghetti_code><sup>[1]</sup></a>。比如下面这种一个分为4步的任务：每步任务都需要上一步的返回才能继续执行。</p><pre><code>    step1(function (value1) {
       // Do something with value1
       step2(value1, function(value2) {
         // Do something with value2
@@ -112,9 +26,7 @@
         });
       });
     });
-</code></pre>
-<p>promise<a href=https://github.com/then/promise><sup>[2]</sup></a>就是来解决js中这种频繁回调导致的问题，promise是可以通过像jQuery的链式调用这样来控制回调函数，链式写法： <code>$('#tab').eq($(this).index()).show().siblings().hide();</code> 。每个方法都返回this对象传递给下一个方法。比如下面这个例子：</p>
-<pre><code>    var obj = {
+</code></pre><p>promise<a href=https://github.com/then/promise><sup>[2]</sup></a>就是来解决js中这种频繁回调导致的问题，promise是可以通过像jQuery的链式调用这样来控制回调函数，链式写法： <code>$('#tab').eq($(this).index()).show().siblings().hide();</code> 。每个方法都返回this对象传递给下一个方法。比如下面这个例子：</p><pre><code>    var obj = {
       step1:function(){
         console.log('a');
         return this;
@@ -137,25 +49,10 @@
     obj.step1().step2().step3();
     console.log('——\n');
     obj.step4().step2().step1();
-</code></pre>
-<p>输出结果abc以及dba。这就是promise，而promise的意思是还未获得的值，只是作为一个占位符给下一个方法。正如promise是还未获得的值，deferred表示未尚未完成的任务步骤，而deferred可以被解决（resolved），也可以被拒绝（rejected）。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/4/be/cc23b47ba46194dba291ebb62684b.png alt></p>
-<p>回到上面的回调函数：step1().step2().step3().step4()，每个操作都是独立的，可组装。但如果需要上一步的输出为下一步的输入，比如linux的 pipe：ps -ef|grep node|awk ‘{print $2}’|xargs kill -9，或者需要捕获异常，控制流程呢？这就是promise规范的起因。</p>
-<ol start=2>
-<li>What</li>
-</ol>
-<p>官方给出的promise/a+规范的定义为：Promise表示一个异步操作的最终结果。与Promise最主要的交互方法是通过将函数传入它的then方法从而获取得Promise最终的值或Promise最终最拒绝（reject）的原因。还是上面那个例子：异步操作的最终结果： return step1().step2().step3().step4()。如果在promise里，就是这样：</p>
-<pre><code>    return step1().then(step2).then(step3).then(step4).catch(function(err){
+</code></pre><p>输出结果abc以及dba。这就是promise，而promise的意思是还未获得的值，只是作为一个占位符给下一个方法。正如promise是还未获得的值，deferred表示未尚未完成的任务步骤，而deferred可以被解决（resolved），也可以被拒绝（rejected）。</p><p><img src=http://edwardsblog.qiniudn.com/image/4/be/cc23b47ba46194dba291ebb62684b.png alt></p><p>回到上面的回调函数：step1().step2().step3().step4()，每个操作都是独立的，可组装。但如果需要上一步的输出为下一步的输入，比如linux的 pipe：ps -ef|grep node|awk ‘{print $2}’|xargs kill -9，或者需要捕获异常，控制流程呢？这就是promise规范的起因。</p><ol start=2><li>What</li></ol><p>官方给出的promise/a+规范的定义为：Promise表示一个异步操作的最终结果。与Promise最主要的交互方法是通过将函数传入它的then方法从而获取得Promise最终的值或Promise最终最拒绝（reject）的原因。还是上面那个例子：异步操作的最终结果： return step1().step2().step3().step4()。如果在promise里，就是这样：</p><pre><code>    return step1().then(step2).then(step3).then(step4).catch(function(err){
       // do something when err
     });
-</code></pre>
-<p>定义中交互方式的几点都都对应了，step2传入then方法来获取step1的返回值，catch来捕获error，catch后的回调函数就是处理error。有一个reject，还对应一个resolve方法。</p>
-<ul>
-<li>reject 是拒绝，跳转到catch error</li>
-<li>resolve 是解决，下一步，即跳转到下一个promise操作</li>
-</ul>
-<p>比如下方这个例子，step1失败就不运行step2，调到下一个promise操作，执行step3。</p>
-<pre><code>    function step1(){
+</code></pre><p>定义中交互方式的几点都都对应了，step2传入then方法来获取step1的返回值，catch来捕获error，catch后的回调函数就是处理error。有一个reject，还对应一个resolve方法。</p><ul><li>reject 是拒绝，跳转到catch error</li><li>resolve 是解决，下一步，即跳转到下一个promise操作</li></ul><p>比如下方这个例子，step1失败就不运行step2，调到下一个promise操作，执行step3。</p><pre><code>    function step1(){
       if(false){
         return step3().then(step4).catch(function(err){
           // do something when err
@@ -165,31 +62,7 @@
    return step1().then(step2).then(step3).then(step4).catch(function(err){
   // do something when err
 });
-</code></pre>
-<p>再来看看promise的几个要点。</p>
-<ul>
-<li>promise 是一个包含了兼容promise规范then方法的对象或函数。我们可以这样理解，每一个promise只要返回的可以then的都可以。就像上面举例返回的this一样，只要每一个都返回this，她就可以无限的链式下去。</li>
-<li>thenable 是一个包含了then方法的对象或函数。</li>
-<li>value 是任何Javascript值。 (包括 undefined, thenable, promise等).</li>
-<li>exception 是由throw表达式抛出来的值。当流程出现异常的适合，把异常抛出来，由catch err处理。</li>
-<li>reason 是一个用于描述Promise被拒绝原因的值。</li>
-</ul>
-<p>最后总结一下promise，1) 每个操作都返回一样的promise对象，保证链式操作；2) 每个链式都通过then方法；3) 每个操作内部允许犯错，出了错误，统一由catch error处理；4) 操作内部，也可以是一个操作链，通过reject或resolve再生成流程。还有一些复杂的规范细节<a href=https://promisesaplus.com/><sup>[3]</sup></a>需要在实践中才知道意义。</p>
-<p>nodejs里的promise实现主要有一下几种，最近在使用async来控制回调流程。</p>
-<ul>
-<li><a href=https://github.com/petkaantonov/bluebird>bluebird</a> 拥有不错的性能，后面继续讲</li>
-<li><a href=https://github.com/kriskowal/q>q</a> Angularjs的$q对象是q的精简版</li>
-<li><a href=https://github.com/teambition/then.js>then</a> teambition作品</li>
-<li><a href=https://github.com/cujojs/when>when</a> Promises/A+和when()的实现</li>
-<li><a href=https://github.com/caolan/async>async</a> 最简单的）</li>
-<li><a href=https://github.com/JacksonTian/eventproxy>eventproxy</a> 朴灵作品，使用event来</li>
-</ul>
-<p>其他语言实现，详见 <a href=https://promisesaplus.com/implementations>https://promisesaplus.com/implementations</a></p>
-<ol start=3>
-<li>how</li>
-</ol>
-<p>下面进入到如何实现promise的内容，一个很初步的原型如下代码：</p>
-<pre><code>    //promise原型对象
+</code></pre><p>再来看看promise的几个要点。</p><ul><li>promise 是一个包含了兼容promise规范then方法的对象或函数。我们可以这样理解，每一个promise只要返回的可以then的都可以。就像上面举例返回的this一样，只要每一个都返回this，她就可以无限的链式下去。</li><li>thenable 是一个包含了then方法的对象或函数。</li><li>value 是任何Javascript值。 (包括 undefined, thenable, promise等).</li><li>exception 是由throw表达式抛出来的值。当流程出现异常的适合，把异常抛出来，由catch err处理。</li><li>reason 是一个用于描述Promise被拒绝原因的值。</li></ul><p>最后总结一下promise，1) 每个操作都返回一样的promise对象，保证链式操作；2) 每个链式都通过then方法；3) 每个操作内部允许犯错，出了错误，统一由catch error处理；4) 操作内部，也可以是一个操作链，通过reject或resolve再生成流程。还有一些复杂的规范细节<a href=https://promisesaplus.com/><sup>[3]</sup></a>需要在实践中才知道意义。</p><p>nodejs里的promise实现主要有一下几种，最近在使用async来控制回调流程。</p><ul><li><a href=https://github.com/petkaantonov/bluebird>bluebird</a> 拥有不错的性能，后面继续讲</li><li><a href=https://github.com/kriskowal/q>q</a> Angularjs的$q对象是q的精简版</li><li><a href=https://github.com/teambition/then.js>then</a> teambition作品</li><li><a href=https://github.com/cujojs/when>when</a> Promises/A+和when()的实现</li><li><a href=https://github.com/caolan/async>async</a> 最简单的）</li><li><a href=https://github.com/JacksonTian/eventproxy>eventproxy</a> 朴灵作品，使用event来</li></ul><p>其他语言实现，详见 <a href=https://promisesaplus.com/implementations>https://promisesaplus.com/implementations</a></p><ol start=3><li>how</li></ol><p>下面进入到如何实现promise的内容，一个很初步的原型如下代码：</p><pre><code>    //promise原型对象
     var Promise = function () {
     };
     //类型判断
@@ -225,23 +98,8 @@
         promise: promise
       };
     };
-</code></pre>
-<p>我们还可以看看q，angularjs的$q就是它的精简版，它把q的7个版本是如何实现的都详细记录<a href=https://github.com/kriskowal/q/tree/v1/design><sup>4</sup></a>了。</p>
-<p>了解到基本的实现就需要考虑在项目中的实践了。i5ting的经验是公司项目使用bluebird，而小项目使用async。几种实现的<a href=https://github.com/petkaantonov/bluebird/tree/master/benchmark>benchmark</a>。这样一看bludbird确实性能比较好。比如并行执行任务的比较如下：</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/d/d5/0a601b64f19d8dfe6b6620764a08f.png alt></p>
-<p>bluebird特性</p>
-<ul>
-<li>速度最快</li>
-<li>api和文档完善，（对各个库支持都不错）</li>
-<li>支持generator等未来发展趋势</li>
-<li>github活跃</li>
-<li>还有让人眼前一亮的功能点</li>
-</ul>
-<p>下面举例的是bluebird的promisify，promisify原理就是你给他传一个对象或者prototype，它去遍历，给他们加上async方法，此方法返回promise对象，你就可以像上面那样使用promise的特点了，但这样得谨防对象过大，导致内存问题。熟悉fs的API的都知道，fs有<code>fs.readFile()</code>、<code>fs.readFileSync()</code>方法，但没有<code>fs.readFileAsync()</code>。实际上<code>fs.readFileAsync()</code>是bluebird加上去的，使用<code>promisifyAll()</code>来实现这个功能。</p>
-<pre><code>    var fs = Promise.promisifyAll(require(“fs”));
-</code></pre>
-<p>按照MVC的流程，首先定义模型：</p>
-<pre><code>    var mongoose = require(‘mongoose’);
+</code></pre><p>我们还可以看看q，angularjs的$q就是它的精简版，它把q的7个版本是如何实现的都详细记录<a href=https://github.com/kriskowal/q/tree/v1/design><sup>4</sup></a>了。</p><p>了解到基本的实现就需要考虑在项目中的实践了。i5ting的经验是公司项目使用bluebird，而小项目使用async。几种实现的<a href=https://github.com/petkaantonov/bluebird/tree/master/benchmark>benchmark</a>。这样一看bludbird确实性能比较好。比如并行执行任务的比较如下：</p><p><img src=http://edwardsblog.qiniudn.com/image/d/d5/0a601b64f19d8dfe6b6620764a08f.png alt></p><p>bluebird特性</p><ul><li>速度最快</li><li>api和文档完善，（对各个库支持都不错）</li><li>支持generator等未来发展趋势</li><li>github活跃</li><li>还有让人眼前一亮的功能点</li></ul><p>下面举例的是bluebird的promisify，promisify原理就是你给他传一个对象或者prototype，它去遍历，给他们加上async方法，此方法返回promise对象，你就可以像上面那样使用promise的特点了，但这样得谨防对象过大，导致内存问题。熟悉fs的API的都知道，fs有<code>fs.readFile()</code>、<code>fs.readFileSync()</code>方法，但没有<code>fs.readFileAsync()</code>。实际上<code>fs.readFileAsync()</code>是bluebird加上去的，使用<code>promisifyAll()</code>来实现这个功能。</p><pre><code>    var fs = Promise.promisifyAll(require(“fs”));
+</code></pre><p>按照MVC的流程，首先定义模型：</p><pre><code>    var mongoose = require(‘mongoose’);
     var Schema = mongoose.Schema;
     var Promise = require(“bluebird”);
     UserSchema = new Schema({
@@ -255,28 +113,18 @@
     var User = mongoose.model(‘User’, UserSchema);
     Promise.promisifyAll(User);
     Promise.promisifyAll(User.prototype);
-</code></pre>
-<p>然后就是业务逻辑，直接调用findAsync的：</p>
-<pre><code>    User.findAsync({username: ‘username’}).then(function(data) {
+</code></pre><p>然后就是业务逻辑，直接调用findAsync的：</p><pre><code>    User.findAsync({username: ‘username’}).then(function(data) {
       …
     }).catch(function(err) {
       …
     });
-</code></pre>
-<p>可以优化的地方在于，直接mongoose的static和method上扩展，不暴露太多细节。面对promise，保证每个操作都是函数，使得流程可以组装。比如下列这种情况，Team可以添加新用户：</p>
-<pre><code>    //用函数封装操作
+</code></pre><p>可以优化的地方在于，直接mongoose的static和method上扩展，不暴露太多细节。面对promise，保证每个操作都是函数，使得流程可以组装。比如下列这种情况，Team可以添加新用户：</p><pre><code>    //用函数封装操作
     function find_user(){
       return User.findByAsync(user_id);
     }
     //直接调用mongoose方法
     Team.updateByIdAync(a, b, c).then(find_user).catch(error);
-</code></pre>
-<p>扩展一下数据库driver这边，ioredis也支持的很好，能将与redis的交互建立在promise的控制下，而mongoose支持promise也越发证明这个工具与原生driver的不同。</p>
-<ol start=4>
-<li>es6的实现 generator/yield</li>
-</ol>
-<p>generator是es6新添加的功能，generator(生成器函数)：不会立即执行，需要再执行迭代操作(.next)，yield抛出断点等待next的调用。使用这种方法的库有co，其使用例子如下：</p>
-<pre><code>    co(function* (){  
+</code></pre><p>扩展一下数据库driver这边，ioredis也支持的很好，能将与redis的交互建立在promise的控制下，而mongoose支持promise也越发证明这个工具与原生driver的不同。</p><ol start=4><li>es6的实现 generator/yield</li></ol><p>generator是es6新添加的功能，generator(生成器函数)：不会立即执行，需要再执行迭代操作(.next)，yield抛出断点等待next的调用。使用这种方法的库有co，其使用例子如下：</p><pre><code>    co(function* (){  
       yield Something.save();
     }).then(function() {
       // success
@@ -284,86 +132,14 @@
     .catch(function(err) {
       //error handling
     });
-</code></pre>
-<p>而yield的并行直接则是这样写： <code>yield[fun1(), fun2()];</code></p>
-<ol start=5>
-<li>
-<p>es7的实现 async/await
-es7则通过async关键词来执行异步操作，使用await执行异步操作的例子如下，可以看到这与async库之间的区别：</p>
-<pre><code> async function save(fun1){
+</code></pre><p>而yield的并行直接则是这样写： <code>yield[fun1(), fun2()];</code></p><ol start=5><li><p>es7的实现 async/await
+es7则通过async关键词来执行异步操作，使用await执行异步操作的例子如下，可以看到这与async库之间的区别：</p><pre><code> async function save(fun1){
    try{
      await fun1.save();
    }
  }
-</code></pre>
-</li>
-</ol>
-<p>最后再总结一次promise的要点：</p>
-<ul>
-<li>异步操作的最终结果，尽可能每一个异步操作都是独立操作单元</li>
-<li>与Promise最主要的交互方法是通过将函数传入它的then方法（thenable）</li>
-<li>捕获异常catch error</li>
-<li>根据reject和resolve重塑流程</li>
-</ul>
-<p>而generator是一种新的定义方式，定义操作单元，尤其在迭代器的情况，搭配yield来执行，可读性上差了很多，好处是真的解耦了。co是一个中间产品，可以说是给generator增加了promise实现，可读性和易用性是愿意好于generator + yield的。最后我们看看async，它实际上是通过async这个关键词，定义的函数就可以返回promise对象，可以说async就是能返回promise对象的generator，yield关键词以及被generator绑架了，那它就换个名字，叫await。</p>
-<p>其实从这段历史来看，反复就是promise上的折腾，只是加了generator这个别名，只是async是能返回promise的generator。</p>
-<p>这次学习大致就是这么多内容，其细节还需要在项目上实践，也确定了使用bb作为以后express的异步控制库。</p>
-<hr>
-<p>参考:</p>
-<ol>
-<li><a href=https://en.wikipedia.org/wiki/>Spaghetti Code</a>：意大利面条代码的定义</li>
-<li><a href=https://github.com/then/promise>Promise Github</a>：源码</li>
-<li><a href=https://promisesaplus.com/>Promise+官网</a>：规范细节</li>
-<li><a href=https://github.com/kriskowal/q/tree/v1/design>q的7个版本详细记录</a>：设计思路</li>
-<li><a href=http://blog.mediumequalsmessage.com/promise-deferred-objects-in-javascript-pt1-theory-and-semantics>Promise & Deferred objects in JavaScript Pt.1: Theory and Semantics.</a>：promise和deferred这些概念的理解</li>
-</ol>
-</div>
-<div class=my-4>
-<a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
-<a href=/tags/promise/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Promise</a>
-</div>
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-<div>
-<span class="block font-bold">Previous</span>
-<a href=/posts/mongodb-fetch-sql-server-change-data-capture/ class=block>MongoDB/SQL Server增量同步方案</a>
-</div>
-<div class="md:text-right mt-4 md:mt-0">
-<span class="block font-bold">Next</span>
-<a href=/posts/coursera-classgetting-your-research-project-started/ class=block>Coursera Data-analysis001:Getting Your Research Project Started</a>
-</div>
-</div>
-<div id=disqus_thread></div>
-<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
-<h2 class="text-lg font-semibold mb-4">See Also</h2>
-<div class=content>
-<a href=/posts/pagination-with-mongoose/>Web应用分页功能的简单实现</a>
-<br>
-<a href=/posts/node-email-trial/>Node.js的试炼:Email的获取</a>
-<br>
-<a href=/posts/test-persistent-image-file-in-mongodb/>MongoDB图片存储测试</a>
-<br>
-<a href=/posts/nodejs-event-model/>Node.js的事件驱动模型</a>
-<br>
-<a href=/posts/tty-web-terminal/>tty.js:实现Web Terminal</a>
-<br>
-<a href=/posts/socketio-of-interest/>Socket.io:有点意思</a>
-<br>
-</div>
-</div>
-</div>
-<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
-</div>
-</div>
-</main>
-<footer class=pl-scrollbar>
-<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
-&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
-</div></div>
-</footer>
-</body>
-</html>
+</code></pre></li></ol><p>最后再总结一次promise的要点：</p><ul><li>异步操作的最终结果，尽可能每一个异步操作都是独立操作单元</li><li>与Promise最主要的交互方法是通过将函数传入它的then方法（thenable）</li><li>捕获异常catch error</li><li>根据reject和resolve重塑流程</li></ul><p>而generator是一种新的定义方式，定义操作单元，尤其在迭代器的情况，搭配yield来执行，可读性上差了很多，好处是真的解耦了。co是一个中间产品，可以说是给generator增加了promise实现，可读性和易用性是愿意好于generator + yield的。最后我们看看async，它实际上是通过async这个关键词，定义的函数就可以返回promise对象，可以说async就是能返回promise对象的generator，yield关键词以及被generator绑架了，那它就换个名字，叫await。</p><p>其实从这段历史来看，反复就是promise上的折腾，只是加了generator这个别名，只是async是能返回promise的generator。</p><p>这次学习大致就是这么多内容，其细节还需要在项目上实践，也确定了使用bb作为以后express的异步控制库。</p><hr><p>参考:</p><ol><li><a href=https://en.wikipedia.org/wiki/>Spaghetti Code</a>：意大利面条代码的定义</li><li><a href=https://github.com/then/promise>Promise Github</a>：源码</li><li><a href=https://promisesaplus.com/>Promise+官网</a>：规范细节</li><li><a href=https://github.com/kriskowal/q/tree/v1/design>q的7个版本详细记录</a>：设计思路</li><li><a href=http://blog.mediumequalsmessage.com/promise-deferred-objects-in-javascript-pt1-theory-and-semantics>Promise & Deferred objects in JavaScript Pt.1: Theory and Semantics.</a>：promise和deferred这些概念的理解</li></ol></div><div class=my-4><a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
+<a href=/tags/promise/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Promise</a></div><div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t"><div><span class="block font-bold">Previous</span>
+<a href=/posts/mongodb-fetch-sql-server-change-data-capture/ class=block>MongoDB/SQL Server增量同步方案</a></div><div class="md:text-right mt-4 md:mt-0"><span class="block font-bold">Next</span>
+<a href=/posts/coursera-classgetting-your-research-project-started/ class=block>Coursera Data-analysis001:Getting Your Research Project Started</a></div></div><div id=disqus_thread></div><script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//edwardesire.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6"><h2 class="text-lg font-semibold mb-4">See Also</h2><div class=content><a href=/posts/pagination-with-mongoose/>Web应用分页功能的简单实现</a><br><a href=/posts/node-email-trial/>Node.js的试炼:Email的获取</a><br><a href=/posts/test-persistent-image-file-in-mongodb/>MongoDB图片存储测试</a><br><a href=/posts/nodejs-event-model/>Node.js的事件驱动模型</a><br><a href=/posts/tty-web-terminal/>tty.js:实现Web Terminal</a><br><a href=/posts/socketio-of-interest/>Socket.io:有点意思</a><br></div></div></div><script>document.addEventListener("DOMContentLoaded",()=>{hljs.initHighlightingOnLoad()})</script></div></div></main><footer class=pl-scrollbar><div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b"><p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p></div></div></footer></body></html>

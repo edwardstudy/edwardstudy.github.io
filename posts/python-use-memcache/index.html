@@ -1,119 +1,24 @@
-<!doctype html><html lang=en><meta charset=utf-8>
-<meta name=viewport content="width=device-width">
-<title>Memcache的使用 | Edwardesire</title>
-<meta name=generator content="Hugo Eureka 0.8.3">
-<link rel=stylesheet href=/css/eureka.min.css>
-<script defer src=/js/eureka.min.js></script>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
-<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width"><title>Memcache的使用 | Edwardesire</title><meta name=generator content="Hugo Eureka 0.8.3"><link rel=stylesheet href=/css/eureka.min.css><script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload='this.onload=null,this.rel="stylesheet"'><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
-<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
-<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
-<link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
-<meta name=description content="Memcache Memcache 是一种简单的内存缓存工具，通过将高频率出现的请求结果存储在内存中来减少读取数据库的次数或者较长地逻辑处理任务。最终提高整个应用服务的响应速度。 Me">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"Memcache的使用","item":"/posts/python-use-memcache/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/python-use-memcache/"},"headline":"Memcache的使用 | Edwardesire","datePublished":"2016-09-04T10:31:22+00:00","dateModified":"2016-09-04T10:31:22+00:00","wordCount":1814,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"Memcache Memcache 是一种简单的内存缓存工具，通过将高频率出现的请求结果存储在内存中来减少读取数据库的次数或者较长地逻辑处理任务。最终提高整个应用服务的响应速度。 Me"}</script><meta property="og:title" content="Memcache的使用 | Edwardesire">
-<meta property="og:type" content="article">
-<meta property="og:image" content="/images/favicon-32x32.png">
-<meta property="og:url" content="/posts/python-use-memcache/">
-<meta property="og:description" content="Memcache Memcache 是一种简单的内存缓存工具，通过将高频率出现的请求结果存储在内存中来减少读取数据库的次数或者较长地逻辑处理任务。最终提高整个应用服务的响应速度。 Me">
-<meta property="og:locale" content="en">
-<meta property="og:site_name" content="Edwardesire">
-<meta property="article:published_time" content="2016-09-04T10:31:22+00:00">
-<meta property="article:modified_time" content="2016-09-04T10:31:22+00:00">
-<meta property="article:section" content="posts">
-<meta property="article:tag" content="Memcache">
-<meta property="article:tag" content="Cache">
-<body class="flex flex-col min-h-screen">
-<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png><meta name=description content="Memcache Memcache 是一种简单的内存缓存工具，通过将高频率出现的请求结果存储在内存中来减少读取数据库的次数或者较长地逻辑处理任务。最终提高整个应用服务的响应速度。 Me"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"Memcache的使用","item":"/posts/python-use-memcache/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/python-use-memcache/"},"headline":"Memcache的使用 | Edwardesire","datePublished":"2016-09-04T10:31:22+00:00","dateModified":"2016-09-04T10:31:22+00:00","wordCount":1814,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"Memcache Memcache 是一种简单的内存缓存工具，通过将高频率出现的请求结果存储在内存中来减少读取数据库的次数或者较长地逻辑处理任务。最终提高整个应用服务的响应速度。 Me"}</script><meta property="og:title" content="Memcache的使用 | Edwardesire"><meta property="og:type" content="article"><meta property="og:image" content="/images/favicon-32x32.png"><meta property="og:url" content="/posts/python-use-memcache/"><meta property="og:description" content="Memcache Memcache 是一种简单的内存缓存工具，通过将高频率出现的请求结果存储在内存中来减少读取数据库的次数或者较长地逻辑处理任务。最终提高整个应用服务的响应速度。 Me"><meta property="og:locale" content="en"><meta property="og:site_name" content="Edwardesire"><meta property="article:published_time" content="2016-09-04T10:31:22+00:00"><meta property="article:modified_time" content="2016-09-04T10:31:22+00:00"><meta property="article:section" content="posts"><meta property="article:tag" content="Memcache"><meta property="article:tag" content="Cache"><body class="flex flex-col min-h-screen"><header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm"><div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=="Auto"||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName("html")[0].classList.add("dark")</script><nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0"><a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
 <button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-<i class="fas fa-bars"></i>
-</button>
-<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
-</div>
-<div class=flex>
-<div class="relative pt-4 md:pt-0">
-<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
-<i class="fas fa-adjust"></i>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
-</div>
-<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
-<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<i class="fas fa-bars"></i></button><div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20"><div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0"><a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a></div><div class=flex><div class="relative pt-4 md:pt-0"><div class="cursor-pointer hover:text-eureka" id=lightDarkMode><i class="fas fa-adjust"></i></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open></div><div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions><span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
 <span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
-<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
-</div>
-</div>
-</div>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
-</div>
-</nav>
-<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
-</div>
-</header>
-<main class="flex-grow pt-16">
-<div class=pl-scrollbar>
-<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-<h1 class="font-bold text-3xl text-primary-text">Memcache的使用</h1>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2016-09-04</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>4 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span></div></div></div></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile></div></nav><script>let element=document.getElementById("lightDarkMode");storageColorScheme==null||storageColorScheme=="Auto"?document.addEventListener("DOMContentLoaded",()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","sun"),element.firstElementChild.classList.add("fa-sun")):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","moon"),element.firstElementChild.classList.add("fa-moon")),document.addEventListener("DOMContentLoaded",()=>{getcolorscheme(),switchBurger()})</script></div></header><main class="flex-grow pt-16"><div class=pl-scrollbar><div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto"><div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12"><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8"><h1 class="font-bold text-3xl text-primary-text">Memcache的使用</h1><div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text"><div class="mr-6 my-2"><i class="fas fa-calendar mr-1"></i>
+<span>2016-09-04</span></div><div class="mr-6 my-2"><i class="fas fa-clock mr-1"></i>
+<span>4 min read</span></div><div class="mr-6 my-2"><i class="fas fa-folder mr-1"></i>
 <a href=/categories/memcache/ class=hover:text-eureka>Memcache</a>
-<span>, </span>
-<a href=/categories/cache/ class=hover:text-eureka>Cache</a>
-</div>
-</div>
-<div class=content>
-<h1 id=memcache>Memcache</h1>
-<p>Memcache 是一种简单的内存缓存工具，通过将高频率出现的请求结果存储在内存中来减少读取数据库的次数或者较长地逻辑处理任务。最终提高整个应用服务的响应速度。</p>
-<p>Memcache的服务器以Key-Value的形式存储数据，客户端使用TCP链接与服务器通讯。客户端有3类主要的命令，以下摘自Memcache协议：</p>
-<ul>
-<li>存储命令：客户端以<code>&lt;command name> &lt;key> &lt;flags> &lt;exptime> &lt;bytes>\r\n </code>的形式发送命令，其中<code>&lt;command name></code>是set、add、repalce这三种，add指明只有服务器没有该键时写入内存，repalce只在服务器有该键时写入内存。<code>&lt;key></code>是客户端指定的键。<code>&lt;flags></code>是客户端用来存储自定义信息的字段。<code>&lt;exptime></code>是设置的有效期，如果设为0，则永不过期。<code>&lt;bytes></code>是数据块。</li>
-<li>取回命令：客户端以<code>get &lt;key>*\r\n</code>的形式发送命令。<code>&lt;key>*</code>表示一个或多个键值。</li>
-<li>删除命令：客户端以<code>delete &lt;key> &lt;time>\r\n</code>的形式发送命令。<code>&lt;time></code>表示在该段时间内，数据被放入delete队列，无法通过<code>get</code>获得，也无法通过<code>add</code>、<code>replace</code>设置。</li>
-</ul>
-<h1 id=在项目上实践>在项目上实践</h1>
-<p>Memcache的安装十分简单。我这里以ubuntu举例。首先是使用apt来安装Memcache的主程序memcached。</p>
-<pre><code class=language-Bash>$ sudo apt-get update
+<span>,</span>
+<a href=/categories/cache/ class=hover:text-eureka>Cache</a></div></div><div class=content><h1 id=memcache>Memcache</h1><p>Memcache 是一种简单的内存缓存工具，通过将高频率出现的请求结果存储在内存中来减少读取数据库的次数或者较长地逻辑处理任务。最终提高整个应用服务的响应速度。</p><p>Memcache的服务器以Key-Value的形式存储数据，客户端使用TCP链接与服务器通讯。客户端有3类主要的命令，以下摘自Memcache协议：</p><ul><li>存储命令：客户端以<code>&lt;command name> &lt;key> &lt;flags> &lt;exptime> &lt;bytes>\r\n </code>的形式发送命令，其中<code>&lt;command name></code>是set、add、repalce这三种，add指明只有服务器没有该键时写入内存，repalce只在服务器有该键时写入内存。<code>&lt;key></code>是客户端指定的键。<code>&lt;flags></code>是客户端用来存储自定义信息的字段。<code>&lt;exptime></code>是设置的有效期，如果设为0，则永不过期。<code>&lt;bytes></code>是数据块。</li><li>取回命令：客户端以<code>get &lt;key>*\r\n</code>的形式发送命令。<code>&lt;key>*</code>表示一个或多个键值。</li><li>删除命令：客户端以<code>delete &lt;key> &lt;time>\r\n</code>的形式发送命令。<code>&lt;time></code>表示在该段时间内，数据被放入delete队列，无法通过<code>get</code>获得，也无法通过<code>add</code>、<code>replace</code>设置。</li></ul><h1 id=在项目上实践>在项目上实践</h1><p>Memcache的安装十分简单。我这里以ubuntu举例。首先是使用apt来安装Memcache的主程序memcached。</p><pre><code class=language-Bash>$ sudo apt-get update
 $ sudo apt-get install memcached
-</code></pre>
-<p>安装完成后，接下来就是启动memcached。这样我们就在默认端口11211部署了Memcache。</p>
-<pre><code class=language-Bash>$ sudo /etc/init.d/memcached start
-</code></pre>
-<p>在编写client程序前，我们可以先使用telnet来连接测试。连接成功后即可依据上文描述的命令来操作缓存。</p>
-<pre><code class=language-Bash>$ telnet 127.0.0.1 11211
-</code></pre>
-<p>这里我使用pylibmc库编写客户端客户端程序。</p>
-<p>首先是创建MemcacheClient类来封装pylibmc。在类的初始化方法<code>__init__()</code>中，除了进行实例化pylibmc.Client()和有效期外，最重要的是需要使用线程映射池（Thread-mapped pooling）来解决client线程安全的问题。因为我们的Server是多线程响应请求的。在单memcache client的模式下，Server会报出线程安全的警告。</p>
-<blockquote>
-<p>在Python中存在全局解释器锁。在解释器解释执行任何Python代码时，都需要先获得这把锁才行，在遇到I/O 操作时会释放这把锁。<a href=http://zhuoqiang.me/python-thread-gil-and-ctypes.html>[3]</a></p>
-</blockquote>
-<p>线程映射池会保留每个发出请求的线程。当某线程再次使用client时会检查是否已经存在，如果不存在才新克隆master client。这样当多线程的Server访问memcache时就不会报thread safe的警告了。</p>
-<p>这里我们还是连接本地默认端口上的Memcache，并且将有效期设置为半小时。</p>
-<pre><code class=language-Python># *-./common/memcacheclient.py -*
+</code></pre><p>安装完成后，接下来就是启动memcached。这样我们就在默认端口11211部署了Memcache。</p><pre><code class=language-Bash>$ sudo /etc/init.d/memcached start
+</code></pre><p>在编写client程序前，我们可以先使用telnet来连接测试。连接成功后即可依据上文描述的命令来操作缓存。</p><pre><code class=language-Bash>$ telnet 127.0.0.1 11211
+</code></pre><p>这里我使用pylibmc库编写客户端客户端程序。</p><p>首先是创建MemcacheClient类来封装pylibmc。在类的初始化方法<code>__init__()</code>中，除了进行实例化pylibmc.Client()和有效期外，最重要的是需要使用线程映射池（Thread-mapped pooling）来解决client线程安全的问题。因为我们的Server是多线程响应请求的。在单memcache client的模式下，Server会报出线程安全的警告。</p><blockquote><p>在Python中存在全局解释器锁。在解释器解释执行任何Python代码时，都需要先获得这把锁才行，在遇到I/O 操作时会释放这把锁。<a href=http://zhuoqiang.me/python-thread-gil-and-ctypes.html>[3]</a></p></blockquote><p>线程映射池会保留每个发出请求的线程。当某线程再次使用client时会检查是否已经存在，如果不存在才新克隆master client。这样当多线程的Server访问memcache时就不会报thread safe的警告了。</p><p>这里我们还是连接本地默认端口上的Memcache，并且将有效期设置为半小时。</p><pre><code class=language-Python># *-./common/memcacheclient.py -*
 import pylibmc
 
 
@@ -135,9 +40,7 @@ class MemcacheClient():
                 value = mc.get(key)
         return value
 
-</code></pre>
-<p>而在server.py这边，我们首先创建一个装饰器来应用缓存，我们将用户半小时内的查询缓存起来。首先将查询条件中的时间字段下取整至timeout的倍数，保证时间字段能够匹配Memcache的key。然后再过滤、排序关键字段，这些关键字段会组成查询的key。因为缓存不会永远有效，所以必须有针对Memcache失效时向后端存取数据的重试方案。</p>
-<pre><code class=language-Python># *-./server.py -*
+</code></pre><p>而在server.py这边，我们首先创建一个装饰器来应用缓存，我们将用户半小时内的查询缓存起来。首先将查询条件中的时间字段下取整至timeout的倍数，保证时间字段能够匹配Memcache的key。然后再过滤、排序关键字段，这些关键字段会组成查询的key。因为缓存不会永远有效，所以必须有针对Memcache失效时向后端存取数据的重试方案。</p><pre><code class=language-Python># *-./server.py -*
 def check_cache(f):
     # the function use to check and save request result in memcache
     def decorate(*args, **kwargs):
@@ -165,9 +68,7 @@ def check_cache(f):
         return result
     return decorate
 
-</code></pre>
-<p>当我们需要应用缓存时，将装饰器写在接口上面就能利用Memcache缓存。比如<code>/aggregation/(category)</code>接口，一般的后端程序会向Hive发起group by等操作，这个API的处理时间也会随着查询时间范围的增大而增大。</p>
-<pre><code class=language-Python># *-./server.py -*
+</code></pre><p>当我们需要应用缓存时，将装饰器写在接口上面就能利用Memcache缓存。比如<code>/aggregation/(category)</code>接口，一般的后端程序会向Hive发起group by等操作，这个API的处理时间也会随着查询时间范围的增大而增大。</p><pre><code class=language-Python># *-./server.py -*
 @app.route('/aggregation/(category)', method=['GET']) 
 @check_params(category=str, selections=str, filters=str, groups=str, from_time=int, to_time=int, order_by=str, format=str)
 @check_cache
@@ -190,44 +91,8 @@ def aggregation(category, selections='', filters='', groups='', from_time=0, to_
     except Exception, e:
         return error(500, e)
 
-</code></pre>
-<p>这样执行服务器程序后，在第一次查询时还是会直接向Hive发出请求。而当半小时内再次发出同样的查询时，就会直接将内存数据返回给客户端。</p>
-<h2 id=references>References</h2>
-<ol>
-<li><a href=http://www.ccvita.com/306.html>memcache协议翻译</a></li>
-<li><a href=http://stackoverflow.com/questions/12420007/pylibmc-assertion-ptr-query-id-query-id-1-failed-for-function-memcache>pylibmc线程的讨论</a></li>
-<li><a href=http://zhuoqiang.me/python-thread-gil-and-ctypes.html>GIL</a></li>
-</ol>
-</div>
-<div class=my-4>
-<a href=/tags/memcache/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Memcache</a>
-<a href=/tags/cache/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Cache</a>
-</div>
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-<div>
-<span class="block font-bold">Previous</span>
-<a href=/posts/data-analysis-example-with-time-dimension/ class=block>时间维度的数据分析案例</a>
-</div>
-<div class="md:text-right mt-4 md:mt-0">
-<span class="block font-bold">Next</span>
-<a href=/posts/peewee-practice/ class=block>ORM: Peewee 实践</a>
-</div>
-</div>
-<div id=disqus_thread></div>
-<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-</div>
-<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
-</div>
-</div>
-</main>
-<footer class=pl-scrollbar>
-<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
-&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
-</div></div>
-</footer>
-</body>
-</html>
+</code></pre><p>这样执行服务器程序后，在第一次查询时还是会直接向Hive发出请求。而当半小时内再次发出同样的查询时，就会直接将内存数据返回给客户端。</p><h2 id=references>References</h2><ol><li><a href=http://www.ccvita.com/306.html>memcache协议翻译</a></li><li><a href=http://stackoverflow.com/questions/12420007/pylibmc-assertion-ptr-query-id-query-id-1-failed-for-function-memcache>pylibmc线程的讨论</a></li><li><a href=http://zhuoqiang.me/python-thread-gil-and-ctypes.html>GIL</a></li></ol></div><div class=my-4><a href=/tags/memcache/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Memcache</a>
+<a href=/tags/cache/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Cache</a></div><div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t"><div><span class="block font-bold">Previous</span>
+<a href=/posts/data-analysis-example-with-time-dimension/ class=block>时间维度的数据分析案例</a></div><div class="md:text-right mt-4 md:mt-0"><span class="block font-bold">Next</span>
+<a href=/posts/peewee-practice/ class=block>ORM: Peewee 实践</a></div></div><div id=disqus_thread></div><script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//edwardesire.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div><script>document.addEventListener("DOMContentLoaded",()=>{hljs.initHighlightingOnLoad()})</script></div></div></main><footer class=pl-scrollbar><div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b"><p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p></div></div></footer></body></html>

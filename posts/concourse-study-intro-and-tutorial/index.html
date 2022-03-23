@@ -1,137 +1,23 @@
-<!doctype html><html lang=en><meta charset=utf-8>
-<meta name=viewport content="width=device-width">
-<title>Concourse学习：介绍和实践 | Edwardesire</title>
-<meta name=generator content="Hugo Eureka 0.8.3">
-<link rel=stylesheet href=/css/eureka.min.css>
-<script defer src=/js/eureka.min.js></script>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
-<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width"><title>Concourse学习：介绍和实践 | Edwardesire</title><meta name=generator content="Hugo Eureka 0.8.3"><link rel=stylesheet href=/css/eureka.min.css><script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload='this.onload=null,this.rel="stylesheet"'><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
-<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
-<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
-<link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
-<meta name=description content="Concourse is what Concourse是起到CI（Continuous Integration，持续集成）作用的集成工具。而CI强调的是开发人员提交新代码后，立刻进行">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"Concourse学习：介绍和实践","item":"/posts/concourse-study-intro-and-tutorial/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/concourse-study-intro-and-tutorial/"},"headline":"Concourse学习：介绍和实践 | Edwardesire","datePublished":"2017-03-14T15:07:48+00:00","dateModified":"2017-03-14T15:07:48+00:00","wordCount":3017,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"Concourse is what Concourse是起到CI（Continuous Integration，持续集成）作用的集成工具。而CI强调的是开发人员提交新代码后，立刻进行"}</script><meta property="og:title" content="Concourse学习：介绍和实践 | Edwardesire">
-<meta property="og:type" content="article">
-<meta property="og:image" content="/images/favicon-32x32.png">
-<meta property="og:url" content="/posts/concourse-study-intro-and-tutorial/">
-<meta property="og:description" content="Concourse is what Concourse是起到CI（Continuous Integration，持续集成）作用的集成工具。而CI强调的是开发人员提交新代码后，立刻进行">
-<meta property="og:locale" content="en">
-<meta property="og:site_name" content="Edwardesire">
-<meta property="article:published_time" content="2017-03-14T15:07:48+00:00">
-<meta property="article:modified_time" content="2017-03-14T15:07:48+00:00">
-<meta property="article:section" content="posts">
-<meta property="article:tag" content="Cloud Foundry">
-<meta property="article:tag" content="Concourse">
-<meta property="article:tag" content="CI">
-<meta property="og:see_also" content="/posts/cloud-foundry-components-intro/">
-<body class="flex flex-col min-h-screen">
-<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png><meta name=description content="Concourse is what Concourse是起到CI（Continuous Integration，持续集成）作用的集成工具。而CI强调的是开发人员提交新代码后，立刻进行"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"Concourse学习：介绍和实践","item":"/posts/concourse-study-intro-and-tutorial/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/concourse-study-intro-and-tutorial/"},"headline":"Concourse学习：介绍和实践 | Edwardesire","datePublished":"2017-03-14T15:07:48+00:00","dateModified":"2017-03-14T15:07:48+00:00","wordCount":3023,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"Concourse is what Concourse是起到CI（Continuous Integration，持续集成）作用的集成工具。而CI强调的是开发人员提交新代码后，立刻进行"}</script><meta property="og:title" content="Concourse学习：介绍和实践 | Edwardesire"><meta property="og:type" content="article"><meta property="og:image" content="/images/favicon-32x32.png"><meta property="og:url" content="/posts/concourse-study-intro-and-tutorial/"><meta property="og:description" content="Concourse is what Concourse是起到CI（Continuous Integration，持续集成）作用的集成工具。而CI强调的是开发人员提交新代码后，立刻进行"><meta property="og:locale" content="en"><meta property="og:site_name" content="Edwardesire"><meta property="article:published_time" content="2017-03-14T15:07:48+00:00"><meta property="article:modified_time" content="2017-03-14T15:07:48+00:00"><meta property="article:section" content="posts"><meta property="article:tag" content="Cloud Foundry"><meta property="article:tag" content="Concourse"><meta property="article:tag" content="CI"><meta property="og:see_also" content="/posts/cloud-foundry-components-intro/"><body class="flex flex-col min-h-screen"><header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm"><div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=="Auto"||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName("html")[0].classList.add("dark")</script><nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0"><a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
 <button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-<i class="fas fa-bars"></i>
-</button>
-<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
-</div>
-<div class=flex>
-<div class="relative pt-4 md:pt-0">
-<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
-<i class="fas fa-adjust"></i>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
-</div>
-<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
-<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<i class="fas fa-bars"></i></button><div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20"><div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0"><a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a></div><div class=flex><div class="relative pt-4 md:pt-0"><div class="cursor-pointer hover:text-eureka" id=lightDarkMode><i class="fas fa-adjust"></i></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open></div><div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions><span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
 <span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
-<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
-</div>
-</div>
-</div>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
-</div>
-</nav>
-<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
-</div>
-</header>
-<main class="flex-grow pt-16">
-<div class=pl-scrollbar>
-<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-<h1 class="font-bold text-3xl text-primary-text">Concourse学习：介绍和实践</h1>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2017-03-14</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>7 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span></div></div></div></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile></div></nav><script>let element=document.getElementById("lightDarkMode");storageColorScheme==null||storageColorScheme=="Auto"?document.addEventListener("DOMContentLoaded",()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","sun"),element.firstElementChild.classList.add("fa-sun")):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","moon"),element.firstElementChild.classList.add("fa-moon")),document.addEventListener("DOMContentLoaded",()=>{getcolorscheme(),switchBurger()})</script></div></header><main class="flex-grow pt-16"><div class=pl-scrollbar><div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto"><div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12"><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8"><h1 class="font-bold text-3xl text-primary-text">Concourse学习：介绍和实践</h1><div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text"><div class="mr-6 my-2"><i class="fas fa-calendar mr-1"></i>
+<span>2017-03-14</span></div><div class="mr-6 my-2"><i class="fas fa-clock mr-1"></i>
+<span>7 min read</span></div><div class="mr-6 my-2"><i class="fas fa-folder mr-1"></i>
 <a href=/categories/cloud-foundry/ class=hover:text-eureka>Cloud Foundry</a>
-<span>, </span>
+<span>,</span>
 <a href=/categories/concourse/ class=hover:text-eureka>Concourse</a>
-<span>, </span>
-<a href=/categories/ci/ class=hover:text-eureka>CI</a>
-</div>
-</div>
-<div class=content>
-<h2 id=concourse-is-what>Concourse is what</h2>
-<p>Concourse是起到CI（Continuous Integration，持续集成）作用的集成工具。而CI强调的是开发人员提交新代码后，立刻进行构建、单元测试。根据测试结果，我们可以确定新代码和原代码能否正确地集成在一起。更多的介绍可以看<a href=https://www.zhihu.com/question/23444990>知乎回答</a>。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/0/f1/d7fe9a592accc18e3db4697f858b4.png alt="ci diagram"></p>
-<p>如上图，Concourse在开发者提交新版本代码后会按部就班的执行应用的构建、测试（单元测试），并保留执行的状态。</p>
-<p>Concourse有如下几个特性：</p>
-<ul>
-<li>Pipeline是一等公民：Concourse以pipeline机制运行集成任务。pipeline将Task、Resource、Job三者有机地结合起来。</li>
-<li>容器和微服务：everthing运行在可重现的容器上。</li>
-<li>代码化：任务每件事情都自动化、脚本化、无需手动配置的冲洗创建。</li>
-<li>基础架构不可知：以Bosh进行部署，Bosh兼容多种基础架构。</li>
-<li>Golang：原生支持语言。</li>
-<li>为CloudFoundry构建：嗯，这点也很重要。</li>
-</ul>
-<p>第一条提到的三个概念：Task、Resource、Job的官方解释如下：</p>
-<blockquote>
-<p>A task is the execution of a script in an isolated environment with dependent resources available to it.</p>
-</blockquote>
-<p>Task是脚本的执行。Task可以被Job执行或者通过fly（concourse的cli）手动执行。</p>
-<blockquote>
-<p>A resource is any entity that can be checked for new versions, pulled down at a specific version, and/or pushed up to idempotently create new versions.</p>
-</blockquote>
-<p>Resource是带版本的实体，比如git仓库。</p>
-<blockquote>
-<p>a job describes some actions to perform when dependent resources change (or when manually triggered).</p>
-</blockquote>
-<p>Job是将相依赖的Resource变化时执行的行为。</p>
-<p>Concourse的整体架构如下图。
-<img src=http://edwardsblog.qiniudn.com/image/0/f3/d3cefe2955976628189c6d8fef421.png alt="concourse arch"></p>
-<p>其中几个重要的组件：</p>
-<ul>
-<li>Garden：go实现的Warden，即CF的容器管理。</li>
-<li>ATC：全称Air Traffic Control，提供REST API和Web GUI</li>
-<li>TSA：全称Transport Security Agency，提供工具的安全机制。</li>
-<li>baggage-claim：remote layered file system。</li>
-</ul>
-<h2 id=how-to-connect-concourse>How to connect Concourse</h2>
-<p>本节翻录自<a href=https://github.com/starkandwayne/concourse-tutorial>concourse-tutorial</a>。</p>
-<h3 id=1-fly-cli>1. fly cli</h3>
-<p>fly是Concourse的命令行工具（cli）。第一次使用时需要制定target API以登录Concourse工具。使用 <code>fly —-target tutorial login —-concourse-url http://192.168.100.4:8080 sync </code>命令。&ndash;target可以缩写成-t。每次执行fly命令时都会接yaml格式的配置信息。</p>
-<p>比如在tutorial中的第一个例子里</p>
-<pre><code class=language-yaml>---
+<span>,</span>
+<a href=/categories/ci/ class=hover:text-eureka>CI</a></div></div><div class=content><h2 id=concourse-is-what>Concourse is what</h2><p>Concourse是起到CI（Continuous Integration，持续集成）作用的集成工具。而CI强调的是开发人员提交新代码后，立刻进行构建、单元测试。根据测试结果，我们可以确定新代码和原代码能否正确地集成在一起。更多的介绍可以看<a href=https://www.zhihu.com/question/23444990>知乎回答</a>。</p><p><img src=http://edwardsblog.qiniudn.com/image/0/f1/d7fe9a592accc18e3db4697f858b4.png alt="ci diagram"></p><p>如上图，Concourse在开发者提交新版本代码后会按部就班的执行应用的构建、测试（单元测试），并保留执行的状态。</p><p>Concourse有如下几个特性：</p><ul><li>Pipeline是一等公民：Concourse以pipeline机制运行集成任务。pipeline将Task、Resource、Job三者有机地结合起来。</li><li>容器和微服务：everthing运行在可重现的容器上。</li><li>代码化：任务每件事情都自动化、脚本化、无需手动配置的冲洗创建。</li><li>基础架构不可知：以Bosh进行部署，Bosh兼容多种基础架构。</li><li>Golang：原生支持语言。</li><li>为CloudFoundry构建：嗯，这点也很重要。</li></ul><p>第一条提到的三个概念：Task、Resource、Job的官方解释如下：</p><blockquote><p>A task is the execution of a script in an isolated environment with dependent resources available to it.</p></blockquote><p>Task是脚本的执行。Task可以被Job执行或者通过fly（concourse的cli）手动执行。</p><blockquote><p>A resource is any entity that can be checked for new versions, pulled down at a specific version, and/or pushed up to idempotently create new versions.</p></blockquote><p>Resource是带版本的实体，比如git仓库。</p><blockquote><p>a job describes some actions to perform when dependent resources change (or when manually triggered).</p></blockquote><p>Job是将相依赖的Resource变化时执行的行为。</p><p>Concourse的整体架构如下图。
+<img src=http://edwardsblog.qiniudn.com/image/0/f3/d3cefe2955976628189c6d8fef421.png alt="concourse arch"></p><p>其中几个重要的组件：</p><ul><li>Garden：go实现的Warden，即CF的容器管理。</li><li>ATC：全称Air Traffic Control，提供REST API和Web GUI</li><li>TSA：全称Transport Security Agency，提供工具的安全机制。</li><li>baggage-claim：remote layered file system。</li></ul><h2 id=how-to-connect-concourse>How to connect Concourse</h2><p>本节翻录自<a href=https://github.com/starkandwayne/concourse-tutorial>concourse-tutorial</a>。</p><h3 id=1-fly-cli>1. fly cli</h3><p>fly是Concourse的命令行工具（cli）。第一次使用时需要制定target API以登录Concourse工具。使用 <code>fly —-target tutorial login —-concourse-url http://192.168.100.4:8080 sync </code>命令。&ndash;target可以缩写成-t。每次执行fly命令时都会接yaml格式的配置信息。</p><p>比如在tutorial中的第一个例子里</p><pre><code class=language-yaml>---
 platform: linux
 
 image_resource:
@@ -141,80 +27,32 @@ image_resource:
 run:
   path: echo
   args: [hello world]
-</code></pre>
-<p>我们定义平台为linux，镜像使用busybox；并执行echo.sh脚本，脚本里就是bash echo命令。Concourse执行时会先获取busybox的镜像并执行run里的job。</p>
-<p>这里需要注意的点是使用了<code>run</code>来封装命令的shell脚本，并且为了方便管理将task files（.yml）和scripts（.sh）以同样的名字命名。原因当通过fly执行task时，fly会讲当前目录上传，作为当前task的输入。这意味着脚本能够被执行（找到）。</p>
-<p>其在命令行中执行pipeline的结果如下图，成功时会将&rsquo;hello world&rsquo;打印出来。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/f/12/cf53432d0d838d25ae1785b7a6e8f.png alt="result 1"></p>
-<h3 id=2-tasks-inputs>2. task&rsquo;s inputs</h3>
-<p>这一小节介绍怎么向task传递输入。和执行封装的脚本一样，当要获得数据文件时，需要指明想要获取的文件。</p>
-<pre><code class=language-yaml>inputs:
+</code></pre><p>我们定义平台为linux，镜像使用busybox；并执行echo.sh脚本，脚本里就是bash echo命令。Concourse执行时会先获取busybox的镜像并执行run里的job。</p><p>这里需要注意的点是使用了<code>run</code>来封装命令的shell脚本，并且为了方便管理将task files（.yml）和scripts（.sh）以同样的名字命名。原因当通过fly执行task时，fly会讲当前目录上传，作为当前task的输入。这意味着脚本能够被执行（找到）。</p><p>其在命令行中执行pipeline的结果如下图，成功时会将&rsquo;hello world&rsquo;打印出来。</p><p><img src=http://edwardsblog.qiniudn.com/image/f/12/cf53432d0d838d25ae1785b7a6e8f.png alt="result 1"></p><h3 id=2-tasks-inputs>2. task&rsquo;s inputs</h3><p>这一小节介绍怎么向task传递输入。和执行封装的脚本一样，当要获得数据文件时，需要指明想要获取的文件。</p><pre><code class=language-yaml>inputs:
 - name: 01_task_hello_world
   path: .
-</code></pre>
-<p><code>path: .</code>的意思是将名叫01_task_hello_world的目录替代现有task的根目录。path默认设置为根目录下inputs的name。</p>
-<h3 id=3-basic-pipeline>3. Basic pipeline</h3>
-<p>前面说到可以使用命令行查看pipeline的执行结果，我也可以使用Web UI管理和查看pipeline的执行。url默认为http://192.168.100.4:8080/teams/main/pipelines/your-pipeline-name。</p>
-<p>首先我们在fly设置pipeline。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/b/d6/1005ee6569846e7e7216bbae886d9.png alt=set_pipeline></p>
-<p>并且设置pipeline的状态为unpause：<code>fly -t tutorial unpause-pipeline -p helloworld</code>。</p>
-<p>然后在页面上点击相应的pipeline，并且点击右上角的'+&lsquo;符号手动开启。下图就是一个成功运行晚的结果。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/d/72/fd891d512c05496d42b15427512e2.png alt=ui_status></p>
-<h3 id=4-tasks-extracted-into-resources>4. Tasks extracted into resources</h3>
-<p>前面说过，Resource是带版本的实体。那么我们可以将执行的源码也放在resource里。比如我们可以将yaml添加为resource。</p>
-<pre><code class=language-yaml>resources:
+</code></pre><p><code>path: .</code>的意思是将名叫01_task_hello_world的目录替代现有task的根目录。path默认设置为根目录下inputs的name。</p><h3 id=3-basic-pipeline>3. Basic pipeline</h3><p>前面说到可以使用命令行查看pipeline的执行结果，我也可以使用Web UI管理和查看pipeline的执行。url默认为http://192.168.100.4:8080/teams/main/pipelines/your-pipeline-name。</p><p>首先我们在fly设置pipeline。</p><p><img src=http://edwardsblog.qiniudn.com/image/b/d6/1005ee6569846e7e7216bbae886d9.png alt=set_pipeline></p><p>并且设置pipeline的状态为unpause：<code>fly -t tutorial unpause-pipeline -p helloworld</code>。</p><p>然后在页面上点击相应的pipeline，并且点击右上角的&rsquo;+&lsquo;符号手动开启。下图就是一个成功运行晚的结果。</p><p><img src=http://edwardsblog.qiniudn.com/image/d/72/fd891d512c05496d42b15427512e2.png alt=ui_status></p><h3 id=4-tasks-extracted-into-resources>4. Tasks extracted into resources</h3><p>前面说过，Resource是带版本的实体。那么我们可以将执行的源码也放在resource里。比如我们可以将yaml添加为resource。</p><pre><code class=language-yaml>resources:
 - name: resource-tutorial
   type: git
   source:
     uri: https://github.com/starkandwayne/concourse-tutorial.git
-</code></pre>
-<p>通过上面的步骤，我们就可以将resources添加到job中。</p>
-<pre><code class=language-yaml>jobs:
+</code></pre><p>通过上面的步骤，我们就可以将resources添加到job中。</p><pre><code class=language-yaml>jobs:
 - name: job-hello-world
   public: true
   plan:
   - get: resource-tutorial
   - task: hello-world
     file: resource-tutorial/01_task_hello_world/task_hello_world.yml
-</code></pre>
-<p>看到jobs plan，job被分为两步。第一步是获得 git repos资源。第二步是引用另一个yaml执行用户定义的任务。这样做的好处是引用的task需要修改时能够进行修改。而缺点就是对于任务的描述会不够清晰。我们可以通过文件名来提高pipeline的可读性（readable）。</p>
-<p>这一步pipeline的结果如下。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/4/a0/4aee5a955d43faa7375237f8c41c6.png alt=resource_result></p>
-<h3 id=5-trigger>5. Trigger</h3>
-<p>这一节介绍触发器——trigger。一般在一般当resource更新完毕时都要触发job的执行。触发jobs的方式有三种：</p>
-<ul>
-<li>手动点击web上的’+’button</li>
-<li>yaml文件中输入trigger to resources</li>
-<li>命令<code>fly --target target trigger-job --job pipeline/jobname command</code></li>
-</ul>
-<p>第一种和第三种我们都尝试过，这里通过配置文件添加trigger的方式来触发任务。</p>
-<p>triggering jobs和non-triggering jobs的定义是一样的。不同的是job的构建plan里会有需要的trigger对象： <code>trigger: true</code>的意思就是当resource-tutorial更新时完就触发。</p>
-<pre><code class=language-yaml>jobs:
+</code></pre><p>看到jobs plan，job被分为两步。第一步是获得 git repos资源。第二步是引用另一个yaml执行用户定义的任务。这样做的好处是引用的task需要修改时能够进行修改。而缺点就是对于任务的描述会不够清晰。我们可以通过文件名来提高pipeline的可读性（readable）。</p><p>这一步pipeline的结果如下。</p><p><img src=http://edwardsblog.qiniudn.com/image/4/a0/4aee5a955d43faa7375237f8c41c6.png alt=resource_result></p><h3 id=5-trigger>5. Trigger</h3><p>这一节介绍触发器——trigger。一般在一般当resource更新完毕时都要触发job的执行。触发jobs的方式有三种：</p><ul><li>手动点击web上的’+’button</li><li>yaml文件中输入trigger to resources</li><li>命令<code>fly --target target trigger-job --job pipeline/jobname command</code></li></ul><p>第一种和第三种我们都尝试过，这里通过配置文件添加trigger的方式来触发任务。</p><p>triggering jobs和non-triggering jobs的定义是一样的。不同的是job的构建plan里会有需要的trigger对象： <code>trigger: true</code>的意思就是当resource-tutorial更新时完就触发。</p><pre><code class=language-yaml>jobs:
 - name: job-demo
   plan:
   - get: resource-tutorial
     trigger: true
-</code></pre>
-<p>还可以通过time resource周期性的触发job。其写法如下：</p>
-<pre><code class=language-yaml>resources:
+</code></pre><p>还可以通过time resource周期性的触发job。其写法如下：</p><pre><code class=language-yaml>resources:
 - name: my-timer
   type: time
   source:
     interval: 2m
-</code></pre>
-<p>当up这个pipeling之后，可以在web上看到pipeline的组成。有trigger的是实线，无trigger的是连字符线。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/c/6b/3ebd82e04c701d34a564a2cf2c21d.png alt=pipeline></p>
-<p>开始执行时，在resource步骤会将version缓存起来。</p>
-<h3 id=6-jobs-inputs>6. Job‘s inputs</h3>
-<p>前面我们提到了task的input，对于job的inputs也很类似。我们需要在这一节实习一个进行单元测试的simple go web app。</p>
-<p>对于测试，需要满足以下条件：</p>
-<ul>
-<li>a task： 包含所需依赖的<em>image</em></li>
-<li>an input： 包含任务脚本的<em>resource</em></li>
-<li>an input： 包含应用代码的<em>resource</em></li>
-</ul>
-<p>其pipelin.yml内容如下：</p>
-<pre><code class=language-yaml>---
+</code></pre><p>当up这个pipeling之后，可以在web上看到pipeline的组成。有trigger的是实线，无trigger的是连字符线。</p><p><img src=http://edwardsblog.qiniudn.com/image/c/6b/3ebd82e04c701d34a564a2cf2c21d.png alt=pipeline></p><p>开始执行时，在resource步骤会将version缓存起来。</p><h3 id=6-jobs-inputs>6. Job‘s inputs</h3><p>前面我们提到了task的input，对于job的inputs也很类似。我们需要在这一节实习一个进行单元测试的simple go web app。</p><p>对于测试，需要满足以下条件：</p><ul><li>a task： 包含所需依赖的<em>image</em></li><li>an input： 包含任务脚本的<em>resource</em></li><li>an input： 包含应用代码的<em>resource</em></li></ul><p>其pipelin.yml内容如下：</p><pre><code class=language-yaml>---
 platform: linux
 
 image_resource:
@@ -228,64 +66,13 @@ inputs:
 
 run:
   path: resource-tutorial/10_job_inputs/task_run_tests.sh
-</code></pre>
-<p>在这个用例里，需要有Go语言的环境，所以image选择带golang的。resource-app会放置来路路径（使用path替换file）保持源码，默认在相同目录下存储内容。这么做的原因是指定构建和测试go应用（后续会介绍）。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/e/34/743aacd88f10490794de61602312a.png alt=test_result></p>
-<p>最后的ok表示测试通过。</p>
-<h3 id=7-pass-tasks-outputs-to-another-task>7. Pass tasks outputs to another task</h3>
-<p>这节将使用outputs section将一个任务的输出作为另一个任务的输入。其写法如下，这个例子输出到some-files文件中。</p>
-<pre><code class=language-yaml>outputs:
+</code></pre><p>在这个用例里，需要有Go语言的环境，所以image选择带golang的。resource-app会放置来路路径（使用path替换file）保持源码，默认在相同目录下存储内容。这么做的原因是指定构建和测试go应用（后续会介绍）。</p><p><img src=http://edwardsblog.qiniudn.com/image/e/34/743aacd88f10490794de61602312a.png alt=test_result></p><p>最后的ok表示测试通过。</p><h3 id=7-pass-tasks-outputs-to-another-task>7. Pass tasks outputs to another task</h3><p>这节将使用outputs section将一个任务的输出作为另一个任务的输入。其写法如下，这个例子输出到some-files文件中。</p><pre><code class=language-yaml>outputs:
 - name: some-files
-</code></pre>
-<p>在这节pipeline中的job首先获取resource-tutorial源码，并且依次执行执行另外两个task。create_some_files创建4个文件，show_some_files使用ls打印文件。结果如下图。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/4/a3/c916975688a67c03f807bc68e81a2.png alt=pass_files_result></p>
-<h3 id=8-publish-outputs>8. Publish outputs</h3>
-<p>在这节我们将resource-gist的dump文件写入date变量值并上传到gist上。这个pipeline通过push new git commits来完成修改的上传。使用 put section 完成数据的更新。</p>
-<pre><code class=language-yaml>- put: resource-gist
+</code></pre><p>在这节pipeline中的job首先获取resource-tutorial源码，并且依次执行执行另外两个task。create_some_files创建4个文件，show_some_files使用ls打印文件。结果如下图。</p><p><img src=http://edwardsblog.qiniudn.com/image/4/a3/c916975688a67c03f807bc68e81a2.png alt=pass_files_result></p><h3 id=8-publish-outputs>8. Publish outputs</h3><p>在这节我们将resource-gist的dump文件写入date变量值并上传到gist上。这个pipeline通过push new git commits来完成修改的上传。使用 put section 完成数据的更新。</p><pre><code class=language-yaml>- put: resource-gist
   params: {repository: updated-gist}
-</code></pre>
-<p><img src=http://edwardsblog.qiniudn.com/image/a/5e/deeb3ffe853b415a5644af4734edf.png alt=puts_pipeline></p>
-<p>其pipeline如上图。</p>
-<hr>
-<p>通过几个较简单的例子可以看到concourse还是很有意思的。通过yaml文件配置集成的步骤，并且trigger也是频繁使用额工具。总之，concourse是Bosh在部署应用环境的集成利器。那么下次就来学习一下Bosh。</p>
-</div>
-<div class=my-4>
-<a href=/tags/cloud-foundry/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Cloud Foundry</a>
+</code></pre><p><img src=http://edwardsblog.qiniudn.com/image/a/5e/deeb3ffe853b415a5644af4734edf.png alt=puts_pipeline></p><p>其pipeline如上图。</p><hr><p>通过几个较简单的例子可以看到concourse还是很有意思的。通过yaml文件配置集成的步骤，并且trigger也是频繁使用额工具。总之，concourse是Bosh在部署应用环境的集成利器。那么下次就来学习一下Bosh。</p></div><div class=my-4><a href=/tags/cloud-foundry/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Cloud Foundry</a>
 <a href=/tags/concourse/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Concourse</a>
-<a href=/tags/ci/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#CI</a>
-</div>
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-<div>
-<span class="block font-bold">Previous</span>
-<a href=/posts/diego-intro/ class=block>Diego介绍</a>
-</div>
-<div class="md:text-right mt-4 md:mt-0">
-<span class="block font-bold">Next</span>
-<a href=/posts/cloud-foundry-components-intro/ class=block>Cloud Foundry：主要组件介绍</a>
-</div>
-</div>
-<div id=disqus_thread></div>
-<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
-<h2 class="text-lg font-semibold mb-4">See Also</h2>
-<div class=content>
-<a href=/posts/cloud-foundry-components-intro/>Cloud Foundry：主要组件介绍</a>
-<br>
-</div>
-</div>
-</div>
-<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
-</div>
-</div>
-</main>
-<footer class=pl-scrollbar>
-<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
-&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
-</div></div>
-</footer>
-</body>
-</html>
+<a href=/tags/ci/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#CI</a></div><div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t"><div><span class="block font-bold">Previous</span>
+<a href=/posts/diego-intro/ class=block>Diego介绍</a></div><div class="md:text-right mt-4 md:mt-0"><span class="block font-bold">Next</span>
+<a href=/posts/cloud-foundry-components-intro/ class=block>Cloud Foundry：主要组件介绍</a></div></div><div id=disqus_thread></div><script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//edwardesire.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6"><h2 class="text-lg font-semibold mb-4">See Also</h2><div class=content><a href=/posts/cloud-foundry-components-intro/>Cloud Foundry：主要组件介绍</a><br></div></div></div><script>document.addEventListener("DOMContentLoaded",()=>{hljs.initHighlightingOnLoad()})</script></div></div></main><footer class=pl-scrollbar><div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b"><p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p></div></div></footer></body></html>

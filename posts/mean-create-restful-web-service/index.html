@@ -1,144 +1,34 @@
-<!doctype html><html lang=en><meta charset=utf-8>
-<meta name=viewport content="width=device-width">
-<title>MEAN Stack:创建RESTful web service | Edwardesire</title>
-<meta name=generator content="Hugo Eureka 0.8.3">
-<link rel=stylesheet href=/css/eureka.min.css>
-<script defer src=/js/eureka.min.js></script>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
-<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width"><title>MEAN Stack:创建RESTful web service | Edwardesire</title><meta name=generator content="Hugo Eureka 0.8.3"><link rel=stylesheet href=/css/eureka.min.css><script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload='this.onload=null,this.rel="stylesheet"'><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
-<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
-<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
-<link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
-<meta name=description content="前段时间做了DTREE项目中的前后端数据存储功能，在原有的ngController上进行HTTP请求，后端接受到请求后再存储到mongoDB上。现将学">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"MEAN Stack:创建RESTful web service","item":"/posts/mean-create-restful-web-service/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/mean-create-restful-web-service/"},"headline":"MEAN Stack:创建RESTful web service | Edwardesire","datePublished":"2015-01-29T08:54:44+00:00","dateModified":"2015-01-29T08:54:44+00:00","wordCount":3632,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"前段时间做了DTREE项目中的前后端数据存储功能，在原有的ngController上进行HTTP请求，后端接受到请求后再存储到mongoDB上。现将学"}</script><meta property="og:title" content="MEAN Stack:创建RESTful web service | Edwardesire">
-<meta property="og:type" content="article">
-<meta property="og:image" content="/images/favicon-32x32.png">
-<meta property="og:url" content="/posts/mean-create-restful-web-service/">
-<meta property="og:description" content="前段时间做了DTREE项目中的前后端数据存储功能，在原有的ngController上进行HTTP请求，后端接受到请求后再存储到mongoDB上。现将学">
-<meta property="og:locale" content="en">
-<meta property="og:site_name" content="Edwardesire">
-<meta property="article:published_time" content="2015-01-29T08:54:44+00:00">
-<meta property="article:modified_time" content="2015-01-29T08:54:44+00:00">
-<meta property="article:section" content="posts">
-<meta property="article:tag" content="Nodejs">
-<meta property="article:tag" content="DTree">
-<meta property="og:see_also" content="/posts/nodejs-serialize-dtree/">
-<meta property="og:see_also" content="/posts/nodejs-deserialize-dtree/">
-<meta property="og:see_also" content="/posts/the-way-to-mongoose-schema/">
-<meta property="og:see_also" content="/posts/nodejsxue-xi-shi-ge-zi-jia-de-twentybo-ke-kuang-jia/">
-<meta property="og:see_also" content="/posts/run-mean-on-ec2/">
-<meta property="og:see_also" content="/posts/centos-install-nodejs/">
-<body class="flex flex-col min-h-screen">
-<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png><meta name=description content="前段时间做了DTREE项目中的前后端数据存储功能，在原有的ngController上进行HTTP请求，后端接受到请求后再存储到mongoDB上。现将学"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"MEAN Stack:创建RESTful web service","item":"/posts/mean-create-restful-web-service/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/mean-create-restful-web-service/"},"headline":"MEAN Stack:创建RESTful web service | Edwardesire","datePublished":"2015-01-29T08:54:44+00:00","dateModified":"2015-01-29T08:54:44+00:00","wordCount":3632,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"前段时间做了DTREE项目中的前后端数据存储功能，在原有的ngController上进行HTTP请求，后端接受到请求后再存储到mongoDB上。现将学"}</script><meta property="og:title" content="MEAN Stack:创建RESTful web service | Edwardesire"><meta property="og:type" content="article"><meta property="og:image" content="/images/favicon-32x32.png"><meta property="og:url" content="/posts/mean-create-restful-web-service/"><meta property="og:description" content="前段时间做了DTREE项目中的前后端数据存储功能，在原有的ngController上进行HTTP请求，后端接受到请求后再存储到mongoDB上。现将学"><meta property="og:locale" content="en"><meta property="og:site_name" content="Edwardesire"><meta property="article:published_time" content="2015-01-29T08:54:44+00:00"><meta property="article:modified_time" content="2015-01-29T08:54:44+00:00"><meta property="article:section" content="posts"><meta property="article:tag" content="Nodejs"><meta property="article:tag" content="DTree"><meta property="og:see_also" content="/posts/nodejs-serialize-dtree/"><meta property="og:see_also" content="/posts/nodejs-deserialize-dtree/"><meta property="og:see_also" content="/posts/the-way-to-mongoose-schema/"><meta property="og:see_also" content="/posts/nodejsxue-xi-shi-ge-zi-jia-de-twentybo-ke-kuang-jia/"><meta property="og:see_also" content="/posts/run-mean-on-ec2/"><meta property="og:see_also" content="/posts/centos-install-nodejs/"><body class="flex flex-col min-h-screen"><header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm"><div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=="Auto"||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName("html")[0].classList.add("dark")</script><nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0"><a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
 <button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-<i class="fas fa-bars"></i>
-</button>
-<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
-</div>
-<div class=flex>
-<div class="relative pt-4 md:pt-0">
-<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
-<i class="fas fa-adjust"></i>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
-</div>
-<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
-<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<i class="fas fa-bars"></i></button><div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20"><div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0"><a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a></div><div class=flex><div class="relative pt-4 md:pt-0"><div class="cursor-pointer hover:text-eureka" id=lightDarkMode><i class="fas fa-adjust"></i></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open></div><div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions><span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
 <span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
-<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
-</div>
-</div>
-</div>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
-</div>
-</nav>
-<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
-</div>
-</header>
-<main class="flex-grow pt-16">
-<div class=pl-scrollbar>
-<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-<h1 class="font-bold text-3xl text-primary-text">MEAN Stack:创建RESTful web service</h1>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2015-01-29</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>8 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span></div></div></div></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile></div></nav><script>let element=document.getElementById("lightDarkMode");storageColorScheme==null||storageColorScheme=="Auto"?document.addEventListener("DOMContentLoaded",()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","sun"),element.firstElementChild.classList.add("fa-sun")):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","moon"),element.firstElementChild.classList.add("fa-moon")),document.addEventListener("DOMContentLoaded",()=>{getcolorscheme(),switchBurger()})</script></div></header><main class="flex-grow pt-16"><div class=pl-scrollbar><div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto"><div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12"><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8"><h1 class="font-bold text-3xl text-primary-text">MEAN Stack:创建RESTful web service</h1><div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text"><div class="mr-6 my-2"><i class="fas fa-calendar mr-1"></i>
+<span>2015-01-29</span></div><div class="mr-6 my-2"><i class="fas fa-clock mr-1"></i>
+<span>8 min read</span></div><div class="mr-6 my-2"><i class="fas fa-folder mr-1"></i>
 <a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
-<span>, </span>
-<a href=/categories/dtree/ class=hover:text-eureka>DTree</a>
-</div>
-</div>
-<div class=content>
-<p>前段时间做了DTREE项目中的前后端数据存储功能，在原有的ngController上进行HTTP请求，后端接受到请求后再存储到mongoDB上。现将学习所得记录成这篇文章。大致内容为REST的相关概念的介绍，以及结合项目实践的一些实战经验，最后一个RESTful的Web Service就成功开发出来了(大雾)。</p>
-<hr>
-<ol>
-<li>
-<p>REST
-REST(Representational State Transfer)是一种软件设计架构风格，它定义了一堆概念，这些抽象的概念和相关规则能有效地降低业务复杂度。而日常上网使用HTTP就是REST风格最好的践行，RESTful Web服务就是将HTTP当做应用层的协议来遵守使用，而不像其他(比如SOA)将HTTP当做传输层的工具，然后在HTTP之上建立自己的一套应用层协议。</p>
-<p>当我们在浏览器地址栏键入的URL/URI就是REST提供的资源(resource)定义，而资源在REST中是一个的概念(concepts)，当浏览器发出请求时，它想要得到的是一个概念的特定表示(representation)，我们常见的网页就是资源的具体表示。REST这一些定义的概念、原则为了就是最小化服务与使用服务的应用程序之间的耦合。我们设计RESTful Web服务的原则也只是遵守了REST的部分原则。图片来自<a href=http://blog.toright.com/posts/725/representational-state-transfer-%E8%BB%9F%E9%AB%94%E6%9E%B6%E6%A7%8B%E9%A2%A8%E6%A0%BC%E4%BB%8B%E7%B4%B9-part-i-%E5%BE%9E%E4%BA%86%E8%A7%A3-rest-%E5%88%B0%E8%A8%AD%E8%A8%88-restful%EF%BC%81.html>&ldquo;浅谈REST&rdquo;</a>，我们可以在REST Triangle图中看出，URL就是REST所谓的名词(资源的位置)，一些HTTP方法就是动词，JSON、XML数据格式充当资源的具体表示。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/5/63/fb2ab2be7cb7ea633293a439a57c3.png alt=alt></p>
-<p>下面简述4个RESTful Web Service基本原则，摘自IBM的<a href=http://www.ibm.com/developerworks/library/ws-restful/>&ldquo;基于REST的 Web 服务基础&rdquo;</a></p>
-<h3 id=显式地使用-http-方法>显式地使用 HTTP 方法</h3>
-</li>
-</ol>
-<p>设计RESTful时，使用4种比较多态的方法(POST、GET、PUT、DELETE)实现数据存储的CRUD操作。HTTP协议已经对这些动词(POST、GET、PUT 和 DELETE)进行了定义。</p>
-<pre><code>  * HTTP GET方法用于获取资源，无论调用的次数都不会改变资源的状态，可能会得到不同的结果，但它本身不产生副作用(即对存储在source服务器的数据不产生的修改)。
+<span>,</span>
+<a href=/categories/dtree/ class=hover:text-eureka>DTree</a></div></div><div class=content><p>前段时间做了DTREE项目中的前后端数据存储功能，在原有的ngController上进行HTTP请求，后端接受到请求后再存储到mongoDB上。现将学习所得记录成这篇文章。大致内容为REST的相关概念的介绍，以及结合项目实践的一些实战经验，最后一个RESTful的Web Service就成功开发出来了(大雾)。</p><hr><ol><li><p>REST
+REST(Representational State Transfer)是一种软件设计架构风格，它定义了一堆概念，这些抽象的概念和相关规则能有效地降低业务复杂度。而日常上网使用HTTP就是REST风格最好的践行，RESTful Web服务就是将HTTP当做应用层的协议来遵守使用，而不像其他(比如SOA)将HTTP当做传输层的工具，然后在HTTP之上建立自己的一套应用层协议。</p><p>当我们在浏览器地址栏键入的URL/URI就是REST提供的资源(resource)定义，而资源在REST中是一个的概念(concepts)，当浏览器发出请求时，它想要得到的是一个概念的特定表示(representation)，我们常见的网页就是资源的具体表示。REST这一些定义的概念、原则为了就是最小化服务与使用服务的应用程序之间的耦合。我们设计RESTful Web服务的原则也只是遵守了REST的部分原则。图片来自<a href=http://blog.toright.com/posts/725/representational-state-transfer-%E8%BB%9F%E9%AB%94%E6%9E%B6%E6%A7%8B%E9%A2%A8%E6%A0%BC%E4%BB%8B%E7%B4%B9-part-i-%E5%BE%9E%E4%BA%86%E8%A7%A3-rest-%E5%88%B0%E8%A8%AD%E8%A8%88-restful%EF%BC%81.html>&ldquo;浅谈REST&rdquo;</a>，我们可以在REST Triangle图中看出，URL就是REST所谓的名词(资源的位置)，一些HTTP方法就是动词，JSON、XML数据格式充当资源的具体表示。</p><p><img src=http://edwardsblog.qiniudn.com/image/5/63/fb2ab2be7cb7ea633293a439a57c3.png alt=alt></p><p>下面简述4个RESTful Web Service基本原则，摘自IBM的<a href=http://www.ibm.com/developerworks/library/ws-restful/>&ldquo;基于REST的 Web 服务基础&rdquo;</a></p><h3 id=显式地使用-http-方法>显式地使用 HTTP 方法</h3></li></ol><p>设计RESTful时，使用4种比较多态的方法(POST、GET、PUT、DELETE)实现数据存储的CRUD操作。HTTP协议已经对这些动词(POST、GET、PUT 和 DELETE)进行了定义。</p><pre><code>  * HTTP GET方法用于获取资源，无论调用的次数都不会改变资源的状态，可能会得到不同的结果，但它本身不产生副作用(即对存储在source服务器的数据不产生的修改)。
   * HTTP DELETE方法用于删除资源虽然有副作用，但多次调用时产生的副作用应该是相同的，即URI所对应资源的删除。
   * HTTP POST方法用于接受创建的资源，如果资源已经在服务器上创建，服务器响应应该是表示Created的201状态以及资源的URI，避免POST请求会在服务器创建多份相同的资源。
   * HTTP PUT方法用于创建或更新资源，多次操作的副作用与一个PUT操作是相同的。即若服务器没有PUT的资源则创建一个，否则更新已有资源即可。
-</code></pre>
-<p>这些动作的结果是必须有预期，不应该出现语义问题，很典型的例子就是在应用中只使用GET充当一切前后端交互的方法，导致的结果就是一些Web爬虫的行为无意间导致服务器端的资源更改。</p>
-<pre><code>### 无状态
-</code></pre>
-<p>网络传输的无状态使得每个请求是独立完整的，这样能够将请求从一个服务器路由到另一个服务器而无状态上的协调。当然请求是有状态的，将大部分状态维护职责转移给客户端应用程序，能够节省带宽和最小化服务器端应用程序状态改进了性能。</p>
-<pre><code>### 公开目录结构式的URI
-</code></pre>
-<p>URI是具有在节点上连接在一起的下级和上级分支的树，这种树形结构能够直观地表达交互类型和资源名称，也可将URI看做文档说明的接口。</p>
-<pre><code>### 传输格式使用XML、JavaScript Object Notation(JSON)等数据格式
-</code></pre>
-<p>这些数据格式能够使得服务可以运行在不同平台和设备上，并采用不同的语言编写。</p>
-<ol start=2>
-<li>
-<p>ngResource
-一直以来在前端进行向后端数据交互都是使用$http服务，这次<a href=http://www.storagelab.org.cn/zhangd>师哥</a>教育到要学习使用ngResource，提倡"keeping $http out of the controllers and leave that job to services"。使用ngResource就不用去关心更底层的$http服务，它帮我们封装好用一种更简单的方式来发送XHR请求。</p>
-<p>ngResource提供$resource服务(service)来与RESTful后端交互。首先我们需要将angular-resource.js引入，然后建立工厂方法，在里面返回$resource(&lsquo;URI&rsquo;,,params, methods)获得的值，这样一个自定义的服务就产生了。使得用短短的几行代码就可以创建一个RESTful客户端，简化controllers。</p>
-</li>
-<li>
-<p>Code</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/b/fd/06a4b900817d1bb692764cbc6870c.PNG alt></p>
-<p>首先我们设计Node接受前端发来的请求时的路由分配，暂时只提供了下列针对单个dtree对象的CRUD操作。</p>
-<pre><code> //store API
+</code></pre><p>这些动作的结果是必须有预期，不应该出现语义问题，很典型的例子就是在应用中只使用GET充当一切前后端交互的方法，导致的结果就是一些Web爬虫的行为无意间导致服务器端的资源更改。</p><pre><code>### 无状态
+</code></pre><p>网络传输的无状态使得每个请求是独立完整的，这样能够将请求从一个服务器路由到另一个服务器而无状态上的协调。当然请求是有状态的，将大部分状态维护职责转移给客户端应用程序，能够节省带宽和最小化服务器端应用程序状态改进了性能。</p><pre><code>### 公开目录结构式的URI
+</code></pre><p>URI是具有在节点上连接在一起的下级和上级分支的树，这种树形结构能够直观地表达交互类型和资源名称，也可将URI看做文档说明的接口。</p><pre><code>### 传输格式使用XML、JavaScript Object Notation(JSON)等数据格式
+</code></pre><p>这些数据格式能够使得服务可以运行在不同平台和设备上，并采用不同的语言编写。</p><ol start=2><li><p>ngResource
+一直以来在前端进行向后端数据交互都是使用$http服务，这次<a href=http://www.storagelab.org.cn/zhangd>师哥</a>教育到要学习使用ngResource，提倡"keeping $http out of the controllers and leave that job to services"。使用ngResource就不用去关心更底层的$http服务，它帮我们封装好用一种更简单的方式来发送XHR请求。</p><p>ngResource提供$resource服务(service)来与RESTful后端交互。首先我们需要将angular-resource.js引入，然后建立工厂方法，在里面返回$resource(&lsquo;URI&rsquo;,,params, methods)获得的值，这样一个自定义的服务就产生了。使得用短短的几行代码就可以创建一个RESTful客户端，简化controllers。</p></li><li><p>Code</p><p><img src=http://edwardsblog.qiniudn.com/image/b/fd/06a4b900817d1bb692764cbc6870c.PNG alt></p><p>首先我们设计Node接受前端发来的请求时的路由分配，暂时只提供了下列针对单个dtree对象的CRUD操作。</p><pre><code> //store API
  app.post('/dtree', dtreeCtrl.createDTree);//create
  app.get('/dtree/:dtree_id', dtreeCtrl.readDTree);//read
  app.put('/dtree/:dtree_id', dtreeCtrl.updateDTree);//update
  app.delete('/dtree/:dtree_id', dtreeCtrl.deleteDTree); // delete
-</code></pre>
-<p>我们在dtreeCtrl暴露出处理请求API，对于POST操作处理如下。</p>
-<pre><code> //execute route POST /dtree
+</code></pre><p>我们在dtreeCtrl暴露出处理请求API，对于POST操作处理如下。</p><pre><code> //execute route POST /dtree
  exports.createDTree = function(req, res){
      //存储到mongoDB前的预处理
      //...
@@ -152,9 +42,7 @@ REST(Representational State Transfer)是一种软件设计架构风格，它定�
          }
      });
  };
-</code></pre>
-<p>对于GET操作，我们使用dtree_id当做_id进行搜索，调用mongoose API .lean() 将结果转换为plain javascript objects。</p>
-<pre><code> //execute route GET /dtree/:dtree_id
+</code></pre><p>对于GET操作，我们使用dtree_id当做_id进行搜索，调用mongoose API .lean() 将结果转换为plain javascript objects。</p><pre><code> //execute route GET /dtree/:dtree_id
  exports.readDTree = function (req, res) {
      var checkId = new ObjectId(req.params.dtree_id);
      //存储到mongoDB前的预处理
@@ -171,9 +59,7 @@ REST(Representational State Transfer)是一种软件设计架构风格，它定�
          }
      });
  };
-</code></pre>
-<p>对于PUT操作，以前我写过__v为versionKey，可以充当数据库文档的版本控制flag，但mongoose的.update()方法有些许bug，执行操作后并没有修改__v的值，暂时的解决方法是通过$inc: {key: value}来手动设置。</p>
-<pre><code> //execute route PUT /dtree/:dtree_id
+</code></pre><p>对于PUT操作，以前我写过__v为versionKey，可以充当数据库文档的版本控制flag，但mongoose的.update()方法有些许bug，执行操作后并没有修改__v的值，暂时的解决方法是通过$inc: {key: value}来手动设置。</p><pre><code> //execute route PUT /dtree/:dtree_id
  exports.updateDTree = function (req, res) {
  	//存储到mongoDB前的预处理
      //..
@@ -190,9 +76,7 @@ REST(Representational State Transfer)是一种软件设计架构风格，它定�
  		}
  	});
  };  
-</code></pre>
-<p>DELETE操作相对就比较简单了。</p>
-<pre><code> //execute route DELETE /dtree/:dtree_id
+</code></pre><p>DELETE操作相对就比较简单了。</p><pre><code> //execute route DELETE /dtree/:dtree_id
  exports.deleteDTree = function(req, res){
      Dtree.findByIdAndRemove(req.params.dtree_id, function(err, dropDtree){
          if(err){
@@ -204,9 +88,7 @@ REST(Representational State Transfer)是一种软件设计架构风格，它定�
          }
      });
  }
-</code></pre>
-<p>至此，后端已经建立以一套RESTful的API提供给客户端HTTP请求调用。我们首先需要使用前面提到的$resource服务定义决策树CRUD操作的服务dtreeCrudService，这里URI使用的是cors的写法，其实没有必要，单独使用/dtree/:dtree_id也可，这就是访问本机的资源。CORS(Cross Origin Resource Sharing)是与SOP(Same Origin Policy，指的是在客户端上只能访问服务器自身域的文档或脚本，不能获取或修改另一个域的文档的属性)相对，它支持跨域请求。NodeJS通过cors依赖包的调用开启CORS。如果浏览器端检测到相应的设置，就可以允许XHR进行跨域的访问。</p>
-<pre><code> $resource('http://localhost\\:4000/dtree/:dtree_id', {},{
+</code></pre><p>至此，后端已经建立以一套RESTful的API提供给客户端HTTP请求调用。我们首先需要使用前面提到的$resource服务定义决策树CRUD操作的服务dtreeCrudService，这里URI使用的是cors的写法，其实没有必要，单独使用/dtree/:dtree_id也可，这就是访问本机的资源。CORS(Cross Origin Resource Sharing)是与SOP(Same Origin Policy，指的是在客户端上只能访问服务器自身域的文档或脚本，不能获取或修改另一个域的文档的属性)相对，它支持跨域请求。NodeJS通过cors依赖包的调用开启CORS。如果浏览器端检测到相应的设置，就可以允许XHR进行跨域的访问。</p><pre><code> $resource('http://localhost\\:4000/dtree/:dtree_id', {},{
          'get': {
              method:'GET'
          },
@@ -217,9 +99,7 @@ REST(Representational State Transfer)是一种软件设计架构风格，它定�
              method:'DELETE'
          }
  });
-</code></pre>
-<p>这里定义了HTTP操作的方法，在controller中正确"注入"服务即可调用服务的方法。</p>
-<pre><code> app.controller('createDTreeCtrl', [
+</code></pre><p>这里定义了HTTP操作的方法，在controller中正确"注入"服务即可调用服务的方法。</p><pre><code> app.controller('createDTreeCtrl', [
      '$scope',
      'dtreeCrudService'
      function (
@@ -228,9 +108,7 @@ REST(Representational State Transfer)是一种软件设计架构风格，它定�
      ) {
      //...具体实现
  ]);
-</code></pre>
-<p>这里通过定义CRUD的方法来实现业务逻辑的划分。</p>
-<pre><code> //将决策树数据传到后端存入数据库
+</code></pre><p>这里通过定义CRUD的方法来实现业务逻辑的划分。</p><pre><code> //将决策树数据传到后端存入数据库
  $scope.createDtreeData = function(){
      //前端处理后数据
      var data = someOperate(data);
@@ -284,84 +162,12 @@ REST(Representational State Transfer)是一种软件设计架构风格，它定�
          console.log(&quot;Error: deleteDtreeData: Fail to delete due to &quot;, error);
      });
  }
-</code></pre>
-<p>这4个方法对应的请求如图，使用ng-click指令即可调用这些方法。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/7/68/c213069ececeeb6ddb860ab4276f9.PNG alt></p>
-<p>ngResource的CRUD方法的使用就是这么的方便，以后修改也特别方便。</p>
-<p>$resource(url, [paramDefaults], [actions], options);</p>
-<p>再提及一下这个$resource方法中的pramas参数的作用，当这个参数不为空时就会在运行HTTP请求方法被覆盖掉。举个例子对于 $resource("/dtree/:id", {id: @dtree_id}, methods) 这一段资源服务，我们POST的数据为{&ldquo;dtree_id&rdquo;: 2333, &ldquo;dtreeData&rdquo;: YoYo }时，这个URL就会成为 /dtree/2333。而当没有这个@符号时，URL就是直接为的 /dtree/dtree_id。</p>
-<p>还有一点就是我们前后端传输的数据采用的是JSON格式，而JSON是不支持循环结构，即
+</code></pre><p>这4个方法对应的请求如图，使用ng-click指令即可调用这些方法。</p><p><img src=http://edwardsblog.qiniudn.com/image/7/68/c213069ececeeb6ddb860ab4276f9.PNG alt></p><p>ngResource的CRUD方法的使用就是这么的方便，以后修改也特别方便。</p><p>$resource(url, [paramDefaults], [actions], options);</p><p>再提及一下这个$resource方法中的pramas参数的作用，当这个参数不为空时就会在运行HTTP请求方法被覆盖掉。举个例子对于 $resource("/dtree/:id", {id: @dtree_id}, methods) 这一段资源服务，我们POST的数据为{&ldquo;dtree_id&rdquo;: 2333, &ldquo;dtreeData&rdquo;: YoYo }时，这个URL就会成为 /dtree/2333。而当没有这个@符号时，URL就是直接为的 /dtree/dtree_id。</p><p>还有一点就是我们前后端传输的数据采用的是JSON格式，而JSON是不支持循环结构，即
 a.b = c;
 c.d = b;
-这种数据结构，但在前端使用D3画图过程中，有所需要保持这种结构才能实时更新界面上的图片。若强行使用$resource传递，Javascript会先将数据转换为JSON对象，然后就报TypeError的错误。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/0/b1/e5d9ed6eb8bdf9bb43e800e37d669.JPG alt></p>
-<p>这时我们不用慌张，直接遍历决策树数据将循环结构干掉就可以了。</p>
-</li>
-</ol>
-<hr>
-<p>##总结
-这次功能模块的实现分为前后端，后端的Node提供RESTful的资源获取API，AngularJS在前端使用$resource进行HTT请求的封装来获取资源。这一套HTTP + CRUD Method + URL只是REST部分概念的实现，REST的真正价值在于低耦合的设计理念。</p>
-<h2 id=references>References:</h2>
-<h3 id=rest相关>REST相关</h3>
-<ol>
-<li><a href=http://blog.toright.com/posts/725/representational-state-transfer-%E8%BB%9F%E9%AB%94%E6%9E%B6%E6%A7%8B%E9%A2%A8%E6%A0%BC%E4%BB%8B%E7%B4%B9-part-i-%E5%BE%9E%E4%BA%86%E8%A7%A3-rest-%E5%88%B0%E8%A8%AD%E8%A8%88-restful%EF%BC%81.html>浅谈REST</a></li>
-<li><a href=http://www.ibm.com/developerworks/library/ws-restful/>基于REST的 Web 服务基础</a></li>
-<li><a href=http://coolshell.cn/articles/4787.html>HTTP幂等性概念和应用</a></li>
-</ol>
-<h3 id=mean>MEAN</h3>
-<ol>
-<li><a href=http://technokayiti.blogspot.com/2013/04/angular-tutorial-learning-journey.html>simple-device-management-app</a></li>
-<li><a href=http://sahatyalkabov.com/create-a-tv-show-tracker-using-angularjs-nodejs-and-mongodb/>tv-traker</a></li>
-<li><a href=https://github.com/LearnBoost/mongoose/issues/1265>update操作无法增加"__v"</a></li>
-<li><a href=https://docs.angularjs.org/api/ngResource/service/$resource>貌似需翻墙的$resource文档</a></li>
-</ol>
-</div>
-<div class=my-4>
-<a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
-<a href=/tags/dtree/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#DTree</a>
-</div>
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-<div>
-<span class="block font-bold">Previous</span>
-<a href=/posts/linux-mysql-remote-access/ class=block>Linux下设置Mysql远程连接</a>
-</div>
-<div class="md:text-right mt-4 md:mt-0">
-<span class="block font-bold">Next</span>
-<a href=/posts/run-mean-on-ec2/ class=block>在EC2上安装MEAN环境</a>
-</div>
-</div>
-<div id=disqus_thread></div>
-<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
-<h2 class="text-lg font-semibold mb-4">See Also</h2>
-<div class=content>
-<a href=/posts/nodejs-serialize-dtree/>NodeJS:树的序列化</a>
-<br>
-<a href=/posts/nodejs-deserialize-dtree/>NodeJS:树的反序列化</a>
-<br>
-<a href=/posts/the-way-to-mongoose-schema/>Mongoose:Schema之路</a>
-<br>
-<a href=/posts/nodejsxue-xi-shi-ge-zi-jia-de-twentybo-ke-kuang-jia/>nodejs学习：师哥自家的twenty博客框架</a>
-<br>
-<a href=/posts/run-mean-on-ec2/>在EC2上安装MEAN环境</a>
-<br>
-<a href=/posts/centos-install-nodejs/>CentOS 6.3安装NodeJS环境</a>
-<br>
-</div>
-</div>
-</div>
-<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
-</div>
-</div>
-</main>
-<footer class=pl-scrollbar>
-<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
-&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
-</div></div>
-</footer>
-</body>
-</html>
+这种数据结构，但在前端使用D3画图过程中，有所需要保持这种结构才能实时更新界面上的图片。若强行使用$resource传递，Javascript会先将数据转换为JSON对象，然后就报TypeError的错误。</p><p><img src=http://edwardsblog.qiniudn.com/image/0/b1/e5d9ed6eb8bdf9bb43e800e37d669.JPG alt></p><p>这时我们不用慌张，直接遍历决策树数据将循环结构干掉就可以了。</p></li></ol><hr><p>##总结
+这次功能模块的实现分为前后端，后端的Node提供RESTful的资源获取API，AngularJS在前端使用$resource进行HTT请求的封装来获取资源。这一套HTTP + CRUD Method + URL只是REST部分概念的实现，REST的真正价值在于低耦合的设计理念。</p><h2 id=references>References:</h2><h3 id=rest相关>REST相关</h3><ol><li><a href=http://blog.toright.com/posts/725/representational-state-transfer-%E8%BB%9F%E9%AB%94%E6%9E%B6%E6%A7%8B%E9%A2%A8%E6%A0%BC%E4%BB%8B%E7%B4%B9-part-i-%E5%BE%9E%E4%BA%86%E8%A7%A3-rest-%E5%88%B0%E8%A8%AD%E8%A8%88-restful%EF%BC%81.html>浅谈REST</a></li><li><a href=http://www.ibm.com/developerworks/library/ws-restful/>基于REST的 Web 服务基础</a></li><li><a href=http://coolshell.cn/articles/4787.html>HTTP幂等性概念和应用</a></li></ol><h3 id=mean>MEAN</h3><ol><li><a href=http://technokayiti.blogspot.com/2013/04/angular-tutorial-learning-journey.html>simple-device-management-app</a></li><li><a href=http://sahatyalkabov.com/create-a-tv-show-tracker-using-angularjs-nodejs-and-mongodb/>tv-traker</a></li><li><a href=https://github.com/LearnBoost/mongoose/issues/1265>update操作无法增加"__v"</a></li><li><a href=https://docs.angularjs.org/api/ngResource/service/$resource>貌似需翻墙的$resource文档</a></li></ol></div><div class=my-4><a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
+<a href=/tags/dtree/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#DTree</a></div><div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t"><div><span class="block font-bold">Previous</span>
+<a href=/posts/linux-mysql-remote-access/ class=block>Linux下设置Mysql远程连接</a></div><div class="md:text-right mt-4 md:mt-0"><span class="block font-bold">Next</span>
+<a href=/posts/run-mean-on-ec2/ class=block>在EC2上安装MEAN环境</a></div></div><div id=disqus_thread></div><script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//edwardesire.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6"><h2 class="text-lg font-semibold mb-4">See Also</h2><div class=content><a href=/posts/nodejs-serialize-dtree/>NodeJS:树的序列化</a><br><a href=/posts/nodejs-deserialize-dtree/>NodeJS:树的反序列化</a><br><a href=/posts/the-way-to-mongoose-schema/>Mongoose:Schema之路</a><br><a href=/posts/nodejsxue-xi-shi-ge-zi-jia-de-twentybo-ke-kuang-jia/>nodejs学习：师哥自家的twenty博客框架</a><br><a href=/posts/run-mean-on-ec2/>在EC2上安装MEAN环境</a><br><a href=/posts/centos-install-nodejs/>CentOS 6.3安装NodeJS环境</a><br></div></div></div><script>document.addEventListener("DOMContentLoaded",()=>{hljs.initHighlightingOnLoad()})</script></div></div></main><footer class=pl-scrollbar><div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b"><p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p></div></div></footer></body></html>

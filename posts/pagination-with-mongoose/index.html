@@ -1,116 +1,23 @@
-<!doctype html><html lang=en><meta charset=utf-8>
-<meta name=viewport content="width=device-width">
-<title>Web应用分页功能的简单实现 | Edwardesire</title>
-<meta name=generator content="Hugo Eureka 0.8.3">
-<link rel=stylesheet href=/css/eureka.min.css>
-<script defer src=/js/eureka.min.js></script>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
-<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width"><title>Web应用分页功能的简单实现 | Edwardesire</title><meta name=generator content="Hugo Eureka 0.8.3"><link rel=stylesheet href=/css/eureka.min.css><script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload='this.onload=null,this.rel="stylesheet"'><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
-<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
-<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
-<link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
-<meta name=description content="Web应用的一个简单分页功能，前端直接使用bootstrap的Pagination指令，后端通过nodejs的mongoose驱动skip()和lim">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"Web应用分页功能的简单实现","item":"/posts/pagination-with-mongoose/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/pagination-with-mongoose/"},"headline":"Web应用分页功能的简单实现 | Edwardesire","datePublished":"2015-09-15T09:25:53+00:00","dateModified":"2015-09-15T09:25:53+00:00","wordCount":1777,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"Web应用的一个简单分页功能，前端直接使用bootstrap的Pagination指令，后端通过nodejs的mongoose驱动skip()和lim"}</script><meta property="og:title" content="Web应用分页功能的简单实现 | Edwardesire">
-<meta property="og:type" content="article">
-<meta property="og:image" content="/images/favicon-32x32.png">
-<meta property="og:url" content="/posts/pagination-with-mongoose/">
-<meta property="og:description" content="Web应用的一个简单分页功能，前端直接使用bootstrap的Pagination指令，后端通过nodejs的mongoose驱动skip()和lim">
-<meta property="og:locale" content="en">
-<meta property="og:site_name" content="Edwardesire">
-<meta property="article:published_time" content="2015-09-15T09:25:53+00:00">
-<meta property="article:modified_time" content="2015-09-15T09:25:53+00:00">
-<meta property="article:section" content="posts">
-<meta property="article:tag" content="Nodejs">
-<meta property="article:tag" content="MongoDB">
-<meta property="article:tag" content="Mongoose">
-<meta property="og:see_also" content="/posts/test-persistent-image-file-in-mongodb/">
-<meta property="og:see_also" content="/posts/nodejs-serialize-dtree/">
-<meta property="og:see_also" content="/posts/nodejs-deserialize-dtree/">
-<meta property="og:see_also" content="/posts/the-way-to-mongoose-schema/">
-<meta property="og:see_also" content="/posts/node-email-trial/">
-<meta property="og:see_also" content="/posts/the-mongodb-tempter/">
-<body class="flex flex-col min-h-screen">
-<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png><meta name=description content="Web应用的一个简单分页功能，前端直接使用bootstrap的Pagination指令，后端通过nodejs的mongoose驱动skip()和lim"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"Web应用分页功能的简单实现","item":"/posts/pagination-with-mongoose/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/pagination-with-mongoose/"},"headline":"Web应用分页功能的简单实现 | Edwardesire","datePublished":"2015-09-15T09:25:53+00:00","dateModified":"2015-09-15T09:25:53+00:00","wordCount":1783,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"Web应用的一个简单分页功能，前端直接使用bootstrap的Pagination指令，后端通过nodejs的mongoose驱动skip()和lim"}</script><meta property="og:title" content="Web应用分页功能的简单实现 | Edwardesire"><meta property="og:type" content="article"><meta property="og:image" content="/images/favicon-32x32.png"><meta property="og:url" content="/posts/pagination-with-mongoose/"><meta property="og:description" content="Web应用的一个简单分页功能，前端直接使用bootstrap的Pagination指令，后端通过nodejs的mongoose驱动skip()和lim"><meta property="og:locale" content="en"><meta property="og:site_name" content="Edwardesire"><meta property="article:published_time" content="2015-09-15T09:25:53+00:00"><meta property="article:modified_time" content="2015-09-15T09:25:53+00:00"><meta property="article:section" content="posts"><meta property="article:tag" content="Nodejs"><meta property="article:tag" content="MongoDB"><meta property="article:tag" content="Mongoose"><meta property="og:see_also" content="/posts/test-persistent-image-file-in-mongodb/"><meta property="og:see_also" content="/posts/nodejs-serialize-dtree/"><meta property="og:see_also" content="/posts/nodejs-deserialize-dtree/"><meta property="og:see_also" content="/posts/the-way-to-mongoose-schema/"><meta property="og:see_also" content="/posts/node-email-trial/"><meta property="og:see_also" content="/posts/the-mongodb-tempter/"><body class="flex flex-col min-h-screen"><header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm"><div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=="Auto"||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName("html")[0].classList.add("dark")</script><nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0"><a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
 <button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-<i class="fas fa-bars"></i>
-</button>
-<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
-</div>
-<div class=flex>
-<div class="relative pt-4 md:pt-0">
-<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
-<i class="fas fa-adjust"></i>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
-</div>
-<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
-<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<i class="fas fa-bars"></i></button><div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20"><div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0"><a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a></div><div class=flex><div class="relative pt-4 md:pt-0"><div class="cursor-pointer hover:text-eureka" id=lightDarkMode><i class="fas fa-adjust"></i></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open></div><div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions><span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
 <span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
-<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
-</div>
-</div>
-</div>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
-</div>
-</nav>
-<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
-</div>
-</header>
-<main class="flex-grow pt-16">
-<div class=pl-scrollbar>
-<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-<h1 class="font-bold text-3xl text-primary-text">Web应用分页功能的简单实现</h1>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2015-09-15</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>4 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span></div></div></div></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile></div></nav><script>let element=document.getElementById("lightDarkMode");storageColorScheme==null||storageColorScheme=="Auto"?document.addEventListener("DOMContentLoaded",()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","sun"),element.firstElementChild.classList.add("fa-sun")):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","moon"),element.firstElementChild.classList.add("fa-moon")),document.addEventListener("DOMContentLoaded",()=>{getcolorscheme(),switchBurger()})</script></div></header><main class="flex-grow pt-16"><div class=pl-scrollbar><div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto"><div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12"><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8"><h1 class="font-bold text-3xl text-primary-text">Web应用分页功能的简单实现</h1><div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text"><div class="mr-6 my-2"><i class="fas fa-calendar mr-1"></i>
+<span>2015-09-15</span></div><div class="mr-6 my-2"><i class="fas fa-clock mr-1"></i>
+<span>4 min read</span></div><div class="mr-6 my-2"><i class="fas fa-folder mr-1"></i>
 <a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
-<span>, </span>
+<span>,</span>
 <a href=/categories/mongodb/ class=hover:text-eureka>MongoDB</a>
-<span>, </span>
-<a href=/categories/mongoose/ class=hover:text-eureka>Mongoose</a>
-</div>
-</div>
-<div class=content>
-<p>Web应用的一个简单分页功能，前端直接使用bootstrap的Pagination指令，后端通过nodejs的mongoose驱动skip()和limit()方法来实现分页，也一并把select、sort查询操作总结一些。</p>
-<hr>
-<ol>
-<li>Pagination的使用</li>
-</ol>
-<p>bootstrap的这套工具<sup><a href=https://github.com/angular-ui/bootstrap/tree/master/src/pagination/docs>[1]</a></sup>非常好用，直接将标签指令写到指定地方即可。</p>
-<pre><code>    &lt;pagination total-items=&quot;totalItems&quot; ng-model=&quot;currentPage&quot; max-size=&quot;maxSize&quot; class=&quot;pagination-sm&quot; boundary-links=&quot;true&quot; previous-text=&quot;上一页&quot; next-text=&quot;下一页&quot; first-text=&quot;第一页&quot; last-text=&quot;最后一页&quot; ng-change=&quot;pageChanged()&quot;&gt;&lt;/pagination&gt;
-</code></pre>
-<p>几个需要赋值的参数有totalItems(条目总数)、currentPage(当前页)、pageLimit(每页数量)和maxSize(页标展示数量)。其中totalItems需要向后端发出查询请求才能赋值。第一次使用时不知道这个组件的文档，直接修改了lib中的默认呈现文字。</p>
-<ol start=2>
-<li>后端与MongoDB的交互</li>
-</ol>
-<p>后端从请求中获得分页条件的参数，然后组合成查询语句。前述的两个具体的功能为：skip(n)方法将指针跳过前n个文档进行，而limit(n)则限定读取n个文档。结合到一起就能实现分页的功能。</p>
-<p>这里也依据下方所写代码的业务将其他的方法也一并讲解。</p>
-<pre><code>    //获取url参数
+<span>,</span>
+<a href=/categories/mongoose/ class=hover:text-eureka>Mongoose</a></div></div><div class=content><p>Web应用的一个简单分页功能，前端直接使用bootstrap的Pagination指令，后端通过nodejs的mongoose驱动skip()和limit()方法来实现分页，也一并把select、sort查询操作总结一些。</p><hr><ol><li>Pagination的使用</li></ol><p>bootstrap的这套工具<sup><a href=https://github.com/angular-ui/bootstrap/tree/master/src/pagination/docs>[1]</a></sup>非常好用，直接将标签指令写到指定地方即可。</p><pre><code>    &lt;pagination total-items=&quot;totalItems&quot; ng-model=&quot;currentPage&quot; max-size=&quot;maxSize&quot; class=&quot;pagination-sm&quot; boundary-links=&quot;true&quot; previous-text=&quot;上一页&quot; next-text=&quot;下一页&quot; first-text=&quot;第一页&quot; last-text=&quot;最后一页&quot; ng-change=&quot;pageChanged()&quot;&gt;&lt;/pagination&gt;
+</code></pre><p>几个需要赋值的参数有totalItems(条目总数)、currentPage(当前页)、pageLimit(每页数量)和maxSize(页标展示数量)。其中totalItems需要向后端发出查询请求才能赋值。第一次使用时不知道这个组件的文档，直接修改了lib中的默认呈现文字。</p><ol start=2><li>后端与MongoDB的交互</li></ol><p>后端从请求中获得分页条件的参数，然后组合成查询语句。前述的两个具体的功能为：skip(n)方法将指针跳过前n个文档进行，而limit(n)则限定读取n个文档。结合到一起就能实现分页的功能。</p><p>这里也依据下方所写代码的业务将其他的方法也一并讲解。</p><pre><code>    //获取url参数
     var getCondition = req.query;
     //邮件查询条件
     var queryCondition = {};
@@ -154,83 +61,12 @@
     numSkip = (curPage * numPerPage) - numPerPage;
     numPerPage = 10;
     query = Mails.find(queryCondition).select(select).sort(sort).skip(numSkip).limit(numPerPage).lean();
-</code></pre>
-<p>我们可以使用select()方法选择返回的文档中的哪些键，才用字符串来传递参数，使用空格来分割不同的键；sort()方法则是依据所传的键来对结果排序，采取的格式为对象，赋1为升序，赋-1为降序。</p>
-<p>说到排序，就要考虑索引<sup><a href=http://www.yl-blog.com/article/482.html>[2]</a></sup>的使用。在不使用索引的情况下，mongod会使用大量的数据遍历操作，而数据还存储造内存中，这也会超出mongodb的查询内存。而索引能有效避免这个问题。索引在mongodb中只保存小部分的集合数据，并将其排序，这也一定程度加快了查询的速度，因为mongodb默认查询排序是通过自然顺序，这个自然顺序是以mongodb内部数据在数据文件中的组织顺序来排序的。然后mongodb提供两个方法来建立索引：createIndex()、ensureIndex()，这两个函数现在已经没有区别（并且ensureIndex()已经弃用，它在Mongodb的老版本中只会在索引不存在的情况下创建索引），新的mongoose也全部改写为调用createIndex()。想直接使用mongoose就在定义Model相应的键的数据中写上&rsquo;index: true'，比如像图中这样。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/5/40/04d9d079a1c247bb73e95e5eae2d3.png alt></p>
-<p>在相对复杂的情况下，需要使用复合索引<sup><a href=http://www.yl-blog.com/article/482.html>[3]</a></sup>。复合索引就是创建包含多个集合中键的索引。复合索引支持前缀的组合索引，也就是说在创建{ &lsquo;score&rsquo;: 1, &lsquo;mail.date&rsquo;: -1, &lsquo;hasAttach&rsquo;: 1}的索引中，可以通过查询score或者socre和mail.date字段来使用索引查询，但不支持score和hasAttach键组合的查询。并且索引的俗话逆序也很重要，会安装创建顺序来排序结果。</p>
-<p>在Mongoose中定义Model时，通过Schema.index()方法来创建复合索引。</p>
-<pre><code>//为邮件排序查询创建索引
+</code></pre><p>我们可以使用select()方法选择返回的文档中的哪些键，才用字符串来传递参数，使用空格来分割不同的键；sort()方法则是依据所传的键来对结果排序，采取的格式为对象，赋1为升序，赋-1为降序。</p><p>说到排序，就要考虑索引<sup><a href=http://www.yl-blog.com/article/482.html>[2]</a></sup>的使用。在不使用索引的情况下，mongod会使用大量的数据遍历操作，而数据还存储造内存中，这也会超出mongodb的查询内存。而索引能有效避免这个问题。索引在mongodb中只保存小部分的集合数据，并将其排序，这也一定程度加快了查询的速度，因为mongodb默认查询排序是通过自然顺序，这个自然顺序是以mongodb内部数据在数据文件中的组织顺序来排序的。然后mongodb提供两个方法来建立索引：createIndex()、ensureIndex()，这两个函数现在已经没有区别（并且ensureIndex()已经弃用，它在Mongodb的老版本中只会在索引不存在的情况下创建索引），新的mongoose也全部改写为调用createIndex()。想直接使用mongoose就在定义Model相应的键的数据中写上&rsquo;index: true&rsquo;，比如像图中这样。</p><p><img src=http://edwardsblog.qiniudn.com/image/5/40/04d9d079a1c247bb73e95e5eae2d3.png alt></p><p>在相对复杂的情况下，需要使用复合索引<sup><a href=http://www.yl-blog.com/article/482.html>[3]</a></sup>。复合索引就是创建包含多个集合中键的索引。复合索引支持前缀的组合索引，也就是说在创建{ &lsquo;score&rsquo;: 1, &lsquo;mail.date&rsquo;: -1, &lsquo;hasAttach&rsquo;: 1}的索引中，可以通过查询score或者socre和mail.date字段来使用索引查询，但不支持score和hasAttach键组合的查询。并且索引的俗话逆序也很重要，会安装创建顺序来排序结果。</p><p>在Mongoose中定义Model时，通过Schema.index()方法来创建复合索引。</p><pre><code>//为邮件排序查询创建索引
 MailSchema.index({ 'score': -1, 'mail.date': -1 });
 MailSchema.index({ 'score': -1, 'mail.date': 1 });
-</code></pre>
-<p>其实这里的每页条目数numPerPage也应该通过前端传递过来，不过相对这个应用场景简化参数也是没有问题的。</p>
-<p>在大数据量的情况下使用skip+limit会严重影响性能，因为在获取排序的尾部时，mongodb会历遍前面的大量数据量。而比较好的改进方法<sup><a href=http://www.cnblogs.com/capqueen/p/MongoDBPagination.html>[4]</a></sup>是在_id上建立索引形成有序的字段来避免大量的依次数数。</p>
-<p>下篇文章介绍mongodb的查询条件操作符。</p>
-<hr>
-<p>参考：</p>
-<ol>
-<li>
-<p><a href=https://github.com/angular-ui/bootstrap/tree/master/src/pagination/docs>bootstrap的pagination</a></p>
-</li>
-<li>
-<p><a href=http://www.yl-blog.com/article/482.html>mongodb索引的知识</a></p>
-</li>
-<li>
-<p><a href=http://sharewind.github.io/blog/2012/12/06/mongodb-indexes/>mongodb的复合索引</a></p>
-</li>
-<li>
-<p><a href=http://www.cnblogs.com/capqueen/p/MongoDBPagination.html>cnblogs上的分页测试</a></p>
-</li>
-</ol>
-</div>
-<div class=my-4>
-<a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
+</code></pre><p>其实这里的每页条目数numPerPage也应该通过前端传递过来，不过相对这个应用场景简化参数也是没有问题的。</p><p>在大数据量的情况下使用skip+limit会严重影响性能，因为在获取排序的尾部时，mongodb会历遍前面的大量数据量。而比较好的改进方法<sup><a href=http://www.cnblogs.com/capqueen/p/MongoDBPagination.html>[4]</a></sup>是在_id上建立索引形成有序的字段来避免大量的依次数数。</p><p>下篇文章介绍mongodb的查询条件操作符。</p><hr><p>参考：</p><ol><li><p><a href=https://github.com/angular-ui/bootstrap/tree/master/src/pagination/docs>bootstrap的pagination</a></p></li><li><p><a href=http://www.yl-blog.com/article/482.html>mongodb索引的知识</a></p></li><li><p><a href=http://sharewind.github.io/blog/2012/12/06/mongodb-indexes/>mongodb的复合索引</a></p></li><li><p><a href=http://www.cnblogs.com/capqueen/p/MongoDBPagination.html>cnblogs上的分页测试</a></p></li></ol></div><div class=my-4><a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
 <a href=/tags/mongodb/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#MongoDB</a>
-<a href=/tags/mongoose/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Mongoose</a>
-</div>
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-<div>
-<span class="block font-bold">Previous</span>
-<a href=/posts/coursera-classgetting-your-research-project-started/ class=block>Coursera Data-analysis001:Getting Your Research Project Started</a>
-</div>
-<div class="md:text-right mt-4 md:mt-0">
-<span class="block font-bold">Next</span>
-<a href=/posts/we-need-a-technician/ class=block>我们的那个朋友确实不懂技术——研究生第一学年总结</a>
-</div>
-</div>
-<div id=disqus_thread></div>
-<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
-<h2 class="text-lg font-semibold mb-4">See Also</h2>
-<div class=content>
-<a href=/posts/test-persistent-image-file-in-mongodb/>MongoDB图片存储测试</a>
-<br>
-<a href=/posts/nodejs-serialize-dtree/>NodeJS:树的序列化</a>
-<br>
-<a href=/posts/nodejs-deserialize-dtree/>NodeJS:树的反序列化</a>
-<br>
-<a href=/posts/the-way-to-mongoose-schema/>Mongoose:Schema之路</a>
-<br>
-<a href=/posts/node-email-trial/>Node.js的试炼:Email的获取</a>
-<br>
-<a href=/posts/the-mongodb-tempter/>MongoDB理论浅入浅出</a>
-<br>
-</div>
-</div>
-</div>
-<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
-</div>
-</div>
-</main>
-<footer class=pl-scrollbar>
-<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
-&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
-</div></div>
-</footer>
-</body>
-</html>
+<a href=/tags/mongoose/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Mongoose</a></div><div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t"><div><span class="block font-bold">Previous</span>
+<a href=/posts/coursera-classgetting-your-research-project-started/ class=block>Coursera Data-analysis001:Getting Your Research Project Started</a></div><div class="md:text-right mt-4 md:mt-0"><span class="block font-bold">Next</span>
+<a href=/posts/we-need-a-technician/ class=block>我们的那个朋友确实不懂技术——研究生第一学年总结</a></div></div><div id=disqus_thread></div><script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//edwardesire.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6"><h2 class="text-lg font-semibold mb-4">See Also</h2><div class=content><a href=/posts/test-persistent-image-file-in-mongodb/>MongoDB图片存储测试</a><br><a href=/posts/nodejs-serialize-dtree/>NodeJS:树的序列化</a><br><a href=/posts/nodejs-deserialize-dtree/>NodeJS:树的反序列化</a><br><a href=/posts/the-way-to-mongoose-schema/>Mongoose:Schema之路</a><br><a href=/posts/node-email-trial/>Node.js的试炼:Email的获取</a><br><a href=/posts/the-mongodb-tempter/>MongoDB理论浅入浅出</a><br></div></div></div><script>document.addEventListener("DOMContentLoaded",()=>{hljs.initHighlightingOnLoad()})</script></div></div></main><footer class=pl-scrollbar><div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b"><p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p></div></div></footer></body></html>

@@ -1,125 +1,20 @@
-<!doctype html><html lang=en><meta charset=utf-8>
-<meta name=viewport content="width=device-width">
-<title>MongoDB图片存储测试 | Edwardesire</title>
-<meta name=generator content="Hugo Eureka 0.8.3">
-<link rel=stylesheet href=/css/eureka.min.css>
-<script defer src=/js/eureka.min.js></script>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload="this.onload=null,this.rel='stylesheet'">
-<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
+<!doctype html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width"><title>MongoDB图片存储测试 | Edwardesire</title><meta name=generator content="Hugo Eureka 0.8.3"><link rel=stylesheet href=/css/eureka.min.css><script defer src=/js/eureka.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=preload href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" as=style onload='this.onload=null,this.rel="stylesheet"'><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/solarized-light.min.css media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js integrity="sha256-uNYoXefWRqv+PsIF/OflNmwtKM4lStn9yrz2gVl6ymo=" crossorigin></script>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload="this.media='all',this.onload=null" crossorigin>
-<script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X media=print onload='this.media="all",this.onload=null' crossorigin><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin></script>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin></script>
-<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script>
-<script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png>
-<link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png>
-<meta name=description content="Web应用中对于图片的存储方案一直是存放在CDN或者服务器的文件系统中，通过索引数据库中的文件路径，分步获得资源后再响应客户端的请求。MongoDB这">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"MongoDB图片存储测试","item":"/posts/test-persistent-image-file-in-mongodb/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/test-persistent-image-file-in-mongodb/"},"headline":"MongoDB图片存储测试 | Edwardesire","datePublished":"2015-06-16T02:20:10+00:00","dateModified":"2015-06-16T02:20:10+00:00","wordCount":3509,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"Web应用中对于图片的存储方案一直是存放在CDN或者服务器的文件系统中，通过索引数据库中的文件路径，分步获得资源后再响应客户端的请求。MongoDB这"}</script><meta property="og:title" content="MongoDB图片存储测试 | Edwardesire">
-<meta property="og:type" content="article">
-<meta property="og:image" content="/images/favicon-32x32.png">
-<meta property="og:url" content="/posts/test-persistent-image-file-in-mongodb/">
-<meta property="og:description" content="Web应用中对于图片的存储方案一直是存放在CDN或者服务器的文件系统中，通过索引数据库中的文件路径，分步获得资源后再响应客户端的请求。MongoDB这">
-<meta property="og:locale" content="en">
-<meta property="og:site_name" content="Edwardesire">
-<meta property="article:published_time" content="2015-06-16T02:20:10+00:00">
-<meta property="article:modified_time" content="2015-06-16T02:20:10+00:00">
-<meta property="article:section" content="posts">
-<meta property="article:tag" content="Nodejs">
-<meta property="article:tag" content="MongoDB">
-<meta property="og:see_also" content="/posts/nodejs-serialize-dtree/">
-<meta property="og:see_also" content="/posts/nodejs-deserialize-dtree/">
-<meta property="og:see_also" content="/posts/the-mongodb-tempter/">
-<meta property="og:see_also" content="/posts/nodejs-event-model/">
-<meta property="og:see_also" content="/posts/tty-web-terminal/">
-<meta property="og:see_also" content="/posts/socketio-of-interest/">
-<body class="flex flex-col min-h-screen">
-<header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-<div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=='Auto'||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName('html')[0].classList.add('dark')</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-<a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})})</script><script defer src=https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js integrity="sha256-Zmpaaj+GXFsPF5WdPArSrnW3b30dovldeKsW00xBVwE=" crossorigin></script>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_32x32_fill_box_center_3.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon-32x32_hub39b788047e733a7d94c242c3bed8659_782_180x180_fill_box_center_3.png><meta name=description content="Web应用中对于图片的存储方案一直是存放在CDN或者服务器的文件系统中，通过索引数据库中的文件路径，分步获得资源后再响应客户端的请求。MongoDB这"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"/posts/"},{"@type":"ListItem","position":2,"name":"MongoDB图片存储测试","item":"/posts/test-persistent-image-file-in-mongodb/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/test-persistent-image-file-in-mongodb/"},"headline":"MongoDB图片存储测试 | Edwardesire","datePublished":"2015-06-16T02:20:10+00:00","dateModified":"2015-06-16T02:20:10+00:00","wordCount":3509,"publisher":{"@type":"Person","name":"C. Wang","logo":{"@type":"ImageObject","url":"/images/favicon-32x32.png"}},"description":"Web应用中对于图片的存储方案一直是存放在CDN或者服务器的文件系统中，通过索引数据库中的文件路径，分步获得资源后再响应客户端的请求。MongoDB这"}</script><meta property="og:title" content="MongoDB图片存储测试 | Edwardesire"><meta property="og:type" content="article"><meta property="og:image" content="/images/favicon-32x32.png"><meta property="og:url" content="/posts/test-persistent-image-file-in-mongodb/"><meta property="og:description" content="Web应用中对于图片的存储方案一直是存放在CDN或者服务器的文件系统中，通过索引数据库中的文件路径，分步获得资源后再响应客户端的请求。MongoDB这"><meta property="og:locale" content="en"><meta property="og:site_name" content="Edwardesire"><meta property="article:published_time" content="2015-06-16T02:20:10+00:00"><meta property="article:modified_time" content="2015-06-16T02:20:10+00:00"><meta property="article:section" content="posts"><meta property="article:tag" content="Nodejs"><meta property="article:tag" content="MongoDB"><meta property="og:see_also" content="/posts/nodejs-serialize-dtree/"><meta property="og:see_also" content="/posts/nodejs-deserialize-dtree/"><meta property="og:see_also" content="/posts/the-mongodb-tempter/"><meta property="og:see_also" content="/posts/nodejs-event-model/"><meta property="og:see_also" content="/posts/tty-web-terminal/"><meta property="og:see_also" content="/posts/socketio-of-interest/"><body class="flex flex-col min-h-screen"><header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm"><div class="w-full max-w-screen-xl mx-auto"><script>let storageColorScheme=localStorage.getItem("lightDarkMode");((storageColorScheme=="Auto"||storageColorScheme==null)&&window.matchMedia("(prefers-color-scheme: dark)").matches||storageColorScheme=="Dark")&&document.getElementsByTagName("html")[0].classList.add("dark")</script><nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0"><a href=/ class="mr-6 text-primary-text text-xl font-bold">Edwardesire</a>
 <button id=navbar-btn class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-<i class="fas fa-bars"></i>
-</button>
-<div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-<div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-<a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a>
-</div>
-<div class=flex>
-<div class="relative pt-4 md:pt-0">
-<div class="cursor-pointer hover:text-eureka" id=lightDarkMode>
-<i class="fas fa-adjust"></i>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open>
-</div>
-<div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions>
-<span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
+<i class="fas fa-bars"></i></button><div id=target class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20"><div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0"><a href=/posts/ class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2 selected-menu-item mr-4">Posts</a></div><div class=flex><div class="relative pt-4 md:pt-0"><div class="cursor-pointer hover:text-eureka" id=lightDarkMode><i class="fas fa-adjust"></i></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id=is-open></div><div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40" id=lightDarkOptions><span class="px-4 py-1 hover:text-eureka" name=Light>Light</span>
 <span class="px-4 py-1 hover:text-eureka" name=Dark>Dark</span>
-<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span>
-</div>
-</div>
-</div>
-</div>
-<div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile>
-</div>
-</nav>
-<script>let element=document.getElementById('lightDarkMode');storageColorScheme==null||storageColorScheme=='Auto'?document.addEventListener('DOMContentLoaded',()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change',switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'sun'),element.firstElementChild.classList.add('fa-sun')):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove('fa-adjust'),element.firstElementChild.setAttribute("data-icon",'moon'),element.firstElementChild.classList.add('fa-moon')),document.addEventListener('DOMContentLoaded',()=>{getcolorscheme(),switchBurger()})</script>
-</div>
-</header>
-<main class="flex-grow pt-16">
-<div class=pl-scrollbar>
-<div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-<h1 class="font-bold text-3xl text-primary-text">MongoDB图片存储测试</h1>
-<div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-<div class="mr-6 my-2">
-<i class="fas fa-calendar mr-1"></i>
-<span>2015-06-16</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-clock mr-1"></i>
-<span>8 min read</span>
-</div>
-<div class="mr-6 my-2">
-<i class="fas fa-folder mr-1"></i>
+<span class="px-4 py-1 hover:text-eureka" name=Auto>Auto</span></div></div></div></div><div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id=is-open-mobile></div></nav><script>let element=document.getElementById("lightDarkMode");storageColorScheme==null||storageColorScheme=="Auto"?document.addEventListener("DOMContentLoaded",()=>{window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",switchDarkMode)}):storageColorScheme=="Light"?(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","sun"),element.firstElementChild.classList.add("fa-sun")):storageColorScheme=="Dark"&&(element.firstElementChild.classList.remove("fa-adjust"),element.firstElementChild.setAttribute("data-icon","moon"),element.firstElementChild.classList.add("fa-moon")),document.addEventListener("DOMContentLoaded",()=>{getcolorscheme(),switchBurger()})</script></div></header><main class="flex-grow pt-16"><div class=pl-scrollbar><div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto"><div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12"><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded px-6 py-8"><h1 class="font-bold text-3xl text-primary-text">MongoDB图片存储测试</h1><div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text"><div class="mr-6 my-2"><i class="fas fa-calendar mr-1"></i>
+<span>2015-06-16</span></div><div class="mr-6 my-2"><i class="fas fa-clock mr-1"></i>
+<span>8 min read</span></div><div class="mr-6 my-2"><i class="fas fa-folder mr-1"></i>
 <a href=/categories/nodejs/ class=hover:text-eureka>Nodejs</a>
-<span>, </span>
-<a href=/categories/mongodb/ class=hover:text-eureka>MongoDB</a>
-</div>
-</div>
-<div class=content>
-<p>Web应用中对于图片的存储方案一直是存放在CDN或者服务器的文件系统中，通过索引数据库中的文件路径，分步获得资源后再响应客户端的请求。MongoDB这种文档型数据库通过将数据直接存放到文件的设计无疑可以给我们提供一些新思路。并且对于直接存入MongoDB也有两种方式：直接存入Collection或者是存入GridFS。Collection在以前的文章介绍过不再冗述，对于GridFS还需要好好简述一下它的存储逻辑，这几天通过MongoDB的Node.JS Driver实现了一个粗糙的测试脚本。本文先介绍MongoDB提供的GridFS解决方案，然后再通过Node.js编写的一个测试脚本来粗略地比较MongoDB存储图片的性能。</p>
-<ol>
-<li>GridFS</li>
-</ol>
-<p>直接在磁盘上读取和输入数据是非常困难的。将文件读取到服务器就涉及到为Web服务器赋予本地文件系统权限等问题，而怎么搜索文件也是要在高效和经济上进行细致地设计。MongoDB提供了一种与BSON不同的数据结果，也就是这章需要介绍的GridFS。BSON是文档对数据抽象后的表现形式，存储在磁盘中的轻量级二进制数据格式。之所以说它是轻量级是与JSON相比较而言的。出于对RAM和带宽的考虑，BSON文件大小不得超过16MB。这时存储一些大非文档类型数据时可以使用GridFS。</p>
-<p>GridFS是一个建立在普通MongoDB文档基础上的轻量级文件存储规范，所有的操作有客户端驱动或者工具来完成。MongoDB服务器GridFS由两个集合组成。一个集合用于存储文件名等元数据，称为files；一个集合保存文件数据本身，称为chunks。默认的chunk大小为255k。我们先分别看看这两种集合的数据结构。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/c/4e/2668fa6198b6048c2b03f182882a2.png alt="structure of files"></p>
-<p>files集合存储与文件相关信息的元数据，其中与文件大小相关的字段有length和chunkSize，length记录的是实际的数据大小，chunkSize记录的是每个块的大小，默认的就是上面提到的255k。contentType字段采用的是MIME内容类型来描述存储的数据类型，还有一些其他信息可以使用metadata字段来定义。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/e/51/620a7ab335922a1f722d186f84f65.png alt="structure of chunks"></p>
-<p>GridFS将大文件分割称称之为chunks的小文件，存储在chunks集合中的文档以一个个独立的chunk文件存储，其数据字段n来表示块(chunk)的序列。实际数据存放在data字段里面。而files_id指向files集合中的文档。</p>
-<p>GridFS的一个基本思想就是可以将大文件分成很多chunks（块），每块作为一个单独的文档存储，这样就能将大文件存储起来。首先透过驱动提供的API创建GridFS，通过GridFS对象将文件存储到MongoDB里，当第一次插入数据时，MongoDB才会建立files和chunks的集合，fs.是GridFS集合的默认前缀，客户端可以进行修改。MongoDB内部将文件分别存储到上述的两个集合内，中间当然还有这些MongoDB自行填充的字段，比如插入时间和MD5；以及用户自定义的字段，比如metadata。过程就是这么简单。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/9/ff/16371ccd5a384f076c3952ea2638b.png alt></p>
-<p>GridFS除了能存储超过16MB的文件外，在获取数据时也不需要将整个文件载入内存。</p>
-<p>这就是GridFS。它可以降低项目技术栈的复杂度，要是已经使用来MongoDB，GriDFS就不需要使用独立的文件存储架构。并且MongoDB的分片预计复杂机制也能在GridFS上使用。当然，相比直接通过文件系统来存储文件，GridFS的读写性能表现还是比较低的。是方便快捷地使用工具，还是比较麻烦地使用其他高性能的文件系统，依据项目需求来决定。</p>
-<ol start=2>
-<li>简单的测试</li>
-</ol>
-<p>整个测试考量的是Node通过中间件（MongoDB Driver/Mongoose）向数据库服务器发出命令的请求以及获得数据库操作响应的时间间隔来衡量不同存储方案的性能。这种粗略的测试可能不能充分说明MongoDB的特性，对于数据库性能的考究也还需更加严谨。不过测试的结果还是能说明一点就是MongoDB的使用确比较方便。这个测试代码放在来<a href=https://github.com/EdwardStudy/Write-Code-Every-Day/tree/master/js/node/store-image>github</a>上。</p>
-<p>先说说硬件配置，总共有3种不同配置的数据库服务器。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/6/4f/417c6ef691316e23860fdfab9213f.png alt=hardware></p>
-<p>前两种服务器类型为虚拟机内的服务器。硬件配置均采用512MB内存，64GB容量的机器。单机服务器只运行一个MongoDB进程。MongoDB集群采用3复本，总共15节点。每个复本内运行5个分片节点，按功能设置不同节点：路由节点、配置节点、仲裁节点和2个数据存储节点。第三种服务器类型为在局域网内的实体机，其配置为16GB，300GB的容量，2个复本，6个节点。服务器的操作系统均使用CentOS 6.3,MongoDB也使用老版本2.7.8。Node脚本则直接在Win7上运行，编译版本使用v0.10.31。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/f/f9/ebfd1682a4deab0bb3bacf61d87a5.png alt></p>
-<p>测试内容主要是通过计算MongoDB图片的存储的处理时间来比较不同配置下的MongoDB性能。脚本先读取指定目录内300个28kb~50KB大小图片文件。接下来的具体流程依据存储存储目标略有不同如下：</p>
-<ul>
-<li>
-<p>存入collection的数据首先通过mongoose连接到指定MongoDB服务器，创建Collection的Schema。通过一次批量写入操作(Img.collection.insert(fileArr,&mldr;))，存储到MongoDB的collection中。这时通过高精度的时间函数（process.hrtime()）记录写操作调用前的时间，当脚本获得数据库响应后在回调函数中记录时间差值（diff = process.hrtime(startTime)），我们通过这个时间差来比较不同硬件情况下的性能。</p>
-<pre><code>     //存储到mongoDB开始计时
+<span>,</span>
+<a href=/categories/mongodb/ class=hover:text-eureka>MongoDB</a></div></div><div class=content><p>Web应用中对于图片的存储方案一直是存放在CDN或者服务器的文件系统中，通过索引数据库中的文件路径，分步获得资源后再响应客户端的请求。MongoDB这种文档型数据库通过将数据直接存放到文件的设计无疑可以给我们提供一些新思路。并且对于直接存入MongoDB也有两种方式：直接存入Collection或者是存入GridFS。Collection在以前的文章介绍过不再冗述，对于GridFS还需要好好简述一下它的存储逻辑，这几天通过MongoDB的Node.JS Driver实现了一个粗糙的测试脚本。本文先介绍MongoDB提供的GridFS解决方案，然后再通过Node.js编写的一个测试脚本来粗略地比较MongoDB存储图片的性能。</p><ol><li>GridFS</li></ol><p>直接在磁盘上读取和输入数据是非常困难的。将文件读取到服务器就涉及到为Web服务器赋予本地文件系统权限等问题，而怎么搜索文件也是要在高效和经济上进行细致地设计。MongoDB提供了一种与BSON不同的数据结果，也就是这章需要介绍的GridFS。BSON是文档对数据抽象后的表现形式，存储在磁盘中的轻量级二进制数据格式。之所以说它是轻量级是与JSON相比较而言的。出于对RAM和带宽的考虑，BSON文件大小不得超过16MB。这时存储一些大非文档类型数据时可以使用GridFS。</p><p>GridFS是一个建立在普通MongoDB文档基础上的轻量级文件存储规范，所有的操作有客户端驱动或者工具来完成。MongoDB服务器GridFS由两个集合组成。一个集合用于存储文件名等元数据，称为files；一个集合保存文件数据本身，称为chunks。默认的chunk大小为255k。我们先分别看看这两种集合的数据结构。</p><p><img src=http://edwardsblog.qiniudn.com/image/c/4e/2668fa6198b6048c2b03f182882a2.png alt="structure of files"></p><p>files集合存储与文件相关信息的元数据，其中与文件大小相关的字段有length和chunkSize，length记录的是实际的数据大小，chunkSize记录的是每个块的大小，默认的就是上面提到的255k。contentType字段采用的是MIME内容类型来描述存储的数据类型，还有一些其他信息可以使用metadata字段来定义。</p><p><img src=http://edwardsblog.qiniudn.com/image/e/51/620a7ab335922a1f722d186f84f65.png alt="structure of chunks"></p><p>GridFS将大文件分割称称之为chunks的小文件，存储在chunks集合中的文档以一个个独立的chunk文件存储，其数据字段n来表示块(chunk)的序列。实际数据存放在data字段里面。而files_id指向files集合中的文档。</p><p>GridFS的一个基本思想就是可以将大文件分成很多chunks（块），每块作为一个单独的文档存储，这样就能将大文件存储起来。首先透过驱动提供的API创建GridFS，通过GridFS对象将文件存储到MongoDB里，当第一次插入数据时，MongoDB才会建立files和chunks的集合，fs.是GridFS集合的默认前缀，客户端可以进行修改。MongoDB内部将文件分别存储到上述的两个集合内，中间当然还有这些MongoDB自行填充的字段，比如插入时间和MD5；以及用户自定义的字段，比如metadata。过程就是这么简单。</p><p><img src=http://edwardsblog.qiniudn.com/image/9/ff/16371ccd5a384f076c3952ea2638b.png alt></p><p>GridFS除了能存储超过16MB的文件外，在获取数据时也不需要将整个文件载入内存。</p><p>这就是GridFS。它可以降低项目技术栈的复杂度，要是已经使用来MongoDB，GriDFS就不需要使用独立的文件存储架构。并且MongoDB的分片预计复杂机制也能在GridFS上使用。当然，相比直接通过文件系统来存储文件，GridFS的读写性能表现还是比较低的。是方便快捷地使用工具，还是比较麻烦地使用其他高性能的文件系统，依据项目需求来决定。</p><ol start=2><li>简单的测试</li></ol><p>整个测试考量的是Node通过中间件（MongoDB Driver/Mongoose）向数据库服务器发出命令的请求以及获得数据库操作响应的时间间隔来衡量不同存储方案的性能。这种粗略的测试可能不能充分说明MongoDB的特性，对于数据库性能的考究也还需更加严谨。不过测试的结果还是能说明一点就是MongoDB的使用确比较方便。这个测试代码放在来<a href=https://github.com/EdwardStudy/Write-Code-Every-Day/tree/master/js/node/store-image>github</a>上。</p><p>先说说硬件配置，总共有3种不同配置的数据库服务器。</p><p><img src=http://edwardsblog.qiniudn.com/image/6/4f/417c6ef691316e23860fdfab9213f.png alt=hardware></p><p>前两种服务器类型为虚拟机内的服务器。硬件配置均采用512MB内存，64GB容量的机器。单机服务器只运行一个MongoDB进程。MongoDB集群采用3复本，总共15节点。每个复本内运行5个分片节点，按功能设置不同节点：路由节点、配置节点、仲裁节点和2个数据存储节点。第三种服务器类型为在局域网内的实体机，其配置为16GB，300GB的容量，2个复本，6个节点。服务器的操作系统均使用CentOS 6.3,MongoDB也使用老版本2.7.8。Node脚本则直接在Win7上运行，编译版本使用v0.10.31。</p><p><img src=http://edwardsblog.qiniudn.com/image/f/f9/ebfd1682a4deab0bb3bacf61d87a5.png alt></p><p>测试内容主要是通过计算MongoDB图片的存储的处理时间来比较不同配置下的MongoDB性能。脚本先读取指定目录内300个28kb~50KB大小图片文件。接下来的具体流程依据存储存储目标略有不同如下：</p><ul><li><p>存入collection的数据首先通过mongoose连接到指定MongoDB服务器，创建Collection的Schema。通过一次批量写入操作(Img.collection.insert(fileArr,&mldr;))，存储到MongoDB的collection中。这时通过高精度的时间函数（process.hrtime()）记录写操作调用前的时间，当脚本获得数据库响应后在回调函数中记录时间差值（diff = process.hrtime(startTime)），我们通过这个时间差来比较不同硬件情况下的性能。</p><pre><code>     //存储到mongoDB开始计时
      var startTime = process.hrtime();
      var diff;
      Img.collection.insert(fileArr, function(err, res){
@@ -134,11 +29,7 @@
              process.emit('DB_OPS_DONE', 'Successful insert docs');
          }
      });
-</code></pre>
-</li>
-<li>
-<p>读取数据则通过find()函数获取前300个图片数据。也是通过调用find()函数与成功获得数据之间的时间差来比较不同硬件下的</p>
-<pre><code>     //读取操作 开始计时
+</code></pre></li><li><p>读取数据则通过find()函数获取前300个图片数据。也是通过调用find()函数与成功获得数据之间的时间差来比较不同硬件下的</p><pre><code>     //读取操作 开始计时
      var startTime = process.hrtime();
      var diff;
      Img.find(null, null, { limit: 300 }).lean().exec(function(err, res){
@@ -153,11 +44,7 @@
              process.emit('DB_OPS_DONE', 'Successful insert docs');
          }
      });
-</code></pre>
-</li>
-<li>
-<p>存入Grid的方式略有不同，Mongoose是一款建模工具，不支持GridFS的调用，我们改用原生的Driver来进行编写。原生Driver通过GridStore对象来操作GridFS的存储，每一个GridStore为一个需要存储到GridFS的文件实例，这对测试的控制造成了不少的麻烦。我的解决方法是通过消息机制来记录成功存储到GridFS的次数。建立一个函数(putFile)将这处理过程封装起来。存储数据流程就变成了通过一个循环来调用这个函数，循环开始前开始计数，当前面所述的成功次数达到预定值时才触发第二个计时器来记录处理过程运行时间。</p>
-<pre><code>      /**
+</code></pre></li><li><p>存入Grid的方式略有不同，Mongoose是一款建模工具，不支持GridFS的调用，我们改用原生的Driver来进行编写。原生Driver通过GridStore对象来操作GridFS的存储，每一个GridStore为一个需要存储到GridFS的文件实例，这对测试的控制造成了不少的麻烦。我的解决方法是通过消息机制来记录成功存储到GridFS的次数。建立一个函数(putFile)将这处理过程封装起来。存储数据流程就变成了通过一个循环来调用这个函数，循环开始前开始计数，当前面所述的成功次数达到预定值时才触发第二个计时器来记录处理过程运行时间。</p><pre><code>      /**
        * Put the file to the database.
        *
        * @function
@@ -180,11 +67,7 @@
               });
           });
       };
-</code></pre>
-</li>
-<li>
-<p>读取GridFS的操作涉及驱动的API多次调用，若需精确把握时间需要进行异步调用的修改，而通过前期测试GridFS在当前需求下性能并不比普通存储到collection的强。所以不在测试GridFS的读取性能。但为了文章的完整性，还是把读取GridFS的方法记录下来。在成功链接数据库后，我们需要先查找数据库中的文件，然后通过GridStore读取出来。</p>
-<pre><code>     db.collection('fs.chunks')
+</code></pre></li><li><p>读取GridFS的操作涉及驱动的API多次调用，若需精确把握时间需要进行异步调用的修改，而通过前期测试GridFS在当前需求下性能并不比普通存储到collection的强。所以不在测试GridFS的读取性能。但为了文章的完整性，还是把读取GridFS的方法记录下来。在成功链接数据库后，我们需要先查找数据库中的文件，然后通过GridStore读取出来。</p><pre><code>     db.collection('fs.chunks')
          .find()
            .toArray(function(err, files) {
                if(err){
@@ -207,71 +90,8 @@
                    });	
                });
            });
-</code></pre>
-</li>
-</ul>
-<p>依据前面所说，总共分为5种测试项目，分别为虚拟单机下collection存储、虚拟集群下collection存储、虚拟单机下GridFS存储、虚拟集群下GridFS存储以及实体集群下Collection存储的测试项目。每个测试项目重复测试4次，最后将平均时间记录。</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/3/7b/ad7a43752fef5f5dceef5cb5ba401.png alt=集群的GridFS测试></p>
-<p>最后测试结果如下表：</p>
-<p><img src=http://edwardsblog.qiniudn.com/image/3/22/75fd7272b5941028177c08b9c5f02.png alt></p>
-<p>通过测试结果，可以得出在满足当前测试图片存储的需求下，普通的MongoDB数据库的性能比GridFS要强。虽然结果表明单机MongoDB耗时比集群MongoDB要小，但是单机在扩展性和可用性上达不到集群的能力，集群多出来的这一部分开销主要是网络。当然还是那句好，具体选择怎么样的配置看应用的需求。在当前的应用环境下，集群的选择是比较好的。</p>
-<hr>
-<p>###Reference：</p>
-<ol>
-<li>
-<p><a href=http://stackoverflow.com/questions/25862979/which-to-choose-select-from-collections-i-e-chunks-or-files-of-mongodb-gridfs>stackoverflow GridFS</a></p>
-</li>
-<li>
-<p><a href=https://www.mongodb.com/blog/post/building-mongodb-applications-binary-files-using-gridfs-part-2>Building MongoDB Applications with Binary Files Using GridFS:P2</a></p>
-</li>
-</ol>
-</div>
-<div class=my-4>
-<a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
-<a href=/tags/mongodb/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#MongoDB</a>
-</div>
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-<div>
-<span class="block font-bold">Previous</span>
-<a href=/posts/node-email-trial/ class=block>Node.js的试炼:Email的获取</a>
-</div>
-<div class="md:text-right mt-4 md:mt-0">
-<span class="block font-bold">Next</span>
-<a href=/posts/the-mongodb-tempter/ class=block>MongoDB理论浅入浅出</a>
-</div>
-</div>
-<div id=disqus_thread></div>
-<script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//edwardesire.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
-<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-</div>
-<div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6">
-<h2 class="text-lg font-semibold mb-4">See Also</h2>
-<div class=content>
-<a href=/posts/nodejs-serialize-dtree/>NodeJS:树的序列化</a>
-<br>
-<a href=/posts/nodejs-deserialize-dtree/>NodeJS:树的反序列化</a>
-<br>
-<a href=/posts/the-mongodb-tempter/>MongoDB理论浅入浅出</a>
-<br>
-<a href=/posts/nodejs-event-model/>Node.js的事件驱动模型</a>
-<br>
-<a href=/posts/tty-web-terminal/>tty.js:实现Web Terminal</a>
-<br>
-<a href=/posts/socketio-of-interest/>Socket.io:有点意思</a>
-<br>
-</div>
-</div>
-</div>
-<script>document.addEventListener('DOMContentLoaded',()=>{hljs.initHighlightingOnLoad()})</script>
-</div>
-</div>
-</main>
-<footer class=pl-scrollbar>
-<div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-<p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
-&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p>
-</div></div>
-</footer>
-</body>
-</html>
+</code></pre></li></ul><p>依据前面所说，总共分为5种测试项目，分别为虚拟单机下collection存储、虚拟集群下collection存储、虚拟单机下GridFS存储、虚拟集群下GridFS存储以及实体集群下Collection存储的测试项目。每个测试项目重复测试4次，最后将平均时间记录。</p><p><img src=http://edwardsblog.qiniudn.com/image/3/7b/ad7a43752fef5f5dceef5cb5ba401.png alt=集群的GridFS测试></p><p>最后测试结果如下表：</p><p><img src=http://edwardsblog.qiniudn.com/image/3/22/75fd7272b5941028177c08b9c5f02.png alt></p><p>通过测试结果，可以得出在满足当前测试图片存储的需求下，普通的MongoDB数据库的性能比GridFS要强。虽然结果表明单机MongoDB耗时比集群MongoDB要小，但是单机在扩展性和可用性上达不到集群的能力，集群多出来的这一部分开销主要是网络。当然还是那句好，具体选择怎么样的配置看应用的需求。在当前的应用环境下，集群的选择是比较好的。</p><hr><p>###Reference：</p><ol><li><p><a href=http://stackoverflow.com/questions/25862979/which-to-choose-select-from-collections-i-e-chunks-or-files-of-mongodb-gridfs>stackoverflow GridFS</a></p></li><li><p><a href=https://www.mongodb.com/blog/post/building-mongodb-applications-binary-files-using-gridfs-part-2>Building MongoDB Applications with Binary Files Using GridFS:P2</a></p></li></ol></div><div class=my-4><a href=/tags/nodejs/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Nodejs</a>
+<a href=/tags/mongodb/ class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#MongoDB</a></div><div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t"><div><span class="block font-bold">Previous</span>
+<a href=/posts/node-email-trial/ class=block>Node.js的试炼:Email的获取</a></div><div class="md:text-right mt-4 md:mt-0"><span class="block font-bold">Next</span>
+<a href=/posts/the-mongodb-tempter/ class=block>MongoDB理论浅入浅出</a></div></div><div id=disqus_thread></div><script>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//edwardesire.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-span-2 lg:col-start-2 lg:col-span-6 bg-secondary-bg rounded p-6"><h2 class="text-lg font-semibold mb-4">See Also</h2><div class=content><a href=/posts/nodejs-serialize-dtree/>NodeJS:树的序列化</a><br><a href=/posts/nodejs-deserialize-dtree/>NodeJS:树的反序列化</a><br><a href=/posts/the-mongodb-tempter/>MongoDB理论浅入浅出</a><br><a href=/posts/nodejs-event-model/>Node.js的事件驱动模型</a><br><a href=/posts/tty-web-terminal/>tty.js:实现Web Terminal</a><br><a href=/posts/socketio-of-interest/>Socket.io:有点意思</a><br></div></div></div><script>document.addEventListener("DOMContentLoaded",()=>{hljs.initHighlightingOnLoad()})</script></div></div></main><footer class=pl-scrollbar><div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b"><p class="text-sm text-tertiary-text">&copy; 2021 <a href=https://www.edwardesire.com/>Edward Desire</a>
+&#183; Powered by the <a href=https://github.com/wangchucheng/hugo-eureka class=hover:text-eureka>Eureka</a> theme for <a href=https://gohugo.io class=hover:text-eureka>Hugo</a></p></div></div></footer></body></html>
